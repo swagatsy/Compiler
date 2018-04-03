@@ -248,7 +248,8 @@ def cfgprint(root):
 def symbolprint(var_dec):
 	stri = ""
 	for a in var_dec:
-		stri += ( a.name + " " + a.scope + " " + a.type + " " + a.dertype + "\n" )
+		stri +=  a.name + " "+a.scope+ " "  + a.type + " " + a.dertype + "\n" 
+		# print a.type
 
 	return stri
 
@@ -295,7 +296,8 @@ tokens = (
 	'LOGAND',
 	'GREATEREQ',
 	'LESSEREQ',
-	'RETURN'
+	'RETURN',
+	'NUMBER2'
 )
 
 t_ignore = " \t\n"
@@ -311,7 +313,8 @@ t_LOGAND = r'\&\&'
 t_LOGOR = r'\|\|'
 t_EQUAL = r'='
 t_COMMA = r','
-
+t_NUMBER2 = r'\d+\.\d+'
+t_NUMBER = r'\d+'
 t_PLUS = r'\+'
 t_MINUS = r'-'
 t_DIVIDE = r'/'
@@ -349,20 +352,26 @@ def t_NAME(p):
 	elif p.value == "float" or p.value == "FLOAT":
 		p.type = 'FLOAT'
 
+	elif p.value == "return" or p.value == "RETURN":
+		p.type = 'RETURN'
 
 	else:
 		p.type = 'NAME'
 	
 	return p
 
-def t_NUMBER(t):
-	r'\d+'
-	try:
-		t.value = int(t.value)
-	except ValueError:
-		print("Integer value too large %d", t.value)
-		t.value = 0
-	return t
+# def t_NUMBER(t):
+# 	r'\d+'
+# 	try:
+# 		t.value = int(t.value)
+# 	except ValueError:
+# 		print("Integer value too large %d", t.value)
+# 		t.value = 0
+# 	return t
+
+# def t_NUMBER2(t):
+# 	r'[0-9]+\.[0-9]+'
+# 	return t
 
 def t_error(t):
 	print("error")
@@ -405,6 +414,11 @@ def p_program_content3(p):
 	'''
 	program_content : declaration
 	'''
+	empty = []
+	for a in p[1]:
+		a.scope = "Global"
+		empty.append(a)
+	p[1] = empty
 	global var_dec
 	var_dec += p[1]
 
@@ -412,52 +426,139 @@ def p_program_content4(p):
 	'''
 	program_content : declaration program_content
 	'''
+
+	empty = []
+	for a in p[1]:
+		a.scope = "Global"
+		empty.append(a)
+	p[1] = empty
 	global var_dec
 	var_dec += p[1]
 
 def p_function_dec(p):
 	'''
 	function_dec : datatype pointer LPAREN arguments RPAREN SEMICOLON
+				| datatype namevar LPAREN arguments RPAREN SEMICOLON
+	'''
+
+def p_function_dec2(p):
+	'''
+	function_dec : datatype pointer LPAREN  RPAREN SEMICOLON
+			| datatype namevar LPAREN  RPAREN SEMICOLON
 	'''
 
 
 def p_arguments(p):
 	'''
 	arguments : datatype pointer
+				| datatype namevar
 				| datatype pointer COMMA arguments 
+				| datatype namevar COMMA arguments
 	'''
 
 def p_function_body(p):
 	'''
 	function_body : datatype pointer LPAREN arguments RPAREN LBRACE function_content return_stat RBRACE 
+				|  datatype namevar LPAREN arguments RPAREN LBRACE function_content return_stat RBRACE
 	'''
+	global root
+	temp = Tree()
+	temp.childlist = []
+	
+	empty = []
+	for a in p[7][1]:
+		a.scope = p[2].name
+		empty.append(a)
+	p[7][1] = empty	
+
+	global var_dec
+	var_dec += p[7][1]
+
+	temp.childlist = p[7]
+	temp.data = p[2].name
+	p[0] = temp
+	if root.childlist==None:
+		root.childlist = [p[0]]
+	else:
+		root.childlist+=p[0]
+
+def p_function_body2(p):
+	'''
+	function_body : datatype pointer LPAREN  RPAREN LBRACE function_content return_stat RBRACE
+				| datatype namevar LPAREN  RPAREN LBRACE function_content return_stat RBRACE 
+	'''
+	global root
+	temp = Tree()
+	temp.childlist = []
+	
+	empty = []
+	for a in p[6][1]:
+		a.scope = p[2].name
+		empty.append(a)
+	p[6][1] = empty	
+
+
+	global var_dec
+	var_dec += p[6][1]
+	
+
+	temp.childlist = p[6]
+	temp.data = p[2].name
+	p[0] = temp
+	if root.childlist==None:
+		root.childlist = [p[0]]
+	else:
+		root.childlist+=p[0]
 
 def p_return(p):
 	'''
-	return_stat : RETURN pointer
-				| RETURN NAME
+	return_stat : RETURN pointer SEMICOLON
+				| RETURN NAME SEMICOLON
+				| RETURN SEMICOLON
 	'''
 
 def p_func_call(p):
 	'''
 	function_call : NAME LPAREN varlist RPAREN SEMICOLON
+					| NAME LPAREN RPAREN SEMICOLON
+
 	'''
+
 
 def p_program(p):
 	'''
 	program : VOID MAIN LPAREN RPAREN LBRACE function_content RBRACE
 	'''
 	# print(p[6])
-
 	global root
+	temp = Tree()
 	global cfgstr
-	root.childlist = []
-	root.childlist = p[6]
-	root.data = "Main"
+	temp.childlist = []
+	
+	temp.data = "Main"
 	# print(root)
-	ast(root)
-	cfgroot = cfgmain(root)
-	cfgstr = cfgprint(cfgroot)
+
+	empty = []
+	for a in p[6][1]:
+		a.scope = "Main"
+		empty.append(a)
+	p[6][1] = empty	
+
+	# print empty
+
+	global var_dec
+	var_dec += p[6][1]
+
+	temp.childlist = p[6]
+	p[0] = temp
+	if root.childlist==None:
+		root.childlist = [p[0]]
+	else:
+		root.childlist+=p[0]
+
+	# ast(root)
+	# cfgroot = cfgmain(root)
+	# cfgstr = cfgprint(cfgroot)
 
 def p_function_content(p):
 	'''
@@ -466,7 +567,11 @@ def p_function_content(p):
 				| if_stat
 				| function_call
 	'''
-	p[0] = [p[1]]
+	if p[0]==None:
+		p[0] = [[],[]]
+	
+	p[0][0] = [p[1]]
+	
 
 def p_function_content2(p):
 	'''
@@ -475,36 +580,49 @@ def p_function_content2(p):
 					| if_stat function_content
 					| function_call function_content
 	'''
-	p[0] = []
-	p[0].append(p[1])
-	p[0] += p[2]
+	if p[0]==None:
 
+		p[0] = [[],[]]
+	
+	p[0][0].append(p[1])
+	p[0][0] += p[2][0]
+	p[0][1] += p[2][1]
 
 def p_function_content3(p):
 	'''
 	function_content : declaration
 	'''
-	p[0] = []
-	global var_dec
-	var_dec += p[1]
+	if p[0]==None:
+		p[0] = [[],[]]
+
+	p[0][1] += p[1]
+	# global var_dec
+	# var_dec += p[1]
 
 
 def p_function_content4(p):
 	'''
 	function_content :  declaration function_content
 	'''
-	p[0] = []
-	p[0] += p[2]
-	global var_dec
-	var_dec += p[1]
+	if p[0]==None:
+		p[0] = [[],[]]
+
+	p[0][1] += p[1]
+	p[0][0] += p[2][0]
+	p[0][1] += p[2][1]
+	# global var_dec
+	# var_dec += p[1]
 
 def p_declaration(p):
 	'''
-	declaration : datatype varlist SEMICOLON'
+	declaration : datatype varlist SEMICOLON
 	'''
 	emptylist = []
 	for a in p[2]:
+		# print a
+		# print "yes it does"
 		a.type = p[1]
+		# print p[1]
 		emptylist.append(a)
 
 	p[2] = emptylist
@@ -515,51 +633,42 @@ def p_datatype(p):
 	'''
 	datatype : INT
 			 | FLOAT
+			 | VOID
 	'''
+	p[0] = p[1]
+
+def p_namevar(p):
+	'''
+	namevar : NAME
+	'''
+	p[0] = TreeVdec()
+	p[0].name = p[1]
+	p[0].dertype = ""
 
 def p_varlist1(p):
-	'''varlist : NAME COMMA varlist
+	'''varlist : namevar COMMA varlist
 				| pointer COMMA varlist
 	'''
 	p[0]=[]
-	if p[1].type == 'NAME':
-		er = TreeVdec()
-		er.name = p[1]
-		er.dertype = ""
-		p[0].append(er)
-		p[0] += p[2]
-	else:
-		p[0].append(p[1])
-		p[0]+=p[2]
+	
+	p[0].append(p[1])
+	p[0]+=p[3]
 	
 def p_varlist2(p):
-	'''varlist : NAME
+	'''varlist : namevar
 				| pointer
 	'''
 	p[0] = []
-	if p[1].type == 'NAME':
-		pp = TreeVdec()
-		pp.name = p[1]
-		pp.dertype = ""
-		p[0].append(pp)
-
-	else:
-		p[0].append(p[1])
+	p[0].append(p[1])
 
 
 def p_pointer(p):
 	'''
 	pointer : ASTERISK pointer
-			| ASTERISK NAME
+			| ASTERISK namevar
 	'''
-	if p[2].type=='NAME':
-		p[0] = Tree2()
-		p[0].name = p[2]
-		p[0].dertype = "*"
-
-	else :
-		p[0] = p[2]
-		p[0].dertype += "*"
+	p[0] = p[2]
+	p[0].dertype += "*"
 	
 
 def p_assignment_statement(p):
@@ -664,6 +773,16 @@ def p_expression3(p):
 def p_numvar(p):
 	'''
 	NUMBERvar : NUMBER
+	'''
+	p[0] = Tree()
+	p[0].data = "CONST("+str(p[1])+")"
+	p[0].childlist = []
+	p[0].code = str(p[1])
+	# p[0].code = "CONST("+str(p[1])+")"
+
+def p_numvar2(p):
+	'''
+	NUMBERvar : NUMBER2
 	'''
 	p[0] = Tree()
 	p[0].data = "CONST("+str(p[1])+")"

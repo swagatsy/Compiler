@@ -1,44 +1,13 @@
 int *g3, l3;
-int *func1(int *x, int *y);
-int *func2(int *a, float *b);
+
 void func3();
 float *var1, var2;
 void func3()
 {
     int*a;
-    return;
-}
-int *func1(int *b1, int *b2)
-{
-    int *h1;
-
-
-    if(*b1 == 32)
-    {
-        *var1 = 3.0;
-    }
-
-    
-    return b1;
+    return ;
 }
 
-int *func2(int *b1, float *b2)
-{
-    int *h1;
-    if(*b1 == 32)
-    {
-        *var1 = 3.0;
-    }
-    else
-    {
-        while(*b2 != *var1)
-        {
-
-            *b2 = *b2 - 1.0;
-        }
-    } 
-    return h1;
-}
 void main()
 {
     int *g, **a1, *a2, a;
@@ -56,6 +25,5 @@ void main()
     {
         **f = 2.0;
     }   
-    g = func1(g, a2);
     func3();
 }
