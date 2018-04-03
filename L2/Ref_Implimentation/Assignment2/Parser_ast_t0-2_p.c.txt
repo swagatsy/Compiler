@@ -1,0 +1,40 @@
+ASGN
+(
+	DEREF
+	(
+		VAR(a)
+	)
+	,
+	CONST(2147483647)
+)
+
+ASGN
+(
+	DEREF
+	(
+		ADDR
+		(
+			ADDR
+			(
+				ADDR
+				(
+					VAR(b)
+				)
+			)
+		)
+	)
+	,
+	MUL
+	(
+		DEREF
+		(
+			VAR(a)
+		)
+		,
+		UMINUS
+		(
+			CONST(2)
+		)
+	)
+)
+

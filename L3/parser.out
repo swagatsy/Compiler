@@ -1,0 +1,1783 @@
+Created by PLY version 3.9 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> program
+Rule 1     program -> VOID MAIN LPAREN RPAREN LBRACE function_content RBRACE
+Rule 2     function_content -> assignment_statement
+Rule 3     function_content -> while_stat
+Rule 4     function_content -> if_stat
+Rule 5     function_content -> assignment_statement function_content
+Rule 6     function_content -> while_stat function_content
+Rule 7     function_content -> if_stat function_content
+Rule 8     function_content -> declaration
+Rule 9     function_content -> declaration function_content
+Rule 10    declaration -> INT varlist SEMICOLON
+Rule 11    varlist -> NAME COMMA varlist
+Rule 12    varlist -> NAME
+Rule 13    varlist -> pointer COMMA varlist
+Rule 14    varlist -> pointer
+Rule 15    pointer -> ASTERISK pointer
+Rule 16    pointer -> ASTERISK NAME
+Rule 17    assignment_statement -> ID EQUAL expression SEMICOLON
+Rule 18    assignment_statement -> LEFT EQUAL expression SEMICOLON
+Rule 19    ID -> NAME
+Rule 20    LEFT -> ASTERISK var
+Rule 21    expression -> expression PLUS expression
+Rule 22    expression -> expression MINUS expression
+Rule 23    expression -> expression ASTERISK expression
+Rule 24    expression -> expression DIVIDE expression
+Rule 25    expression -> var
+Rule 26    expression -> NUMBERvar
+Rule 27    expression -> LPAREN expression RPAREN
+Rule 28    NUMBERvar -> NUMBER
+Rule 29    var -> ASTERISK var
+Rule 30    var -> AMPERSAND var
+Rule 31    var -> NAME
+Rule 32    expression -> MINUS expression
+Rule 33    while_stat -> WHILE LPAREN b_expression RPAREN LBRACE function_content RBRACE
+Rule 34    while_stat -> WHILE LPAREN b_expression RPAREN assignment_statement
+Rule 35    if_stat -> IF LPAREN b_expression RPAREN LBRACE function_content RBRACE
+Rule 36    if_stat -> IF LPAREN b_expression RPAREN LBRACE function_content RBRACE elsepart
+Rule 37    if_stat -> IF LPAREN b_expression RPAREN assignment_statement
+Rule 38    if_stat -> IF LPAREN b_expression RPAREN assignment_statement elsepart
+Rule 39    elsepart -> elif
+Rule 40    elsepart -> else
+Rule 41    elif -> ELSE if_stat
+Rule 42    else -> ELSE assignment_statement
+Rule 43    else -> ELSE LBRACE function_content RBRACE
+Rule 44    b_expression -> expression sign1 expression
+Rule 45    b_expression -> b_expression sign2 b_expression
+Rule 46    sign1 -> EQUALS
+Rule 47    sign1 -> NOTEQUAL
+Rule 48    sign1 -> GREATER
+Rule 49    sign1 -> LESSER
+Rule 50    sign2 -> LOGOR
+Rule 51    sign2 -> LOGAND
+
+Terminals, with rules where they appear
+
+AMPERSAND            : 30
+ASTERISK             : 15 16 20 23 29
+COMMA                : 11 13
+DIVIDE               : 24
+ELSE                 : 41 42 43
+EQUAL                : 17 18
+EQUALS               : 46
+GREATER              : 48
+IF                   : 35 36 37 38
+INT                  : 10
+LBRACE               : 1 33 35 36 43
+LESSER               : 49
+LOGAND               : 51
+LOGOR                : 50
+LPAREN               : 1 27 33 34 35 36 37 38
+MAIN                 : 1
+MINUS                : 22 32
+NAME                 : 11 12 16 19 31
+NOTEQUAL             : 47
+NUMBER               : 28
+PLUS                 : 21
+RBRACE               : 1 33 35 36 43
+RPAREN               : 1 27 33 34 35 36 37 38
+SEMICOLON            : 10 17 18
+VOID                 : 1
+WHILE                : 33 34
+error                : 
+
+Nonterminals, with rules where they appear
+
+ID                   : 17
+LEFT                 : 18
+NUMBERvar            : 26
+assignment_statement : 2 5 34 37 38 42
+b_expression         : 33 34 35 36 37 38 45 45
+declaration          : 8 9
+elif                 : 39
+else                 : 40
+elsepart             : 36 38
+expression           : 17 18 21 21 22 22 23 23 24 24 27 32 44 44
+function_content     : 1 5 6 7 9 33 35 36 43
+if_stat              : 4 7 41
+pointer              : 13 14 15
+program              : 0
+sign1                : 44
+sign2                : 45
+var                  : 20 25 29 30
+varlist              : 10 11 13
+while_stat           : 3 6
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . program
+    (1) program -> . VOID MAIN LPAREN RPAREN LBRACE function_content RBRACE
+
+    VOID            shift and go to state 1
+
+    program                        shift and go to state 2
+
+state 1
+
+    (1) program -> VOID . MAIN LPAREN RPAREN LBRACE function_content RBRACE
+
+    MAIN            shift and go to state 3
+
+
+state 2
+
+    (0) S' -> program .
+
+
+
+state 3
+
+    (1) program -> VOID MAIN . LPAREN RPAREN LBRACE function_content RBRACE
+
+    LPAREN          shift and go to state 4
+
+
+state 4
+
+    (1) program -> VOID MAIN LPAREN . RPAREN LBRACE function_content RBRACE
+
+    RPAREN          shift and go to state 5
+
+
+state 5
+
+    (1) program -> VOID MAIN LPAREN RPAREN . LBRACE function_content RBRACE
+
+    LBRACE          shift and go to state 6
+
+
+state 6
+
+    (1) program -> VOID MAIN LPAREN RPAREN LBRACE . function_content RBRACE
+    (2) function_content -> . assignment_statement
+    (3) function_content -> . while_stat
+    (4) function_content -> . if_stat
+    (5) function_content -> . assignment_statement function_content
+    (6) function_content -> . while_stat function_content
+    (7) function_content -> . if_stat function_content
+    (8) function_content -> . declaration
+    (9) function_content -> . declaration function_content
+    (17) assignment_statement -> . ID EQUAL expression SEMICOLON
+    (18) assignment_statement -> . LEFT EQUAL expression SEMICOLON
+    (33) while_stat -> . WHILE LPAREN b_expression RPAREN LBRACE function_content RBRACE
+    (34) while_stat -> . WHILE LPAREN b_expression RPAREN assignment_statement
+    (35) if_stat -> . IF LPAREN b_expression RPAREN LBRACE function_content RBRACE
+    (36) if_stat -> . IF LPAREN b_expression RPAREN LBRACE function_content RBRACE elsepart
+    (37) if_stat -> . IF LPAREN b_expression RPAREN assignment_statement
+    (38) if_stat -> . IF LPAREN b_expression RPAREN assignment_statement elsepart
+    (10) declaration -> . INT varlist SEMICOLON
+    (19) ID -> . NAME
+    (20) LEFT -> . ASTERISK var
+
+    WHILE           shift and go to state 8
+    IF              shift and go to state 15
+    INT             shift and go to state 18
+    NAME            shift and go to state 7
+    ASTERISK        shift and go to state 12
+
+    function_content               shift and go to state 16
+    while_stat                     shift and go to state 17
+    if_stat                        shift and go to state 11
+    assignment_statement           shift and go to state 9
+    declaration                    shift and go to state 13
+    ID                             shift and go to state 14
+    LEFT                           shift and go to state 10
+
+state 7
+
+    (19) ID -> NAME .
+
+    EQUAL           reduce using rule 19 (ID -> NAME .)
+
+
+state 8
+
+    (33) while_stat -> WHILE . LPAREN b_expression RPAREN LBRACE function_content RBRACE
+    (34) while_stat -> WHILE . LPAREN b_expression RPAREN assignment_statement
+
+    LPAREN          shift and go to state 19
+
+
+state 9
+
+    (2) function_content -> assignment_statement .
+    (5) function_content -> assignment_statement . function_content
+    (2) function_content -> . assignment_statement
+    (3) function_content -> . while_stat
+    (4) function_content -> . if_stat
+    (5) function_content -> . assignment_statement function_content
+    (6) function_content -> . while_stat function_content
+    (7) function_content -> . if_stat function_content
+    (8) function_content -> . declaration
+    (9) function_content -> . declaration function_content
+    (17) assignment_statement -> . ID EQUAL expression SEMICOLON
+    (18) assignment_statement -> . LEFT EQUAL expression SEMICOLON
+    (33) while_stat -> . WHILE LPAREN b_expression RPAREN LBRACE function_content RBRACE
+    (34) while_stat -> . WHILE LPAREN b_expression RPAREN assignment_statement
+    (35) if_stat -> . IF LPAREN b_expression RPAREN LBRACE function_content RBRACE
+    (36) if_stat -> . IF LPAREN b_expression RPAREN LBRACE function_content RBRACE elsepart
+    (37) if_stat -> . IF LPAREN b_expression RPAREN assignment_statement
+    (38) if_stat -> . IF LPAREN b_expression RPAREN assignment_statement elsepart
+    (10) declaration -> . INT varlist SEMICOLON
+    (19) ID -> . NAME
+    (20) LEFT -> . ASTERISK var
+
+    RBRACE          reduce using rule 2 (function_content -> assignment_statement .)
+    WHILE           shift and go to state 8
+    IF              shift and go to state 15
+    INT             shift and go to state 18
+    NAME            shift and go to state 7
+    ASTERISK        shift and go to state 12
+
+    function_content               shift and go to state 20
+    while_stat                     shift and go to state 17
+    if_stat                        shift and go to state 11
+    assignment_statement           shift and go to state 9
+    declaration                    shift and go to state 13
+    ID                             shift and go to state 14
+    LEFT                           shift and go to state 10
+
+state 10
+
+    (18) assignment_statement -> LEFT . EQUAL expression SEMICOLON
+
+    EQUAL           shift and go to state 21
+
+
+state 11
+
+    (4) function_content -> if_stat .
+    (7) function_content -> if_stat . function_content
+    (2) function_content -> . assignment_statement
+    (3) function_content -> . while_stat
+    (4) function_content -> . if_stat
+    (5) function_content -> . assignment_statement function_content
+    (6) function_content -> . while_stat function_content
+    (7) function_content -> . if_stat function_content
+    (8) function_content -> . declaration
+    (9) function_content -> . declaration function_content
+    (17) assignment_statement -> . ID EQUAL expression SEMICOLON
+    (18) assignment_statement -> . LEFT EQUAL expression SEMICOLON
+    (33) while_stat -> . WHILE LPAREN b_expression RPAREN LBRACE function_content RBRACE
+    (34) while_stat -> . WHILE LPAREN b_expression RPAREN assignment_statement
+    (35) if_stat -> . IF LPAREN b_expression RPAREN LBRACE function_content RBRACE
+    (36) if_stat -> . IF LPAREN b_expression RPAREN LBRACE function_content RBRACE elsepart
+    (37) if_stat -> . IF LPAREN b_expression RPAREN assignment_statement
+    (38) if_stat -> . IF LPAREN b_expression RPAREN assignment_statement elsepart
+    (10) declaration -> . INT varlist SEMICOLON
+    (19) ID -> . NAME
+    (20) LEFT -> . ASTERISK var
+
+    RBRACE          reduce using rule 4 (function_content -> if_stat .)
+    WHILE           shift and go to state 8
+    IF              shift and go to state 15
+    INT             shift and go to state 18
+    NAME            shift and go to state 7
+    ASTERISK        shift and go to state 12
+
+    function_content               shift and go to state 22
+    while_stat                     shift and go to state 17
+    if_stat                        shift and go to state 11
+    assignment_statement           shift and go to state 9
+    declaration                    shift and go to state 13
+    ID                             shift and go to state 14
+    LEFT                           shift and go to state 10
+
+state 12
+
+    (20) LEFT -> ASTERISK . var
+    (29) var -> . ASTERISK var
+    (30) var -> . AMPERSAND var
+    (31) var -> . NAME
+
+    ASTERISK        shift and go to state 25
+    AMPERSAND       shift and go to state 24
+    NAME            shift and go to state 26
+
+    var                            shift and go to state 23
+
+state 13
+
+    (8) function_content -> declaration .
+    (9) function_content -> declaration . function_content
+    (2) function_content -> . assignment_statement
+    (3) function_content -> . while_stat
+    (4) function_content -> . if_stat
+    (5) function_content -> . assignment_statement function_content
+    (6) function_content -> . while_stat function_content
+    (7) function_content -> . if_stat function_content
+    (8) function_content -> . declaration
+    (9) function_content -> . declaration function_content
+    (17) assignment_statement -> . ID EQUAL expression SEMICOLON
+    (18) assignment_statement -> . LEFT EQUAL expression SEMICOLON
+    (33) while_stat -> . WHILE LPAREN b_expression RPAREN LBRACE function_content RBRACE
+    (34) while_stat -> . WHILE LPAREN b_expression RPAREN assignment_statement
+    (35) if_stat -> . IF LPAREN b_expression RPAREN LBRACE function_content RBRACE
+    (36) if_stat -> . IF LPAREN b_expression RPAREN LBRACE function_content RBRACE elsepart
+    (37) if_stat -> . IF LPAREN b_expression RPAREN assignment_statement
+    (38) if_stat -> . IF LPAREN b_expression RPAREN assignment_statement elsepart
+    (10) declaration -> . INT varlist SEMICOLON
+    (19) ID -> . NAME
+    (20) LEFT -> . ASTERISK var
+
+    RBRACE          reduce using rule 8 (function_content -> declaration .)
+    WHILE           shift and go to state 8
+    IF              shift and go to state 15
+    INT             shift and go to state 18
+    NAME            shift and go to state 7
+    ASTERISK        shift and go to state 12
+
+    function_content               shift and go to state 27
+    while_stat                     shift and go to state 17
+    if_stat                        shift and go to state 11
+    assignment_statement           shift and go to state 9
+    declaration                    shift and go to state 13
+    ID                             shift and go to state 14
+    LEFT                           shift and go to state 10
+
+state 14
+
+    (17) assignment_statement -> ID . EQUAL expression SEMICOLON
+
+    EQUAL           shift and go to state 28
+
+
+state 15
+
+    (35) if_stat -> IF . LPAREN b_expression RPAREN LBRACE function_content RBRACE
+    (36) if_stat -> IF . LPAREN b_expression RPAREN LBRACE function_content RBRACE elsepart
+    (37) if_stat -> IF . LPAREN b_expression RPAREN assignment_statement
+    (38) if_stat -> IF . LPAREN b_expression RPAREN assignment_statement elsepart
+
+    LPAREN          shift and go to state 29
+
+
+state 16
+
+    (1) program -> VOID MAIN LPAREN RPAREN LBRACE function_content . RBRACE
+
+    RBRACE          shift and go to state 30
+
+
+state 17
+
+    (3) function_content -> while_stat .
+    (6) function_content -> while_stat . function_content
+    (2) function_content -> . assignment_statement
+    (3) function_content -> . while_stat
+    (4) function_content -> . if_stat
+    (5) function_content -> . assignment_statement function_content
+    (6) function_content -> . while_stat function_content
+    (7) function_content -> . if_stat function_content
+    (8) function_content -> . declaration
+    (9) function_content -> . declaration function_content
+    (17) assignment_statement -> . ID EQUAL expression SEMICOLON
+    (18) assignment_statement -> . LEFT EQUAL expression SEMICOLON
+    (33) while_stat -> . WHILE LPAREN b_expression RPAREN LBRACE function_content RBRACE
+    (34) while_stat -> . WHILE LPAREN b_expression RPAREN assignment_statement
+    (35) if_stat -> . IF LPAREN b_expression RPAREN LBRACE function_content RBRACE
+    (36) if_stat -> . IF LPAREN b_expression RPAREN LBRACE function_content RBRACE elsepart
+    (37) if_stat -> . IF LPAREN b_expression RPAREN assignment_statement
+    (38) if_stat -> . IF LPAREN b_expression RPAREN assignment_statement elsepart
+    (10) declaration -> . INT varlist SEMICOLON
+    (19) ID -> . NAME
+    (20) LEFT -> . ASTERISK var
+
+    RBRACE          reduce using rule 3 (function_content -> while_stat .)
+    WHILE           shift and go to state 8
+    IF              shift and go to state 15
+    INT             shift and go to state 18
+    NAME            shift and go to state 7
+    ASTERISK        shift and go to state 12
+
+    while_stat                     shift and go to state 17
+    function_content               shift and go to state 31
+    if_stat                        shift and go to state 11
+    assignment_statement           shift and go to state 9
+    declaration                    shift and go to state 13
+    ID                             shift and go to state 14
+    LEFT                           shift and go to state 10
+
+state 18
+
+    (10) declaration -> INT . varlist SEMICOLON
+    (11) varlist -> . NAME COMMA varlist
+    (12) varlist -> . NAME
+    (13) varlist -> . pointer COMMA varlist
+    (14) varlist -> . pointer
+    (15) pointer -> . ASTERISK pointer
+    (16) pointer -> . ASTERISK NAME
+
+    NAME            shift and go to state 32
+    ASTERISK        shift and go to state 33
+
+    varlist                        shift and go to state 34
+    pointer                        shift and go to state 35
+
+state 19
+
+    (33) while_stat -> WHILE LPAREN . b_expression RPAREN LBRACE function_content RBRACE
+    (34) while_stat -> WHILE LPAREN . b_expression RPAREN assignment_statement
+    (44) b_expression -> . expression sign1 expression
+    (45) b_expression -> . b_expression sign2 b_expression
+    (21) expression -> . expression PLUS expression
+    (22) expression -> . expression MINUS expression
+    (23) expression -> . expression ASTERISK expression
+    (24) expression -> . expression DIVIDE expression
+    (25) expression -> . var
+    (26) expression -> . NUMBERvar
+    (27) expression -> . LPAREN expression RPAREN
+    (32) expression -> . MINUS expression
+    (29) var -> . ASTERISK var
+    (30) var -> . AMPERSAND var
+    (31) var -> . NAME
+    (28) NUMBERvar -> . NUMBER
+
+    LPAREN          shift and go to state 38
+    MINUS           shift and go to state 42
+    ASTERISK        shift and go to state 25
+    AMPERSAND       shift and go to state 24
+    NAME            shift and go to state 26
+    NUMBER          shift and go to state 36
+
+    b_expression                   shift and go to state 37
+    NUMBERvar                      shift and go to state 39
+    var                            shift and go to state 40
+    expression                     shift and go to state 41
+
+state 20
+
+    (5) function_content -> assignment_statement function_content .
+
+    RBRACE          reduce using rule 5 (function_content -> assignment_statement function_content .)
+
+
+state 21
+
+    (18) assignment_statement -> LEFT EQUAL . expression SEMICOLON
+    (21) expression -> . expression PLUS expression
+    (22) expression -> . expression MINUS expression
+    (23) expression -> . expression ASTERISK expression
+    (24) expression -> . expression DIVIDE expression
+    (25) expression -> . var
+    (26) expression -> . NUMBERvar
+    (27) expression -> . LPAREN expression RPAREN
+    (32) expression -> . MINUS expression
+    (29) var -> . ASTERISK var
+    (30) var -> . AMPERSAND var
+    (31) var -> . NAME
+    (28) NUMBERvar -> . NUMBER
+
+    LPAREN          shift and go to state 38
+    MINUS           shift and go to state 42
+    ASTERISK        shift and go to state 25
+    AMPERSAND       shift and go to state 24
+    NAME            shift and go to state 26
+    NUMBER          shift and go to state 36
+
+    var                            shift and go to state 40
+    NUMBERvar                      shift and go to state 39
+    expression                     shift and go to state 43
+
+state 22
+
+    (7) function_content -> if_stat function_content .
+
+    RBRACE          reduce using rule 7 (function_content -> if_stat function_content .)
+
+
+state 23
+
+    (20) LEFT -> ASTERISK var .
+
+    EQUAL           reduce using rule 20 (LEFT -> ASTERISK var .)
+
+
+state 24
+
+    (30) var -> AMPERSAND . var
+    (29) var -> . ASTERISK var
+    (30) var -> . AMPERSAND var
+    (31) var -> . NAME
+
+    ASTERISK        shift and go to state 25
+    AMPERSAND       shift and go to state 24
+    NAME            shift and go to state 26
+
+    var                            shift and go to state 44
+
+state 25
+
+    (29) var -> ASTERISK . var
+    (29) var -> . ASTERISK var
+    (30) var -> . AMPERSAND var
+    (31) var -> . NAME
+
+    ASTERISK        shift and go to state 25
+    AMPERSAND       shift and go to state 24
+    NAME            shift and go to state 26
+
+    var                            shift and go to state 45
+
+state 26
+
+    (31) var -> NAME .
+
+    SEMICOLON       reduce using rule 31 (var -> NAME .)
+    PLUS            reduce using rule 31 (var -> NAME .)
+    MINUS           reduce using rule 31 (var -> NAME .)
+    ASTERISK        reduce using rule 31 (var -> NAME .)
+    DIVIDE          reduce using rule 31 (var -> NAME .)
+    RPAREN          reduce using rule 31 (var -> NAME .)
+    LOGOR           reduce using rule 31 (var -> NAME .)
+    LOGAND          reduce using rule 31 (var -> NAME .)
+    EQUALS          reduce using rule 31 (var -> NAME .)
+    NOTEQUAL        reduce using rule 31 (var -> NAME .)
+    GREATER         reduce using rule 31 (var -> NAME .)
+    LESSER          reduce using rule 31 (var -> NAME .)
+    EQUAL           reduce using rule 31 (var -> NAME .)
+
+
+state 27
+
+    (9) function_content -> declaration function_content .
+
+    RBRACE          reduce using rule 9 (function_content -> declaration function_content .)
+
+
+state 28
+
+    (17) assignment_statement -> ID EQUAL . expression SEMICOLON
+    (21) expression -> . expression PLUS expression
+    (22) expression -> . expression MINUS expression
+    (23) expression -> . expression ASTERISK expression
+    (24) expression -> . expression DIVIDE expression
+    (25) expression -> . var
+    (26) expression -> . NUMBERvar
+    (27) expression -> . LPAREN expression RPAREN
+    (32) expression -> . MINUS expression
+    (29) var -> . ASTERISK var
+    (30) var -> . AMPERSAND var
+    (31) var -> . NAME
+    (28) NUMBERvar -> . NUMBER
+
+    LPAREN          shift and go to state 38
+    MINUS           shift and go to state 42
+    ASTERISK        shift and go to state 25
+    AMPERSAND       shift and go to state 24
+    NAME            shift and go to state 26
+    NUMBER          shift and go to state 36
+
+    var                            shift and go to state 40
+    expression                     shift and go to state 46
+    NUMBERvar                      shift and go to state 39
+
+state 29
+
+    (35) if_stat -> IF LPAREN . b_expression RPAREN LBRACE function_content RBRACE
+    (36) if_stat -> IF LPAREN . b_expression RPAREN LBRACE function_content RBRACE elsepart
+    (37) if_stat -> IF LPAREN . b_expression RPAREN assignment_statement
+    (38) if_stat -> IF LPAREN . b_expression RPAREN assignment_statement elsepart
+    (44) b_expression -> . expression sign1 expression
+    (45) b_expression -> . b_expression sign2 b_expression
+    (21) expression -> . expression PLUS expression
+    (22) expression -> . expression MINUS expression
+    (23) expression -> . expression ASTERISK expression
+    (24) expression -> . expression DIVIDE expression
+    (25) expression -> . var
+    (26) expression -> . NUMBERvar
+    (27) expression -> . LPAREN expression RPAREN
+    (32) expression -> . MINUS expression
+    (29) var -> . ASTERISK var
+    (30) var -> . AMPERSAND var
+    (31) var -> . NAME
+    (28) NUMBERvar -> . NUMBER
+
+    LPAREN          shift and go to state 38
+    MINUS           shift and go to state 42
+    ASTERISK        shift and go to state 25
+    AMPERSAND       shift and go to state 24
+    NAME            shift and go to state 26
+    NUMBER          shift and go to state 36
+
+    b_expression                   shift and go to state 47
+    NUMBERvar                      shift and go to state 39
+    var                            shift and go to state 40
+    expression                     shift and go to state 41
+
+state 30
+
+    (1) program -> VOID MAIN LPAREN RPAREN LBRACE function_content RBRACE .
+
+    $end            reduce using rule 1 (program -> VOID MAIN LPAREN RPAREN LBRACE function_content RBRACE .)
+
+
+state 31
+
+    (6) function_content -> while_stat function_content .
+
+    RBRACE          reduce using rule 6 (function_content -> while_stat function_content .)
+
+
+state 32
+
+    (11) varlist -> NAME . COMMA varlist
+    (12) varlist -> NAME .
+
+    COMMA           shift and go to state 48
+    SEMICOLON       reduce using rule 12 (varlist -> NAME .)
+
+
+state 33
+
+    (15) pointer -> ASTERISK . pointer
+    (16) pointer -> ASTERISK . NAME
+    (15) pointer -> . ASTERISK pointer
+    (16) pointer -> . ASTERISK NAME
+
+    NAME            shift and go to state 50
+    ASTERISK        shift and go to state 33
+
+    pointer                        shift and go to state 49
+
+state 34
+
+    (10) declaration -> INT varlist . SEMICOLON
+
+    SEMICOLON       shift and go to state 51
+
+
+state 35
+
+    (13) varlist -> pointer . COMMA varlist
+    (14) varlist -> pointer .
+
+    COMMA           shift and go to state 52
+    SEMICOLON       reduce using rule 14 (varlist -> pointer .)
+
+
+state 36
+
+    (28) NUMBERvar -> NUMBER .
+
+    PLUS            reduce using rule 28 (NUMBERvar -> NUMBER .)
+    MINUS           reduce using rule 28 (NUMBERvar -> NUMBER .)
+    ASTERISK        reduce using rule 28 (NUMBERvar -> NUMBER .)
+    DIVIDE          reduce using rule 28 (NUMBERvar -> NUMBER .)
+    EQUALS          reduce using rule 28 (NUMBERvar -> NUMBER .)
+    NOTEQUAL        reduce using rule 28 (NUMBERvar -> NUMBER .)
+    GREATER         reduce using rule 28 (NUMBERvar -> NUMBER .)
+    LESSER          reduce using rule 28 (NUMBERvar -> NUMBER .)
+    SEMICOLON       reduce using rule 28 (NUMBERvar -> NUMBER .)
+    RPAREN          reduce using rule 28 (NUMBERvar -> NUMBER .)
+    LOGOR           reduce using rule 28 (NUMBERvar -> NUMBER .)
+    LOGAND          reduce using rule 28 (NUMBERvar -> NUMBER .)
+
+
+state 37
+
+    (33) while_stat -> WHILE LPAREN b_expression . RPAREN LBRACE function_content RBRACE
+    (34) while_stat -> WHILE LPAREN b_expression . RPAREN assignment_statement
+    (45) b_expression -> b_expression . sign2 b_expression
+    (50) sign2 -> . LOGOR
+    (51) sign2 -> . LOGAND
+
+    RPAREN          shift and go to state 54
+    LOGOR           shift and go to state 53
+    LOGAND          shift and go to state 55
+
+    sign2                          shift and go to state 56
+
+state 38
+
+    (27) expression -> LPAREN . expression RPAREN
+    (21) expression -> . expression PLUS expression
+    (22) expression -> . expression MINUS expression
+    (23) expression -> . expression ASTERISK expression
+    (24) expression -> . expression DIVIDE expression
+    (25) expression -> . var
+    (26) expression -> . NUMBERvar
+    (27) expression -> . LPAREN expression RPAREN
+    (32) expression -> . MINUS expression
+    (29) var -> . ASTERISK var
+    (30) var -> . AMPERSAND var
+    (31) var -> . NAME
+    (28) NUMBERvar -> . NUMBER
+
+    LPAREN          shift and go to state 38
+    MINUS           shift and go to state 42
+    ASTERISK        shift and go to state 25
+    AMPERSAND       shift and go to state 24
+    NAME            shift and go to state 26
+    NUMBER          shift and go to state 36
+
+    var                            shift and go to state 40
+    expression                     shift and go to state 57
+    NUMBERvar                      shift and go to state 39
+
+state 39
+
+    (26) expression -> NUMBERvar .
+
+    PLUS            reduce using rule 26 (expression -> NUMBERvar .)
+    MINUS           reduce using rule 26 (expression -> NUMBERvar .)
+    ASTERISK        reduce using rule 26 (expression -> NUMBERvar .)
+    DIVIDE          reduce using rule 26 (expression -> NUMBERvar .)
+    EQUALS          reduce using rule 26 (expression -> NUMBERvar .)
+    NOTEQUAL        reduce using rule 26 (expression -> NUMBERvar .)
+    GREATER         reduce using rule 26 (expression -> NUMBERvar .)
+    LESSER          reduce using rule 26 (expression -> NUMBERvar .)
+    SEMICOLON       reduce using rule 26 (expression -> NUMBERvar .)
+    RPAREN          reduce using rule 26 (expression -> NUMBERvar .)
+    LOGOR           reduce using rule 26 (expression -> NUMBERvar .)
+    LOGAND          reduce using rule 26 (expression -> NUMBERvar .)
+
+
+state 40
+
+    (25) expression -> var .
+
+    PLUS            reduce using rule 25 (expression -> var .)
+    MINUS           reduce using rule 25 (expression -> var .)
+    ASTERISK        reduce using rule 25 (expression -> var .)
+    DIVIDE          reduce using rule 25 (expression -> var .)
+    EQUALS          reduce using rule 25 (expression -> var .)
+    NOTEQUAL        reduce using rule 25 (expression -> var .)
+    GREATER         reduce using rule 25 (expression -> var .)
+    LESSER          reduce using rule 25 (expression -> var .)
+    SEMICOLON       reduce using rule 25 (expression -> var .)
+    RPAREN          reduce using rule 25 (expression -> var .)
+    LOGOR           reduce using rule 25 (expression -> var .)
+    LOGAND          reduce using rule 25 (expression -> var .)
+
+
+state 41
+
+    (44) b_expression -> expression . sign1 expression
+    (21) expression -> expression . PLUS expression
+    (22) expression -> expression . MINUS expression
+    (23) expression -> expression . ASTERISK expression
+    (24) expression -> expression . DIVIDE expression
+    (46) sign1 -> . EQUALS
+    (47) sign1 -> . NOTEQUAL
+    (48) sign1 -> . GREATER
+    (49) sign1 -> . LESSER
+
+    PLUS            shift and go to state 63
+    MINUS           shift and go to state 65
+    ASTERISK        shift and go to state 60
+    DIVIDE          shift and go to state 59
+    EQUALS          shift and go to state 61
+    NOTEQUAL        shift and go to state 58
+    GREATER         shift and go to state 66
+    LESSER          shift and go to state 62
+
+    sign1                          shift and go to state 64
+
+state 42
+
+    (32) expression -> MINUS . expression
+    (21) expression -> . expression PLUS expression
+    (22) expression -> . expression MINUS expression
+    (23) expression -> . expression ASTERISK expression
+    (24) expression -> . expression DIVIDE expression
+    (25) expression -> . var
+    (26) expression -> . NUMBERvar
+    (27) expression -> . LPAREN expression RPAREN
+    (32) expression -> . MINUS expression
+    (29) var -> . ASTERISK var
+    (30) var -> . AMPERSAND var
+    (31) var -> . NAME
+    (28) NUMBERvar -> . NUMBER
+
+    LPAREN          shift and go to state 38
+    MINUS           shift and go to state 42
+    ASTERISK        shift and go to state 25
+    AMPERSAND       shift and go to state 24
+    NAME            shift and go to state 26
+    NUMBER          shift and go to state 36
+
+    var                            shift and go to state 40
+    expression                     shift and go to state 67
+    NUMBERvar                      shift and go to state 39
+
+state 43
+
+    (18) assignment_statement -> LEFT EQUAL expression . SEMICOLON
+    (21) expression -> expression . PLUS expression
+    (22) expression -> expression . MINUS expression
+    (23) expression -> expression . ASTERISK expression
+    (24) expression -> expression . DIVIDE expression
+
+    SEMICOLON       shift and go to state 68
+    PLUS            shift and go to state 63
+    MINUS           shift and go to state 65
+    ASTERISK        shift and go to state 60
+    DIVIDE          shift and go to state 59
+
+
+state 44
+
+    (30) var -> AMPERSAND var .
+
+    SEMICOLON       reduce using rule 30 (var -> AMPERSAND var .)
+    PLUS            reduce using rule 30 (var -> AMPERSAND var .)
+    MINUS           reduce using rule 30 (var -> AMPERSAND var .)
+    ASTERISK        reduce using rule 30 (var -> AMPERSAND var .)
+    DIVIDE          reduce using rule 30 (var -> AMPERSAND var .)
+    RPAREN          reduce using rule 30 (var -> AMPERSAND var .)
+    LOGOR           reduce using rule 30 (var -> AMPERSAND var .)
+    LOGAND          reduce using rule 30 (var -> AMPERSAND var .)
+    EQUALS          reduce using rule 30 (var -> AMPERSAND var .)
+    NOTEQUAL        reduce using rule 30 (var -> AMPERSAND var .)
+    GREATER         reduce using rule 30 (var -> AMPERSAND var .)
+    LESSER          reduce using rule 30 (var -> AMPERSAND var .)
+    EQUAL           reduce using rule 30 (var -> AMPERSAND var .)
+
+
+state 45
+
+    (29) var -> ASTERISK var .
+
+    SEMICOLON       reduce using rule 29 (var -> ASTERISK var .)
+    PLUS            reduce using rule 29 (var -> ASTERISK var .)
+    MINUS           reduce using rule 29 (var -> ASTERISK var .)
+    ASTERISK        reduce using rule 29 (var -> ASTERISK var .)
+    DIVIDE          reduce using rule 29 (var -> ASTERISK var .)
+    RPAREN          reduce using rule 29 (var -> ASTERISK var .)
+    LOGOR           reduce using rule 29 (var -> ASTERISK var .)
+    LOGAND          reduce using rule 29 (var -> ASTERISK var .)
+    EQUALS          reduce using rule 29 (var -> ASTERISK var .)
+    NOTEQUAL        reduce using rule 29 (var -> ASTERISK var .)
+    GREATER         reduce using rule 29 (var -> ASTERISK var .)
+    LESSER          reduce using rule 29 (var -> ASTERISK var .)
+    EQUAL           reduce using rule 29 (var -> ASTERISK var .)
+
+
+state 46
+
+    (17) assignment_statement -> ID EQUAL expression . SEMICOLON
+    (21) expression -> expression . PLUS expression
+    (22) expression -> expression . MINUS expression
+    (23) expression -> expression . ASTERISK expression
+    (24) expression -> expression . DIVIDE expression
+
+    SEMICOLON       shift and go to state 69
+    PLUS            shift and go to state 63
+    MINUS           shift and go to state 65
+    ASTERISK        shift and go to state 60
+    DIVIDE          shift and go to state 59
+
+
+state 47
+
+    (35) if_stat -> IF LPAREN b_expression . RPAREN LBRACE function_content RBRACE
+    (36) if_stat -> IF LPAREN b_expression . RPAREN LBRACE function_content RBRACE elsepart
+    (37) if_stat -> IF LPAREN b_expression . RPAREN assignment_statement
+    (38) if_stat -> IF LPAREN b_expression . RPAREN assignment_statement elsepart
+    (45) b_expression -> b_expression . sign2 b_expression
+    (50) sign2 -> . LOGOR
+    (51) sign2 -> . LOGAND
+
+    RPAREN          shift and go to state 70
+    LOGOR           shift and go to state 53
+    LOGAND          shift and go to state 55
+
+    sign2                          shift and go to state 56
+
+state 48
+
+    (11) varlist -> NAME COMMA . varlist
+    (11) varlist -> . NAME COMMA varlist
+    (12) varlist -> . NAME
+    (13) varlist -> . pointer COMMA varlist
+    (14) varlist -> . pointer
+    (15) pointer -> . ASTERISK pointer
+    (16) pointer -> . ASTERISK NAME
+
+    NAME            shift and go to state 32
+    ASTERISK        shift and go to state 33
+
+    varlist                        shift and go to state 71
+    pointer                        shift and go to state 35
+
+state 49
+
+    (15) pointer -> ASTERISK pointer .
+
+    COMMA           reduce using rule 15 (pointer -> ASTERISK pointer .)
+    SEMICOLON       reduce using rule 15 (pointer -> ASTERISK pointer .)
+
+
+state 50
+
+    (16) pointer -> ASTERISK NAME .
+
+    COMMA           reduce using rule 16 (pointer -> ASTERISK NAME .)
+    SEMICOLON       reduce using rule 16 (pointer -> ASTERISK NAME .)
+
+
+state 51
+
+    (10) declaration -> INT varlist SEMICOLON .
+
+    WHILE           reduce using rule 10 (declaration -> INT varlist SEMICOLON .)
+    IF              reduce using rule 10 (declaration -> INT varlist SEMICOLON .)
+    INT             reduce using rule 10 (declaration -> INT varlist SEMICOLON .)
+    NAME            reduce using rule 10 (declaration -> INT varlist SEMICOLON .)
+    ASTERISK        reduce using rule 10 (declaration -> INT varlist SEMICOLON .)
+    RBRACE          reduce using rule 10 (declaration -> INT varlist SEMICOLON .)
+
+
+state 52
+
+    (13) varlist -> pointer COMMA . varlist
+    (11) varlist -> . NAME COMMA varlist
+    (12) varlist -> . NAME
+    (13) varlist -> . pointer COMMA varlist
+    (14) varlist -> . pointer
+    (15) pointer -> . ASTERISK pointer
+    (16) pointer -> . ASTERISK NAME
+
+    NAME            shift and go to state 32
+    ASTERISK        shift and go to state 33
+
+    varlist                        shift and go to state 72
+    pointer                        shift and go to state 35
+
+state 53
+
+    (50) sign2 -> LOGOR .
+
+    LPAREN          reduce using rule 50 (sign2 -> LOGOR .)
+    MINUS           reduce using rule 50 (sign2 -> LOGOR .)
+    ASTERISK        reduce using rule 50 (sign2 -> LOGOR .)
+    AMPERSAND       reduce using rule 50 (sign2 -> LOGOR .)
+    NAME            reduce using rule 50 (sign2 -> LOGOR .)
+    NUMBER          reduce using rule 50 (sign2 -> LOGOR .)
+
+
+state 54
+
+    (33) while_stat -> WHILE LPAREN b_expression RPAREN . LBRACE function_content RBRACE
+    (34) while_stat -> WHILE LPAREN b_expression RPAREN . assignment_statement
+    (17) assignment_statement -> . ID EQUAL expression SEMICOLON
+    (18) assignment_statement -> . LEFT EQUAL expression SEMICOLON
+    (19) ID -> . NAME
+    (20) LEFT -> . ASTERISK var
+
+    LBRACE          shift and go to state 73
+    NAME            shift and go to state 7
+    ASTERISK        shift and go to state 12
+
+    assignment_statement           shift and go to state 74
+    ID                             shift and go to state 14
+    LEFT                           shift and go to state 10
+
+state 55
+
+    (51) sign2 -> LOGAND .
+
+    LPAREN          reduce using rule 51 (sign2 -> LOGAND .)
+    MINUS           reduce using rule 51 (sign2 -> LOGAND .)
+    ASTERISK        reduce using rule 51 (sign2 -> LOGAND .)
+    AMPERSAND       reduce using rule 51 (sign2 -> LOGAND .)
+    NAME            reduce using rule 51 (sign2 -> LOGAND .)
+    NUMBER          reduce using rule 51 (sign2 -> LOGAND .)
+
+
+state 56
+
+    (45) b_expression -> b_expression sign2 . b_expression
+    (44) b_expression -> . expression sign1 expression
+    (45) b_expression -> . b_expression sign2 b_expression
+    (21) expression -> . expression PLUS expression
+    (22) expression -> . expression MINUS expression
+    (23) expression -> . expression ASTERISK expression
+    (24) expression -> . expression DIVIDE expression
+    (25) expression -> . var
+    (26) expression -> . NUMBERvar
+    (27) expression -> . LPAREN expression RPAREN
+    (32) expression -> . MINUS expression
+    (29) var -> . ASTERISK var
+    (30) var -> . AMPERSAND var
+    (31) var -> . NAME
+    (28) NUMBERvar -> . NUMBER
+
+    LPAREN          shift and go to state 38
+    MINUS           shift and go to state 42
+    ASTERISK        shift and go to state 25
+    AMPERSAND       shift and go to state 24
+    NAME            shift and go to state 26
+    NUMBER          shift and go to state 36
+
+    b_expression                   shift and go to state 75
+    NUMBERvar                      shift and go to state 39
+    var                            shift and go to state 40
+    expression                     shift and go to state 41
+
+state 57
+
+    (27) expression -> LPAREN expression . RPAREN
+    (21) expression -> expression . PLUS expression
+    (22) expression -> expression . MINUS expression
+    (23) expression -> expression . ASTERISK expression
+    (24) expression -> expression . DIVIDE expression
+
+    RPAREN          shift and go to state 76
+    PLUS            shift and go to state 63
+    MINUS           shift and go to state 65
+    ASTERISK        shift and go to state 60
+    DIVIDE          shift and go to state 59
+
+
+state 58
+
+    (47) sign1 -> NOTEQUAL .
+
+    LPAREN          reduce using rule 47 (sign1 -> NOTEQUAL .)
+    MINUS           reduce using rule 47 (sign1 -> NOTEQUAL .)
+    ASTERISK        reduce using rule 47 (sign1 -> NOTEQUAL .)
+    AMPERSAND       reduce using rule 47 (sign1 -> NOTEQUAL .)
+    NAME            reduce using rule 47 (sign1 -> NOTEQUAL .)
+    NUMBER          reduce using rule 47 (sign1 -> NOTEQUAL .)
+
+
+state 59
+
+    (24) expression -> expression DIVIDE . expression
+    (21) expression -> . expression PLUS expression
+    (22) expression -> . expression MINUS expression
+    (23) expression -> . expression ASTERISK expression
+    (24) expression -> . expression DIVIDE expression
+    (25) expression -> . var
+    (26) expression -> . NUMBERvar
+    (27) expression -> . LPAREN expression RPAREN
+    (32) expression -> . MINUS expression
+    (29) var -> . ASTERISK var
+    (30) var -> . AMPERSAND var
+    (31) var -> . NAME
+    (28) NUMBERvar -> . NUMBER
+
+    LPAREN          shift and go to state 38
+    MINUS           shift and go to state 42
+    ASTERISK        shift and go to state 25
+    AMPERSAND       shift and go to state 24
+    NAME            shift and go to state 26
+    NUMBER          shift and go to state 36
+
+    var                            shift and go to state 40
+    expression                     shift and go to state 77
+    NUMBERvar                      shift and go to state 39
+
+state 60
+
+    (23) expression -> expression ASTERISK . expression
+    (21) expression -> . expression PLUS expression
+    (22) expression -> . expression MINUS expression
+    (23) expression -> . expression ASTERISK expression
+    (24) expression -> . expression DIVIDE expression
+    (25) expression -> . var
+    (26) expression -> . NUMBERvar
+    (27) expression -> . LPAREN expression RPAREN
+    (32) expression -> . MINUS expression
+    (29) var -> . ASTERISK var
+    (30) var -> . AMPERSAND var
+    (31) var -> . NAME
+    (28) NUMBERvar -> . NUMBER
+
+    LPAREN          shift and go to state 38
+    MINUS           shift and go to state 42
+    ASTERISK        shift and go to state 25
+    AMPERSAND       shift and go to state 24
+    NAME            shift and go to state 26
+    NUMBER          shift and go to state 36
+
+    var                            shift and go to state 40
+    expression                     shift and go to state 78
+    NUMBERvar                      shift and go to state 39
+
+state 61
+
+    (46) sign1 -> EQUALS .
+
+    LPAREN          reduce using rule 46 (sign1 -> EQUALS .)
+    MINUS           reduce using rule 46 (sign1 -> EQUALS .)
+    ASTERISK        reduce using rule 46 (sign1 -> EQUALS .)
+    AMPERSAND       reduce using rule 46 (sign1 -> EQUALS .)
+    NAME            reduce using rule 46 (sign1 -> EQUALS .)
+    NUMBER          reduce using rule 46 (sign1 -> EQUALS .)
+
+
+state 62
+
+    (49) sign1 -> LESSER .
+
+    LPAREN          reduce using rule 49 (sign1 -> LESSER .)
+    MINUS           reduce using rule 49 (sign1 -> LESSER .)
+    ASTERISK        reduce using rule 49 (sign1 -> LESSER .)
+    AMPERSAND       reduce using rule 49 (sign1 -> LESSER .)
+    NAME            reduce using rule 49 (sign1 -> LESSER .)
+    NUMBER          reduce using rule 49 (sign1 -> LESSER .)
+
+
+state 63
+
+    (21) expression -> expression PLUS . expression
+    (21) expression -> . expression PLUS expression
+    (22) expression -> . expression MINUS expression
+    (23) expression -> . expression ASTERISK expression
+    (24) expression -> . expression DIVIDE expression
+    (25) expression -> . var
+    (26) expression -> . NUMBERvar
+    (27) expression -> . LPAREN expression RPAREN
+    (32) expression -> . MINUS expression
+    (29) var -> . ASTERISK var
+    (30) var -> . AMPERSAND var
+    (31) var -> . NAME
+    (28) NUMBERvar -> . NUMBER
+
+    LPAREN          shift and go to state 38
+    MINUS           shift and go to state 42
+    ASTERISK        shift and go to state 25
+    AMPERSAND       shift and go to state 24
+    NAME            shift and go to state 26
+    NUMBER          shift and go to state 36
+
+    var                            shift and go to state 40
+    expression                     shift and go to state 79
+    NUMBERvar                      shift and go to state 39
+
+state 64
+
+    (44) b_expression -> expression sign1 . expression
+    (21) expression -> . expression PLUS expression
+    (22) expression -> . expression MINUS expression
+    (23) expression -> . expression ASTERISK expression
+    (24) expression -> . expression DIVIDE expression
+    (25) expression -> . var
+    (26) expression -> . NUMBERvar
+    (27) expression -> . LPAREN expression RPAREN
+    (32) expression -> . MINUS expression
+    (29) var -> . ASTERISK var
+    (30) var -> . AMPERSAND var
+    (31) var -> . NAME
+    (28) NUMBERvar -> . NUMBER
+
+    LPAREN          shift and go to state 38
+    MINUS           shift and go to state 42
+    ASTERISK        shift and go to state 25
+    AMPERSAND       shift and go to state 24
+    NAME            shift and go to state 26
+    NUMBER          shift and go to state 36
+
+    var                            shift and go to state 40
+    expression                     shift and go to state 80
+    NUMBERvar                      shift and go to state 39
+
+state 65
+
+    (22) expression -> expression MINUS . expression
+    (21) expression -> . expression PLUS expression
+    (22) expression -> . expression MINUS expression
+    (23) expression -> . expression ASTERISK expression
+    (24) expression -> . expression DIVIDE expression
+    (25) expression -> . var
+    (26) expression -> . NUMBERvar
+    (27) expression -> . LPAREN expression RPAREN
+    (32) expression -> . MINUS expression
+    (29) var -> . ASTERISK var
+    (30) var -> . AMPERSAND var
+    (31) var -> . NAME
+    (28) NUMBERvar -> . NUMBER
+
+    LPAREN          shift and go to state 38
+    MINUS           shift and go to state 42
+    ASTERISK        shift and go to state 25
+    AMPERSAND       shift and go to state 24
+    NAME            shift and go to state 26
+    NUMBER          shift and go to state 36
+
+    var                            shift and go to state 40
+    expression                     shift and go to state 81
+    NUMBERvar                      shift and go to state 39
+
+state 66
+
+    (48) sign1 -> GREATER .
+
+    LPAREN          reduce using rule 48 (sign1 -> GREATER .)
+    MINUS           reduce using rule 48 (sign1 -> GREATER .)
+    ASTERISK        reduce using rule 48 (sign1 -> GREATER .)
+    AMPERSAND       reduce using rule 48 (sign1 -> GREATER .)
+    NAME            reduce using rule 48 (sign1 -> GREATER .)
+    NUMBER          reduce using rule 48 (sign1 -> GREATER .)
+
+
+state 67
+
+    (32) expression -> MINUS expression .
+    (21) expression -> expression . PLUS expression
+    (22) expression -> expression . MINUS expression
+    (23) expression -> expression . ASTERISK expression
+    (24) expression -> expression . DIVIDE expression
+
+    PLUS            reduce using rule 32 (expression -> MINUS expression .)
+    MINUS           reduce using rule 32 (expression -> MINUS expression .)
+    ASTERISK        reduce using rule 32 (expression -> MINUS expression .)
+    DIVIDE          reduce using rule 32 (expression -> MINUS expression .)
+    EQUALS          reduce using rule 32 (expression -> MINUS expression .)
+    NOTEQUAL        reduce using rule 32 (expression -> MINUS expression .)
+    GREATER         reduce using rule 32 (expression -> MINUS expression .)
+    LESSER          reduce using rule 32 (expression -> MINUS expression .)
+    SEMICOLON       reduce using rule 32 (expression -> MINUS expression .)
+    RPAREN          reduce using rule 32 (expression -> MINUS expression .)
+    LOGOR           reduce using rule 32 (expression -> MINUS expression .)
+    LOGAND          reduce using rule 32 (expression -> MINUS expression .)
+
+  ! PLUS            [ shift and go to state 63 ]
+  ! MINUS           [ shift and go to state 65 ]
+  ! ASTERISK        [ shift and go to state 60 ]
+  ! DIVIDE          [ shift and go to state 59 ]
+
+
+state 68
+
+    (18) assignment_statement -> LEFT EQUAL expression SEMICOLON .
+
+    ELSE            reduce using rule 18 (assignment_statement -> LEFT EQUAL expression SEMICOLON .)
+    WHILE           reduce using rule 18 (assignment_statement -> LEFT EQUAL expression SEMICOLON .)
+    IF              reduce using rule 18 (assignment_statement -> LEFT EQUAL expression SEMICOLON .)
+    INT             reduce using rule 18 (assignment_statement -> LEFT EQUAL expression SEMICOLON .)
+    NAME            reduce using rule 18 (assignment_statement -> LEFT EQUAL expression SEMICOLON .)
+    ASTERISK        reduce using rule 18 (assignment_statement -> LEFT EQUAL expression SEMICOLON .)
+    RBRACE          reduce using rule 18 (assignment_statement -> LEFT EQUAL expression SEMICOLON .)
+
+
+state 69
+
+    (17) assignment_statement -> ID EQUAL expression SEMICOLON .
+
+    ELSE            reduce using rule 17 (assignment_statement -> ID EQUAL expression SEMICOLON .)
+    WHILE           reduce using rule 17 (assignment_statement -> ID EQUAL expression SEMICOLON .)
+    IF              reduce using rule 17 (assignment_statement -> ID EQUAL expression SEMICOLON .)
+    INT             reduce using rule 17 (assignment_statement -> ID EQUAL expression SEMICOLON .)
+    NAME            reduce using rule 17 (assignment_statement -> ID EQUAL expression SEMICOLON .)
+    ASTERISK        reduce using rule 17 (assignment_statement -> ID EQUAL expression SEMICOLON .)
+    RBRACE          reduce using rule 17 (assignment_statement -> ID EQUAL expression SEMICOLON .)
+
+
+state 70
+
+    (35) if_stat -> IF LPAREN b_expression RPAREN . LBRACE function_content RBRACE
+    (36) if_stat -> IF LPAREN b_expression RPAREN . LBRACE function_content RBRACE elsepart
+    (37) if_stat -> IF LPAREN b_expression RPAREN . assignment_statement
+    (38) if_stat -> IF LPAREN b_expression RPAREN . assignment_statement elsepart
+    (17) assignment_statement -> . ID EQUAL expression SEMICOLON
+    (18) assignment_statement -> . LEFT EQUAL expression SEMICOLON
+    (19) ID -> . NAME
+    (20) LEFT -> . ASTERISK var
+
+    LBRACE          shift and go to state 82
+    NAME            shift and go to state 7
+    ASTERISK        shift and go to state 12
+
+    assignment_statement           shift and go to state 83
+    ID                             shift and go to state 14
+    LEFT                           shift and go to state 10
+
+state 71
+
+    (11) varlist -> NAME COMMA varlist .
+
+    SEMICOLON       reduce using rule 11 (varlist -> NAME COMMA varlist .)
+
+
+state 72
+
+    (13) varlist -> pointer COMMA varlist .
+
+    SEMICOLON       reduce using rule 13 (varlist -> pointer COMMA varlist .)
+
+
+state 73
+
+    (33) while_stat -> WHILE LPAREN b_expression RPAREN LBRACE . function_content RBRACE
+    (2) function_content -> . assignment_statement
+    (3) function_content -> . while_stat
+    (4) function_content -> . if_stat
+    (5) function_content -> . assignment_statement function_content
+    (6) function_content -> . while_stat function_content
+    (7) function_content -> . if_stat function_content
+    (8) function_content -> . declaration
+    (9) function_content -> . declaration function_content
+    (17) assignment_statement -> . ID EQUAL expression SEMICOLON
+    (18) assignment_statement -> . LEFT EQUAL expression SEMICOLON
+    (33) while_stat -> . WHILE LPAREN b_expression RPAREN LBRACE function_content RBRACE
+    (34) while_stat -> . WHILE LPAREN b_expression RPAREN assignment_statement
+    (35) if_stat -> . IF LPAREN b_expression RPAREN LBRACE function_content RBRACE
+    (36) if_stat -> . IF LPAREN b_expression RPAREN LBRACE function_content RBRACE elsepart
+    (37) if_stat -> . IF LPAREN b_expression RPAREN assignment_statement
+    (38) if_stat -> . IF LPAREN b_expression RPAREN assignment_statement elsepart
+    (10) declaration -> . INT varlist SEMICOLON
+    (19) ID -> . NAME
+    (20) LEFT -> . ASTERISK var
+
+    WHILE           shift and go to state 8
+    IF              shift and go to state 15
+    INT             shift and go to state 18
+    NAME            shift and go to state 7
+    ASTERISK        shift and go to state 12
+
+    function_content               shift and go to state 84
+    while_stat                     shift and go to state 17
+    if_stat                        shift and go to state 11
+    assignment_statement           shift and go to state 9
+    declaration                    shift and go to state 13
+    ID                             shift and go to state 14
+    LEFT                           shift and go to state 10
+
+state 74
+
+    (34) while_stat -> WHILE LPAREN b_expression RPAREN assignment_statement .
+
+    WHILE           reduce using rule 34 (while_stat -> WHILE LPAREN b_expression RPAREN assignment_statement .)
+    IF              reduce using rule 34 (while_stat -> WHILE LPAREN b_expression RPAREN assignment_statement .)
+    INT             reduce using rule 34 (while_stat -> WHILE LPAREN b_expression RPAREN assignment_statement .)
+    NAME            reduce using rule 34 (while_stat -> WHILE LPAREN b_expression RPAREN assignment_statement .)
+    ASTERISK        reduce using rule 34 (while_stat -> WHILE LPAREN b_expression RPAREN assignment_statement .)
+    RBRACE          reduce using rule 34 (while_stat -> WHILE LPAREN b_expression RPAREN assignment_statement .)
+
+
+state 75
+
+    (45) b_expression -> b_expression sign2 b_expression .
+    (45) b_expression -> b_expression . sign2 b_expression
+    (50) sign2 -> . LOGOR
+    (51) sign2 -> . LOGAND
+
+  ! shift/reduce conflict for LOGOR resolved as shift
+  ! shift/reduce conflict for LOGAND resolved as shift
+    RPAREN          reduce using rule 45 (b_expression -> b_expression sign2 b_expression .)
+    LOGOR           shift and go to state 53
+    LOGAND          shift and go to state 55
+
+  ! LOGOR           [ reduce using rule 45 (b_expression -> b_expression sign2 b_expression .) ]
+  ! LOGAND          [ reduce using rule 45 (b_expression -> b_expression sign2 b_expression .) ]
+
+    sign2                          shift and go to state 56
+
+state 76
+
+    (27) expression -> LPAREN expression RPAREN .
+
+    PLUS            reduce using rule 27 (expression -> LPAREN expression RPAREN .)
+    MINUS           reduce using rule 27 (expression -> LPAREN expression RPAREN .)
+    ASTERISK        reduce using rule 27 (expression -> LPAREN expression RPAREN .)
+    DIVIDE          reduce using rule 27 (expression -> LPAREN expression RPAREN .)
+    EQUALS          reduce using rule 27 (expression -> LPAREN expression RPAREN .)
+    NOTEQUAL        reduce using rule 27 (expression -> LPAREN expression RPAREN .)
+    GREATER         reduce using rule 27 (expression -> LPAREN expression RPAREN .)
+    LESSER          reduce using rule 27 (expression -> LPAREN expression RPAREN .)
+    SEMICOLON       reduce using rule 27 (expression -> LPAREN expression RPAREN .)
+    RPAREN          reduce using rule 27 (expression -> LPAREN expression RPAREN .)
+    LOGOR           reduce using rule 27 (expression -> LPAREN expression RPAREN .)
+    LOGAND          reduce using rule 27 (expression -> LPAREN expression RPAREN .)
+
+
+state 77
+
+    (24) expression -> expression DIVIDE expression .
+    (21) expression -> expression . PLUS expression
+    (22) expression -> expression . MINUS expression
+    (23) expression -> expression . ASTERISK expression
+    (24) expression -> expression . DIVIDE expression
+
+    PLUS            reduce using rule 24 (expression -> expression DIVIDE expression .)
+    MINUS           reduce using rule 24 (expression -> expression DIVIDE expression .)
+    ASTERISK        reduce using rule 24 (expression -> expression DIVIDE expression .)
+    DIVIDE          reduce using rule 24 (expression -> expression DIVIDE expression .)
+    EQUALS          reduce using rule 24 (expression -> expression DIVIDE expression .)
+    NOTEQUAL        reduce using rule 24 (expression -> expression DIVIDE expression .)
+    GREATER         reduce using rule 24 (expression -> expression DIVIDE expression .)
+    LESSER          reduce using rule 24 (expression -> expression DIVIDE expression .)
+    SEMICOLON       reduce using rule 24 (expression -> expression DIVIDE expression .)
+    RPAREN          reduce using rule 24 (expression -> expression DIVIDE expression .)
+    LOGOR           reduce using rule 24 (expression -> expression DIVIDE expression .)
+    LOGAND          reduce using rule 24 (expression -> expression DIVIDE expression .)
+
+  ! PLUS            [ shift and go to state 63 ]
+  ! MINUS           [ shift and go to state 65 ]
+  ! ASTERISK        [ shift and go to state 60 ]
+  ! DIVIDE          [ shift and go to state 59 ]
+
+
+state 78
+
+    (23) expression -> expression ASTERISK expression .
+    (21) expression -> expression . PLUS expression
+    (22) expression -> expression . MINUS expression
+    (23) expression -> expression . ASTERISK expression
+    (24) expression -> expression . DIVIDE expression
+
+    PLUS            reduce using rule 23 (expression -> expression ASTERISK expression .)
+    MINUS           reduce using rule 23 (expression -> expression ASTERISK expression .)
+    ASTERISK        reduce using rule 23 (expression -> expression ASTERISK expression .)
+    DIVIDE          reduce using rule 23 (expression -> expression ASTERISK expression .)
+    EQUALS          reduce using rule 23 (expression -> expression ASTERISK expression .)
+    NOTEQUAL        reduce using rule 23 (expression -> expression ASTERISK expression .)
+    GREATER         reduce using rule 23 (expression -> expression ASTERISK expression .)
+    LESSER          reduce using rule 23 (expression -> expression ASTERISK expression .)
+    SEMICOLON       reduce using rule 23 (expression -> expression ASTERISK expression .)
+    RPAREN          reduce using rule 23 (expression -> expression ASTERISK expression .)
+    LOGOR           reduce using rule 23 (expression -> expression ASTERISK expression .)
+    LOGAND          reduce using rule 23 (expression -> expression ASTERISK expression .)
+
+  ! PLUS            [ shift and go to state 63 ]
+  ! MINUS           [ shift and go to state 65 ]
+  ! ASTERISK        [ shift and go to state 60 ]
+  ! DIVIDE          [ shift and go to state 59 ]
+
+
+state 79
+
+    (21) expression -> expression PLUS expression .
+    (21) expression -> expression . PLUS expression
+    (22) expression -> expression . MINUS expression
+    (23) expression -> expression . ASTERISK expression
+    (24) expression -> expression . DIVIDE expression
+
+    PLUS            reduce using rule 21 (expression -> expression PLUS expression .)
+    MINUS           reduce using rule 21 (expression -> expression PLUS expression .)
+    EQUALS          reduce using rule 21 (expression -> expression PLUS expression .)
+    NOTEQUAL        reduce using rule 21 (expression -> expression PLUS expression .)
+    GREATER         reduce using rule 21 (expression -> expression PLUS expression .)
+    LESSER          reduce using rule 21 (expression -> expression PLUS expression .)
+    SEMICOLON       reduce using rule 21 (expression -> expression PLUS expression .)
+    RPAREN          reduce using rule 21 (expression -> expression PLUS expression .)
+    LOGOR           reduce using rule 21 (expression -> expression PLUS expression .)
+    LOGAND          reduce using rule 21 (expression -> expression PLUS expression .)
+    ASTERISK        shift and go to state 60
+    DIVIDE          shift and go to state 59
+
+  ! ASTERISK        [ reduce using rule 21 (expression -> expression PLUS expression .) ]
+  ! DIVIDE          [ reduce using rule 21 (expression -> expression PLUS expression .) ]
+  ! PLUS            [ shift and go to state 63 ]
+  ! MINUS           [ shift and go to state 65 ]
+
+
+state 80
+
+    (44) b_expression -> expression sign1 expression .
+    (21) expression -> expression . PLUS expression
+    (22) expression -> expression . MINUS expression
+    (23) expression -> expression . ASTERISK expression
+    (24) expression -> expression . DIVIDE expression
+
+    RPAREN          reduce using rule 44 (b_expression -> expression sign1 expression .)
+    LOGOR           reduce using rule 44 (b_expression -> expression sign1 expression .)
+    LOGAND          reduce using rule 44 (b_expression -> expression sign1 expression .)
+    PLUS            shift and go to state 63
+    MINUS           shift and go to state 65
+    ASTERISK        shift and go to state 60
+    DIVIDE          shift and go to state 59
+
+
+state 81
+
+    (22) expression -> expression MINUS expression .
+    (21) expression -> expression . PLUS expression
+    (22) expression -> expression . MINUS expression
+    (23) expression -> expression . ASTERISK expression
+    (24) expression -> expression . DIVIDE expression
+
+    PLUS            reduce using rule 22 (expression -> expression MINUS expression .)
+    MINUS           reduce using rule 22 (expression -> expression MINUS expression .)
+    EQUALS          reduce using rule 22 (expression -> expression MINUS expression .)
+    NOTEQUAL        reduce using rule 22 (expression -> expression MINUS expression .)
+    GREATER         reduce using rule 22 (expression -> expression MINUS expression .)
+    LESSER          reduce using rule 22 (expression -> expression MINUS expression .)
+    SEMICOLON       reduce using rule 22 (expression -> expression MINUS expression .)
+    RPAREN          reduce using rule 22 (expression -> expression MINUS expression .)
+    LOGOR           reduce using rule 22 (expression -> expression MINUS expression .)
+    LOGAND          reduce using rule 22 (expression -> expression MINUS expression .)
+    ASTERISK        shift and go to state 60
+    DIVIDE          shift and go to state 59
+
+  ! ASTERISK        [ reduce using rule 22 (expression -> expression MINUS expression .) ]
+  ! DIVIDE          [ reduce using rule 22 (expression -> expression MINUS expression .) ]
+  ! PLUS            [ shift and go to state 63 ]
+  ! MINUS           [ shift and go to state 65 ]
+
+
+state 82
+
+    (35) if_stat -> IF LPAREN b_expression RPAREN LBRACE . function_content RBRACE
+    (36) if_stat -> IF LPAREN b_expression RPAREN LBRACE . function_content RBRACE elsepart
+    (2) function_content -> . assignment_statement
+    (3) function_content -> . while_stat
+    (4) function_content -> . if_stat
+    (5) function_content -> . assignment_statement function_content
+    (6) function_content -> . while_stat function_content
+    (7) function_content -> . if_stat function_content
+    (8) function_content -> . declaration
+    (9) function_content -> . declaration function_content
+    (17) assignment_statement -> . ID EQUAL expression SEMICOLON
+    (18) assignment_statement -> . LEFT EQUAL expression SEMICOLON
+    (33) while_stat -> . WHILE LPAREN b_expression RPAREN LBRACE function_content RBRACE
+    (34) while_stat -> . WHILE LPAREN b_expression RPAREN assignment_statement
+    (35) if_stat -> . IF LPAREN b_expression RPAREN LBRACE function_content RBRACE
+    (36) if_stat -> . IF LPAREN b_expression RPAREN LBRACE function_content RBRACE elsepart
+    (37) if_stat -> . IF LPAREN b_expression RPAREN assignment_statement
+    (38) if_stat -> . IF LPAREN b_expression RPAREN assignment_statement elsepart
+    (10) declaration -> . INT varlist SEMICOLON
+    (19) ID -> . NAME
+    (20) LEFT -> . ASTERISK var
+
+    WHILE           shift and go to state 8
+    IF              shift and go to state 15
+    INT             shift and go to state 18
+    NAME            shift and go to state 7
+    ASTERISK        shift and go to state 12
+
+    function_content               shift and go to state 85
+    while_stat                     shift and go to state 17
+    if_stat                        shift and go to state 11
+    assignment_statement           shift and go to state 9
+    declaration                    shift and go to state 13
+    ID                             shift and go to state 14
+    LEFT                           shift and go to state 10
+
+state 83
+
+    (37) if_stat -> IF LPAREN b_expression RPAREN assignment_statement .
+    (38) if_stat -> IF LPAREN b_expression RPAREN assignment_statement . elsepart
+    (39) elsepart -> . elif
+    (40) elsepart -> . else
+    (41) elif -> . ELSE if_stat
+    (42) else -> . ELSE assignment_statement
+    (43) else -> . ELSE LBRACE function_content RBRACE
+
+    WHILE           reduce using rule 37 (if_stat -> IF LPAREN b_expression RPAREN assignment_statement .)
+    IF              reduce using rule 37 (if_stat -> IF LPAREN b_expression RPAREN assignment_statement .)
+    INT             reduce using rule 37 (if_stat -> IF LPAREN b_expression RPAREN assignment_statement .)
+    NAME            reduce using rule 37 (if_stat -> IF LPAREN b_expression RPAREN assignment_statement .)
+    ASTERISK        reduce using rule 37 (if_stat -> IF LPAREN b_expression RPAREN assignment_statement .)
+    RBRACE          reduce using rule 37 (if_stat -> IF LPAREN b_expression RPAREN assignment_statement .)
+    ELSE            shift and go to state 89
+
+    elif                           shift and go to state 86
+    else                           shift and go to state 87
+    elsepart                       shift and go to state 88
+
+state 84
+
+    (33) while_stat -> WHILE LPAREN b_expression RPAREN LBRACE function_content . RBRACE
+
+    RBRACE          shift and go to state 90
+
+
+state 85
+
+    (35) if_stat -> IF LPAREN b_expression RPAREN LBRACE function_content . RBRACE
+    (36) if_stat -> IF LPAREN b_expression RPAREN LBRACE function_content . RBRACE elsepart
+
+    RBRACE          shift and go to state 91
+
+
+state 86
+
+    (39) elsepart -> elif .
+
+    WHILE           reduce using rule 39 (elsepart -> elif .)
+    IF              reduce using rule 39 (elsepart -> elif .)
+    INT             reduce using rule 39 (elsepart -> elif .)
+    NAME            reduce using rule 39 (elsepart -> elif .)
+    ASTERISK        reduce using rule 39 (elsepart -> elif .)
+    RBRACE          reduce using rule 39 (elsepart -> elif .)
+
+
+state 87
+
+    (40) elsepart -> else .
+
+    WHILE           reduce using rule 40 (elsepart -> else .)
+    IF              reduce using rule 40 (elsepart -> else .)
+    INT             reduce using rule 40 (elsepart -> else .)
+    NAME            reduce using rule 40 (elsepart -> else .)
+    ASTERISK        reduce using rule 40 (elsepart -> else .)
+    RBRACE          reduce using rule 40 (elsepart -> else .)
+
+
+state 88
+
+    (38) if_stat -> IF LPAREN b_expression RPAREN assignment_statement elsepart .
+
+    WHILE           reduce using rule 38 (if_stat -> IF LPAREN b_expression RPAREN assignment_statement elsepart .)
+    IF              reduce using rule 38 (if_stat -> IF LPAREN b_expression RPAREN assignment_statement elsepart .)
+    INT             reduce using rule 38 (if_stat -> IF LPAREN b_expression RPAREN assignment_statement elsepart .)
+    NAME            reduce using rule 38 (if_stat -> IF LPAREN b_expression RPAREN assignment_statement elsepart .)
+    ASTERISK        reduce using rule 38 (if_stat -> IF LPAREN b_expression RPAREN assignment_statement elsepart .)
+    RBRACE          reduce using rule 38 (if_stat -> IF LPAREN b_expression RPAREN assignment_statement elsepart .)
+
+
+state 89
+
+    (41) elif -> ELSE . if_stat
+    (42) else -> ELSE . assignment_statement
+    (43) else -> ELSE . LBRACE function_content RBRACE
+    (35) if_stat -> . IF LPAREN b_expression RPAREN LBRACE function_content RBRACE
+    (36) if_stat -> . IF LPAREN b_expression RPAREN LBRACE function_content RBRACE elsepart
+    (37) if_stat -> . IF LPAREN b_expression RPAREN assignment_statement
+    (38) if_stat -> . IF LPAREN b_expression RPAREN assignment_statement elsepart
+    (17) assignment_statement -> . ID EQUAL expression SEMICOLON
+    (18) assignment_statement -> . LEFT EQUAL expression SEMICOLON
+    (19) ID -> . NAME
+    (20) LEFT -> . ASTERISK var
+
+    LBRACE          shift and go to state 92
+    IF              shift and go to state 15
+    NAME            shift and go to state 7
+    ASTERISK        shift and go to state 12
+
+    if_stat                        shift and go to state 93
+    assignment_statement           shift and go to state 94
+    ID                             shift and go to state 14
+    LEFT                           shift and go to state 10
+
+state 90
+
+    (33) while_stat -> WHILE LPAREN b_expression RPAREN LBRACE function_content RBRACE .
+
+    WHILE           reduce using rule 33 (while_stat -> WHILE LPAREN b_expression RPAREN LBRACE function_content RBRACE .)
+    IF              reduce using rule 33 (while_stat -> WHILE LPAREN b_expression RPAREN LBRACE function_content RBRACE .)
+    INT             reduce using rule 33 (while_stat -> WHILE LPAREN b_expression RPAREN LBRACE function_content RBRACE .)
+    NAME            reduce using rule 33 (while_stat -> WHILE LPAREN b_expression RPAREN LBRACE function_content RBRACE .)
+    ASTERISK        reduce using rule 33 (while_stat -> WHILE LPAREN b_expression RPAREN LBRACE function_content RBRACE .)
+    RBRACE          reduce using rule 33 (while_stat -> WHILE LPAREN b_expression RPAREN LBRACE function_content RBRACE .)
+
+
+state 91
+
+    (35) if_stat -> IF LPAREN b_expression RPAREN LBRACE function_content RBRACE .
+    (36) if_stat -> IF LPAREN b_expression RPAREN LBRACE function_content RBRACE . elsepart
+    (39) elsepart -> . elif
+    (40) elsepart -> . else
+    (41) elif -> . ELSE if_stat
+    (42) else -> . ELSE assignment_statement
+    (43) else -> . ELSE LBRACE function_content RBRACE
+
+    WHILE           reduce using rule 35 (if_stat -> IF LPAREN b_expression RPAREN LBRACE function_content RBRACE .)
+    IF              reduce using rule 35 (if_stat -> IF LPAREN b_expression RPAREN LBRACE function_content RBRACE .)
+    INT             reduce using rule 35 (if_stat -> IF LPAREN b_expression RPAREN LBRACE function_content RBRACE .)
+    NAME            reduce using rule 35 (if_stat -> IF LPAREN b_expression RPAREN LBRACE function_content RBRACE .)
+    ASTERISK        reduce using rule 35 (if_stat -> IF LPAREN b_expression RPAREN LBRACE function_content RBRACE .)
+    RBRACE          reduce using rule 35 (if_stat -> IF LPAREN b_expression RPAREN LBRACE function_content RBRACE .)
+    ELSE            shift and go to state 89
+
+    elif                           shift and go to state 86
+    else                           shift and go to state 87
+    elsepart                       shift and go to state 95
+
+state 92
+
+    (43) else -> ELSE LBRACE . function_content RBRACE
+    (2) function_content -> . assignment_statement
+    (3) function_content -> . while_stat
+    (4) function_content -> . if_stat
+    (5) function_content -> . assignment_statement function_content
+    (6) function_content -> . while_stat function_content
+    (7) function_content -> . if_stat function_content
+    (8) function_content -> . declaration
+    (9) function_content -> . declaration function_content
+    (17) assignment_statement -> . ID EQUAL expression SEMICOLON
+    (18) assignment_statement -> . LEFT EQUAL expression SEMICOLON
+    (33) while_stat -> . WHILE LPAREN b_expression RPAREN LBRACE function_content RBRACE
+    (34) while_stat -> . WHILE LPAREN b_expression RPAREN assignment_statement
+    (35) if_stat -> . IF LPAREN b_expression RPAREN LBRACE function_content RBRACE
+    (36) if_stat -> . IF LPAREN b_expression RPAREN LBRACE function_content RBRACE elsepart
+    (37) if_stat -> . IF LPAREN b_expression RPAREN assignment_statement
+    (38) if_stat -> . IF LPAREN b_expression RPAREN assignment_statement elsepart
+    (10) declaration -> . INT varlist SEMICOLON
+    (19) ID -> . NAME
+    (20) LEFT -> . ASTERISK var
+
+    WHILE           shift and go to state 8
+    IF              shift and go to state 15
+    INT             shift and go to state 18
+    NAME            shift and go to state 7
+    ASTERISK        shift and go to state 12
+
+    function_content               shift and go to state 96
+    while_stat                     shift and go to state 17
+    if_stat                        shift and go to state 11
+    assignment_statement           shift and go to state 9
+    declaration                    shift and go to state 13
+    ID                             shift and go to state 14
+    LEFT                           shift and go to state 10
+
+state 93
+
+    (41) elif -> ELSE if_stat .
+
+    WHILE           reduce using rule 41 (elif -> ELSE if_stat .)
+    IF              reduce using rule 41 (elif -> ELSE if_stat .)
+    INT             reduce using rule 41 (elif -> ELSE if_stat .)
+    NAME            reduce using rule 41 (elif -> ELSE if_stat .)
+    ASTERISK        reduce using rule 41 (elif -> ELSE if_stat .)
+    RBRACE          reduce using rule 41 (elif -> ELSE if_stat .)
+
+
+state 94
+
+    (42) else -> ELSE assignment_statement .
+
+    WHILE           reduce using rule 42 (else -> ELSE assignment_statement .)
+    IF              reduce using rule 42 (else -> ELSE assignment_statement .)
+    INT             reduce using rule 42 (else -> ELSE assignment_statement .)
+    NAME            reduce using rule 42 (else -> ELSE assignment_statement .)
+    ASTERISK        reduce using rule 42 (else -> ELSE assignment_statement .)
+    RBRACE          reduce using rule 42 (else -> ELSE assignment_statement .)
+
+
+state 95
+
+    (36) if_stat -> IF LPAREN b_expression RPAREN LBRACE function_content RBRACE elsepart .
+
+    WHILE           reduce using rule 36 (if_stat -> IF LPAREN b_expression RPAREN LBRACE function_content RBRACE elsepart .)
+    IF              reduce using rule 36 (if_stat -> IF LPAREN b_expression RPAREN LBRACE function_content RBRACE elsepart .)
+    INT             reduce using rule 36 (if_stat -> IF LPAREN b_expression RPAREN LBRACE function_content RBRACE elsepart .)
+    NAME            reduce using rule 36 (if_stat -> IF LPAREN b_expression RPAREN LBRACE function_content RBRACE elsepart .)
+    ASTERISK        reduce using rule 36 (if_stat -> IF LPAREN b_expression RPAREN LBRACE function_content RBRACE elsepart .)
+    RBRACE          reduce using rule 36 (if_stat -> IF LPAREN b_expression RPAREN LBRACE function_content RBRACE elsepart .)
+
+
+state 96
+
+    (43) else -> ELSE LBRACE function_content . RBRACE
+
+    RBRACE          shift and go to state 97
+
+
+state 97
+
+    (43) else -> ELSE LBRACE function_content RBRACE .
+
+    WHILE           reduce using rule 43 (else -> ELSE LBRACE function_content RBRACE .)
+    IF              reduce using rule 43 (else -> ELSE LBRACE function_content RBRACE .)
+    INT             reduce using rule 43 (else -> ELSE LBRACE function_content RBRACE .)
+    NAME            reduce using rule 43 (else -> ELSE LBRACE function_content RBRACE .)
+    ASTERISK        reduce using rule 43 (else -> ELSE LBRACE function_content RBRACE .)
+    RBRACE          reduce using rule 43 (else -> ELSE LBRACE function_content RBRACE .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for LOGOR in state 75 resolved as shift
+WARNING: shift/reduce conflict for LOGAND in state 75 resolved as shift

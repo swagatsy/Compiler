@@ -1,0 +1,61 @@
+ASGN
+(
+	DEREF
+	(
+		VAR(a)
+	)
+	,
+	CONST(5)
+)
+
+IF
+(
+	LT
+	(
+		CONST(5)
+		,
+		CONST(66)
+	)
+	,
+	IF
+	(
+		LT
+		(
+			CONST(3)
+			,
+			CONST(3)
+		)
+		,
+		ASGN
+		(
+			DEREF
+			(
+				VAR(a)
+			)
+			,
+			CONST(4)
+		)
+	)
+	,
+	ASGN
+	(
+		DEREF
+		(
+			VAR(a)
+		)
+		,
+		CONST(5)
+	)
+)
+
+ASGN
+(
+	DEREF
+	(
+		VAR(a)
+	)
+	,
+	CONST(54)
+)
+
+

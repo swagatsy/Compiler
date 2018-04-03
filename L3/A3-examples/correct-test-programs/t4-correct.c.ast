@@ -1,0 +1,21 @@
+
+IF
+(
+	NE
+	(
+		CONST(23)
+		,
+		CONST(67)
+	)
+	,
+	ASGN
+	(
+		DEREF
+		(
+			VAR(f1)
+		)
+		,
+		CONST(5)
+	)
+
+)

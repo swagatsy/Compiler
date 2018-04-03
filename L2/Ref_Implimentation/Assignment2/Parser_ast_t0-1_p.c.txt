@@ -1,0 +1,39 @@
+ASGN
+(
+	DEREF
+	(
+		VAR(i1)
+	)
+	,
+	MINUS
+	(
+		UMINUS
+		(
+			DEREF
+			(
+				VAR(i1)
+			)
+		)
+		,
+		DEREF
+		(
+			VAR(i2)
+		)
+	)
+)
+
+ASGN
+(
+	DEREF
+	(
+		VAR(l)
+	)
+	,
+	PLUS
+	(
+		CONST(2)
+		,
+		VAR(a)
+	)
+)
+

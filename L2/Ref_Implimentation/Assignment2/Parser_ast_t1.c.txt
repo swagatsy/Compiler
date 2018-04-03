@@ -1,0 +1,10 @@
+ASGN
+(
+	DEREF
+	(
+		VAR(a)
+	)
+	,
+	CONST(5)
+)
+

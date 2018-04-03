@@ -1,0 +1,31 @@
+
+FUNCTION func1
+PARAMS (int *a, int *aint *b)
+RETURNS *int
+	IF
+	(
+		EQ
+		(
+			DEREF
+			(
+				VAR(b)
+			)
+			,
+			CONST(32)
+		)
+		,
+		ASGN
+		(
+			DEREF
+			(
+				VAR(var1)
+			)
+			,
+			CONST(3.0)
+		)
+
+	)
+RETURN 
+(
+	VAR(a)
+)

@@ -1,0 +1,19 @@
+ASGN
+(
+	DEREF
+	(
+		VAR(d)
+	)
+	,
+	MUL
+	(
+		UMINUS
+		(
+			VAR(a)
+		)
+		,
+		CONST(2)
+	)
+)
+
+

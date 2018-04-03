@@ -1,0 +1,4 @@
+Procedure table :-
+-----------------------------------------------------------------
+Name		|	Return Type  |  Parameter List
+func1		|	int*		|	int *x, int *xint *y

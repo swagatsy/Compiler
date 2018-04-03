@@ -1,0 +1,2454 @@
+Created by PLY version 3.10 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    IFX
+    UMINUS
+    NEWLINE
+
+Grammar
+
+Rule 0     S' -> cprog
+Rule 1     cprog -> VOID MAIN arguments main_body
+Rule 2     arguments -> LPAREN params RPAREN
+Rule 3     arguments -> LPAREN RPAREN
+Rule 4     params -> NAME varlist
+Rule 5     main_body -> LBRACE stmt_list RBRACE
+Rule 6     stmt_list -> stmt stmt_list
+Rule 7     stmt_list -> stmt
+Rule 8     stmt -> type varlist SEMICOLON
+Rule 9     stmt -> assignlist SEMICOLON
+Rule 10    stmt -> selection_stmt
+Rule 11    stmt -> iteration_stmt
+Rule 12    assignlist -> assignstmt COMMA assignlist
+Rule 13    assignlist -> assignstmt
+Rule 14    assignstmt -> starname EQUALS expression
+Rule 15    assignstmt -> name EQUALS expression
+Rule 16    expression -> expression PLUS expression
+Rule 17    expression -> expression MINUS expression
+Rule 18    expression -> expression DIVIDE expression
+Rule 19    expression -> expression ASTERISK expression
+Rule 20    expression -> expression PERCENTAGE expression
+Rule 21    expression -> starname
+Rule 22    expression -> andname
+Rule 23    expression -> name
+Rule 24    expression -> number
+Rule 25    expression -> LPAREN expression RPAREN
+Rule 26    type -> INT
+Rule 27    starname -> ASTERISK name
+Rule 28    andname -> AMPERSAND name
+Rule 29    number -> NUMBER
+Rule 30    name -> NAME
+Rule 31    var -> NAME
+Rule 32    var1 -> starname
+Rule 33    var1 -> ASTERISK var1
+Rule 34    varlist -> var COMMA varlist
+Rule 35    varlist -> var1 COMMA varlist
+Rule 36    varlist -> var
+Rule 37    varlist -> var1
+Rule 38    expression -> MINUS expression
+Rule 39    iteration_stmt -> WHILE LPAREN condition_expression RPAREN brace_stmt
+Rule 40    brace_stmt -> stmt
+Rule 41    brace_stmt -> LBRACE stmt_list RBRACE
+Rule 42    selection_stmt -> IF LPAREN condition_expression RPAREN brace_stmt
+Rule 43    selection_stmt -> IF LPAREN condition_expression RPAREN brace_stmt ELSE brace_stmt
+Rule 44    condition_expression -> assign_expr
+Rule 45    assign_expr -> cond_expr
+Rule 46    cond_expr -> log_or_expr
+Rule 47    log_or_expr -> log_and_expr
+Rule 48    log_and_expr -> incl_or_expr
+Rule 49    log_and_expr -> log_and_expr AMPERSAND AMPERSAND incl_or_expr
+Rule 50    log_and_expr -> log_and_expr EQUALS EQUALS incl_or_expr
+Rule 51    incl_or_expr -> excl_or_expr
+Rule 52    excl_or_expr -> and_expr
+Rule 53    and_expr -> eq_expr
+Rule 54    eq_expr -> rel_expr
+Rule 55    rel_expr -> shift_expr
+Rule 56    rel_expr -> rel_expr EXCLAIM EQUALS shift_expr
+Rule 57    rel_expr -> rel_expr LTHAN shift_expr
+Rule 58    rel_expr -> rel_expr GTHAN shift_expr
+Rule 59    rel_expr -> rel_expr lthanequal shift_expr
+Rule 60    rel_expr -> rel_expr gthanequal shift_expr
+Rule 61    lthanequal -> LTHAN EQUALS
+Rule 62    gthanequal -> GTHAN EQUALS
+Rule 63    shift_expr -> additive_expr
+Rule 64    additive_expr -> multiplicative_expr
+Rule 65    additive_expr -> additive_expr PLUS multiplicative_expr
+Rule 66    additive_expr -> additive_expr MINUS multiplicative_expr
+Rule 67    multiplicative_expr -> cast_expr
+Rule 68    cast_expr -> expression
+
+Terminals, with rules where they appear
+
+AMPERSAND            : 28 49 49
+ASTERISK             : 19 27 33
+COMMA                : 12 34 35
+DIVIDE               : 18
+ELSE                 : 43
+EQUALS               : 14 15 50 50 56 61 62
+EXCLAIM              : 56
+GTHAN                : 58 62
+IF                   : 42 43
+IFX                  : 
+INT                  : 26
+LBRACE               : 5 41
+LPAREN               : 2 3 25 39 42 43
+LTHAN                : 57 61
+MAIN                 : 1
+MINUS                : 17 38 66
+NAME                 : 4 30 31
+NEWLINE              : 
+NUMBER               : 29
+PERCENTAGE           : 20
+PLUS                 : 16 65
+RBRACE               : 5 41
+RPAREN               : 2 3 25 39 42 43
+SEMICOLON            : 8 9
+UMINUS               : 
+VOID                 : 1
+WHILE                : 39
+error                : 
+
+Nonterminals, with rules where they appear
+
+additive_expr        : 63 65 66
+and_expr             : 52
+andname              : 22
+arguments            : 1
+assign_expr          : 44
+assignlist           : 9 12
+assignstmt           : 12 13
+brace_stmt           : 39 42 43 43
+cast_expr            : 67
+cond_expr            : 45
+condition_expression : 39 42 43
+cprog                : 0
+eq_expr              : 53
+excl_or_expr         : 51
+expression           : 14 15 16 16 17 17 18 18 19 19 20 20 25 38 68
+gthanequal           : 60
+incl_or_expr         : 48 49 50
+iteration_stmt       : 11
+log_and_expr         : 47 49 50
+log_or_expr          : 46
+lthanequal           : 59
+main_body            : 1
+multiplicative_expr  : 64 65 66
+name                 : 15 23 27 28
+number               : 24
+params               : 2
+rel_expr             : 54 56 57 58 59 60
+selection_stmt       : 10
+shift_expr           : 55 56 57 58 59 60
+starname             : 14 21 32
+stmt                 : 6 7 40
+stmt_list            : 5 6 41
+type                 : 8
+var                  : 34 36
+var1                 : 33 35 37
+varlist              : 4 8 34 35
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . cprog
+    (1) cprog -> . VOID MAIN arguments main_body
+
+    VOID            shift and go to state 1
+
+    cprog                          shift and go to state 2
+
+state 1
+
+    (1) cprog -> VOID . MAIN arguments main_body
+
+    MAIN            shift and go to state 3
+
+
+state 2
+
+    (0) S' -> cprog .
+
+
+
+state 3
+
+    (1) cprog -> VOID MAIN . arguments main_body
+    (2) arguments -> . LPAREN params RPAREN
+    (3) arguments -> . LPAREN RPAREN
+
+    LPAREN          shift and go to state 5
+
+    arguments                      shift and go to state 4
+
+state 4
+
+    (1) cprog -> VOID MAIN arguments . main_body
+    (5) main_body -> . LBRACE stmt_list RBRACE
+
+    LBRACE          shift and go to state 6
+
+    main_body                      shift and go to state 7
+
+state 5
+
+    (2) arguments -> LPAREN . params RPAREN
+    (3) arguments -> LPAREN . RPAREN
+    (4) params -> . NAME varlist
+
+    RPAREN          shift and go to state 8
+    NAME            shift and go to state 10
+
+    params                         shift and go to state 9
+
+state 6
+
+    (5) main_body -> LBRACE . stmt_list RBRACE
+    (6) stmt_list -> . stmt stmt_list
+    (7) stmt_list -> . stmt
+    (8) stmt -> . type varlist SEMICOLON
+    (9) stmt -> . assignlist SEMICOLON
+    (10) stmt -> . selection_stmt
+    (11) stmt -> . iteration_stmt
+    (26) type -> . INT
+    (12) assignlist -> . assignstmt COMMA assignlist
+    (13) assignlist -> . assignstmt
+    (42) selection_stmt -> . IF LPAREN condition_expression RPAREN brace_stmt
+    (43) selection_stmt -> . IF LPAREN condition_expression RPAREN brace_stmt ELSE brace_stmt
+    (39) iteration_stmt -> . WHILE LPAREN condition_expression RPAREN brace_stmt
+    (14) assignstmt -> . starname EQUALS expression
+    (15) assignstmt -> . name EQUALS expression
+    (27) starname -> . ASTERISK name
+    (30) name -> . NAME
+
+    INT             shift and go to state 24
+    IF              shift and go to state 21
+    WHILE           shift and go to state 12
+    ASTERISK        shift and go to state 18
+    NAME            shift and go to state 11
+
+    stmt_list                      shift and go to state 22
+    assignlist                     shift and go to state 23
+    starname                       shift and go to state 14
+    stmt                           shift and go to state 19
+    assignstmt                     shift and go to state 20
+    iteration_stmt                 shift and go to state 13
+    selection_stmt                 shift and go to state 16
+    type                           shift and go to state 17
+    name                           shift and go to state 15
+
+state 7
+
+    (1) cprog -> VOID MAIN arguments main_body .
+
+    $end            reduce using rule 1 (cprog -> VOID MAIN arguments main_body .)
+
+
+state 8
+
+    (3) arguments -> LPAREN RPAREN .
+
+    LBRACE          reduce using rule 3 (arguments -> LPAREN RPAREN .)
+
+
+state 9
+
+    (2) arguments -> LPAREN params . RPAREN
+
+    RPAREN          shift and go to state 25
+
+
+state 10
+
+    (4) params -> NAME . varlist
+    (34) varlist -> . var COMMA varlist
+    (35) varlist -> . var1 COMMA varlist
+    (36) varlist -> . var
+    (37) varlist -> . var1
+    (31) var -> . NAME
+    (32) var1 -> . starname
+    (33) var1 -> . ASTERISK var1
+    (27) starname -> . ASTERISK name
+
+    NAME            shift and go to state 27
+    ASTERISK        shift and go to state 30
+
+    varlist                        shift and go to state 28
+    var                            shift and go to state 31
+    var1                           shift and go to state 26
+    starname                       shift and go to state 29
+
+state 11
+
+    (30) name -> NAME .
+
+    PLUS            reduce using rule 30 (name -> NAME .)
+    MINUS           reduce using rule 30 (name -> NAME .)
+    DIVIDE          reduce using rule 30 (name -> NAME .)
+    ASTERISK        reduce using rule 30 (name -> NAME .)
+    PERCENTAGE      reduce using rule 30 (name -> NAME .)
+    EXCLAIM         reduce using rule 30 (name -> NAME .)
+    LTHAN           reduce using rule 30 (name -> NAME .)
+    GTHAN           reduce using rule 30 (name -> NAME .)
+    AMPERSAND       reduce using rule 30 (name -> NAME .)
+    EQUALS          reduce using rule 30 (name -> NAME .)
+    RPAREN          reduce using rule 30 (name -> NAME .)
+    COMMA           reduce using rule 30 (name -> NAME .)
+    SEMICOLON       reduce using rule 30 (name -> NAME .)
+
+
+state 12
+
+    (39) iteration_stmt -> WHILE . LPAREN condition_expression RPAREN brace_stmt
+
+    LPAREN          shift and go to state 32
+
+
+state 13
+
+    (11) stmt -> iteration_stmt .
+
+    INT             reduce using rule 11 (stmt -> iteration_stmt .)
+    IF              reduce using rule 11 (stmt -> iteration_stmt .)
+    WHILE           reduce using rule 11 (stmt -> iteration_stmt .)
+    ASTERISK        reduce using rule 11 (stmt -> iteration_stmt .)
+    NAME            reduce using rule 11 (stmt -> iteration_stmt .)
+    RBRACE          reduce using rule 11 (stmt -> iteration_stmt .)
+    ELSE            reduce using rule 11 (stmt -> iteration_stmt .)
+
+
+state 14
+
+    (14) assignstmt -> starname . EQUALS expression
+
+    EQUALS          shift and go to state 33
+
+
+state 15
+
+    (15) assignstmt -> name . EQUALS expression
+
+    EQUALS          shift and go to state 34
+
+
+state 16
+
+    (10) stmt -> selection_stmt .
+
+    INT             reduce using rule 10 (stmt -> selection_stmt .)
+    IF              reduce using rule 10 (stmt -> selection_stmt .)
+    WHILE           reduce using rule 10 (stmt -> selection_stmt .)
+    ASTERISK        reduce using rule 10 (stmt -> selection_stmt .)
+    NAME            reduce using rule 10 (stmt -> selection_stmt .)
+    RBRACE          reduce using rule 10 (stmt -> selection_stmt .)
+    ELSE            reduce using rule 10 (stmt -> selection_stmt .)
+
+
+state 17
+
+    (8) stmt -> type . varlist SEMICOLON
+    (34) varlist -> . var COMMA varlist
+    (35) varlist -> . var1 COMMA varlist
+    (36) varlist -> . var
+    (37) varlist -> . var1
+    (31) var -> . NAME
+    (32) var1 -> . starname
+    (33) var1 -> . ASTERISK var1
+    (27) starname -> . ASTERISK name
+
+    NAME            shift and go to state 27
+    ASTERISK        shift and go to state 30
+
+    var1                           shift and go to state 26
+    varlist                        shift and go to state 35
+    starname                       shift and go to state 29
+    var                            shift and go to state 31
+
+state 18
+
+    (27) starname -> ASTERISK . name
+    (30) name -> . NAME
+
+    NAME            shift and go to state 11
+
+    name                           shift and go to state 36
+
+state 19
+
+    (6) stmt_list -> stmt . stmt_list
+    (7) stmt_list -> stmt .
+    (6) stmt_list -> . stmt stmt_list
+    (7) stmt_list -> . stmt
+    (8) stmt -> . type varlist SEMICOLON
+    (9) stmt -> . assignlist SEMICOLON
+    (10) stmt -> . selection_stmt
+    (11) stmt -> . iteration_stmt
+    (26) type -> . INT
+    (12) assignlist -> . assignstmt COMMA assignlist
+    (13) assignlist -> . assignstmt
+    (42) selection_stmt -> . IF LPAREN condition_expression RPAREN brace_stmt
+    (43) selection_stmt -> . IF LPAREN condition_expression RPAREN brace_stmt ELSE brace_stmt
+    (39) iteration_stmt -> . WHILE LPAREN condition_expression RPAREN brace_stmt
+    (14) assignstmt -> . starname EQUALS expression
+    (15) assignstmt -> . name EQUALS expression
+    (27) starname -> . ASTERISK name
+    (30) name -> . NAME
+
+    RBRACE          reduce using rule 7 (stmt_list -> stmt .)
+    INT             shift and go to state 24
+    IF              shift and go to state 21
+    WHILE           shift and go to state 12
+    ASTERISK        shift and go to state 18
+    NAME            shift and go to state 11
+
+    stmt_list                      shift and go to state 37
+    assignlist                     shift and go to state 23
+    starname                       shift and go to state 14
+    stmt                           shift and go to state 19
+    assignstmt                     shift and go to state 20
+    iteration_stmt                 shift and go to state 13
+    selection_stmt                 shift and go to state 16
+    type                           shift and go to state 17
+    name                           shift and go to state 15
+
+state 20
+
+    (12) assignlist -> assignstmt . COMMA assignlist
+    (13) assignlist -> assignstmt .
+
+    COMMA           shift and go to state 38
+    SEMICOLON       reduce using rule 13 (assignlist -> assignstmt .)
+
+
+state 21
+
+    (42) selection_stmt -> IF . LPAREN condition_expression RPAREN brace_stmt
+    (43) selection_stmt -> IF . LPAREN condition_expression RPAREN brace_stmt ELSE brace_stmt
+
+    LPAREN          shift and go to state 39
+
+
+state 22
+
+    (5) main_body -> LBRACE stmt_list . RBRACE
+
+    RBRACE          shift and go to state 40
+
+
+state 23
+
+    (9) stmt -> assignlist . SEMICOLON
+
+    SEMICOLON       shift and go to state 41
+
+
+state 24
+
+    (26) type -> INT .
+
+    NAME            reduce using rule 26 (type -> INT .)
+    ASTERISK        reduce using rule 26 (type -> INT .)
+
+
+state 25
+
+    (2) arguments -> LPAREN params RPAREN .
+
+    LBRACE          reduce using rule 2 (arguments -> LPAREN params RPAREN .)
+
+
+state 26
+
+    (35) varlist -> var1 . COMMA varlist
+    (37) varlist -> var1 .
+
+    COMMA           shift and go to state 42
+    RPAREN          reduce using rule 37 (varlist -> var1 .)
+    SEMICOLON       reduce using rule 37 (varlist -> var1 .)
+
+
+state 27
+
+    (31) var -> NAME .
+
+    COMMA           reduce using rule 31 (var -> NAME .)
+    SEMICOLON       reduce using rule 31 (var -> NAME .)
+    RPAREN          reduce using rule 31 (var -> NAME .)
+
+
+state 28
+
+    (4) params -> NAME varlist .
+
+    RPAREN          reduce using rule 4 (params -> NAME varlist .)
+
+
+state 29
+
+    (32) var1 -> starname .
+
+    COMMA           reduce using rule 32 (var1 -> starname .)
+    SEMICOLON       reduce using rule 32 (var1 -> starname .)
+    RPAREN          reduce using rule 32 (var1 -> starname .)
+
+
+state 30
+
+    (33) var1 -> ASTERISK . var1
+    (27) starname -> ASTERISK . name
+    (32) var1 -> . starname
+    (33) var1 -> . ASTERISK var1
+    (30) name -> . NAME
+    (27) starname -> . ASTERISK name
+
+    ASTERISK        shift and go to state 30
+    NAME            shift and go to state 11
+
+    starname                       shift and go to state 29
+    var1                           shift and go to state 43
+    name                           shift and go to state 36
+
+state 31
+
+    (34) varlist -> var . COMMA varlist
+    (36) varlist -> var .
+
+    COMMA           shift and go to state 44
+    RPAREN          reduce using rule 36 (varlist -> var .)
+    SEMICOLON       reduce using rule 36 (varlist -> var .)
+
+
+state 32
+
+    (39) iteration_stmt -> WHILE LPAREN . condition_expression RPAREN brace_stmt
+    (44) condition_expression -> . assign_expr
+    (45) assign_expr -> . cond_expr
+    (46) cond_expr -> . log_or_expr
+    (47) log_or_expr -> . log_and_expr
+    (48) log_and_expr -> . incl_or_expr
+    (49) log_and_expr -> . log_and_expr AMPERSAND AMPERSAND incl_or_expr
+    (50) log_and_expr -> . log_and_expr EQUALS EQUALS incl_or_expr
+    (51) incl_or_expr -> . excl_or_expr
+    (52) excl_or_expr -> . and_expr
+    (53) and_expr -> . eq_expr
+    (54) eq_expr -> . rel_expr
+    (55) rel_expr -> . shift_expr
+    (56) rel_expr -> . rel_expr EXCLAIM EQUALS shift_expr
+    (57) rel_expr -> . rel_expr LTHAN shift_expr
+    (58) rel_expr -> . rel_expr GTHAN shift_expr
+    (59) rel_expr -> . rel_expr lthanequal shift_expr
+    (60) rel_expr -> . rel_expr gthanequal shift_expr
+    (63) shift_expr -> . additive_expr
+    (64) additive_expr -> . multiplicative_expr
+    (65) additive_expr -> . additive_expr PLUS multiplicative_expr
+    (66) additive_expr -> . additive_expr MINUS multiplicative_expr
+    (67) multiplicative_expr -> . cast_expr
+    (68) cast_expr -> . expression
+    (16) expression -> . expression PLUS expression
+    (17) expression -> . expression MINUS expression
+    (18) expression -> . expression DIVIDE expression
+    (19) expression -> . expression ASTERISK expression
+    (20) expression -> . expression PERCENTAGE expression
+    (21) expression -> . starname
+    (22) expression -> . andname
+    (23) expression -> . name
+    (24) expression -> . number
+    (25) expression -> . LPAREN expression RPAREN
+    (38) expression -> . MINUS expression
+    (27) starname -> . ASTERISK name
+    (28) andname -> . AMPERSAND name
+    (30) name -> . NAME
+    (29) number -> . NUMBER
+
+    LPAREN          shift and go to state 59
+    MINUS           shift and go to state 49
+    ASTERISK        shift and go to state 18
+    AMPERSAND       shift and go to state 58
+    NAME            shift and go to state 11
+    NUMBER          shift and go to state 56
+
+    cond_expr                      shift and go to state 45
+    number                         shift and go to state 46
+    condition_expression           shift and go to state 47
+    andname                        shift and go to state 48
+    cast_expr                      shift and go to state 60
+    starname                       shift and go to state 50
+    shift_expr                     shift and go to state 51
+    multiplicative_expr            shift and go to state 52
+    assign_expr                    shift and go to state 53
+    and_expr                       shift and go to state 54
+    log_and_expr                   shift and go to state 55
+    eq_expr                        shift and go to state 57
+    name                           shift and go to state 61
+    rel_expr                       shift and go to state 62
+    excl_or_expr                   shift and go to state 67
+    incl_or_expr                   shift and go to state 65
+    additive_expr                  shift and go to state 63
+    log_or_expr                    shift and go to state 66
+    expression                     shift and go to state 64
+
+state 33
+
+    (14) assignstmt -> starname EQUALS . expression
+    (16) expression -> . expression PLUS expression
+    (17) expression -> . expression MINUS expression
+    (18) expression -> . expression DIVIDE expression
+    (19) expression -> . expression ASTERISK expression
+    (20) expression -> . expression PERCENTAGE expression
+    (21) expression -> . starname
+    (22) expression -> . andname
+    (23) expression -> . name
+    (24) expression -> . number
+    (25) expression -> . LPAREN expression RPAREN
+    (38) expression -> . MINUS expression
+    (27) starname -> . ASTERISK name
+    (28) andname -> . AMPERSAND name
+    (30) name -> . NAME
+    (29) number -> . NUMBER
+
+    LPAREN          shift and go to state 59
+    MINUS           shift and go to state 49
+    ASTERISK        shift and go to state 18
+    AMPERSAND       shift and go to state 58
+    NAME            shift and go to state 11
+    NUMBER          shift and go to state 56
+
+    starname                       shift and go to state 50
+    number                         shift and go to state 46
+    expression                     shift and go to state 68
+    name                           shift and go to state 61
+    andname                        shift and go to state 48
+
+state 34
+
+    (15) assignstmt -> name EQUALS . expression
+    (16) expression -> . expression PLUS expression
+    (17) expression -> . expression MINUS expression
+    (18) expression -> . expression DIVIDE expression
+    (19) expression -> . expression ASTERISK expression
+    (20) expression -> . expression PERCENTAGE expression
+    (21) expression -> . starname
+    (22) expression -> . andname
+    (23) expression -> . name
+    (24) expression -> . number
+    (25) expression -> . LPAREN expression RPAREN
+    (38) expression -> . MINUS expression
+    (27) starname -> . ASTERISK name
+    (28) andname -> . AMPERSAND name
+    (30) name -> . NAME
+    (29) number -> . NUMBER
+
+    LPAREN          shift and go to state 59
+    MINUS           shift and go to state 49
+    ASTERISK        shift and go to state 18
+    AMPERSAND       shift and go to state 58
+    NAME            shift and go to state 11
+    NUMBER          shift and go to state 56
+
+    starname                       shift and go to state 50
+    number                         shift and go to state 46
+    expression                     shift and go to state 69
+    name                           shift and go to state 61
+    andname                        shift and go to state 48
+
+state 35
+
+    (8) stmt -> type varlist . SEMICOLON
+
+    SEMICOLON       shift and go to state 70
+
+
+state 36
+
+    (27) starname -> ASTERISK name .
+
+    EQUALS          reduce using rule 27 (starname -> ASTERISK name .)
+    PLUS            reduce using rule 27 (starname -> ASTERISK name .)
+    MINUS           reduce using rule 27 (starname -> ASTERISK name .)
+    DIVIDE          reduce using rule 27 (starname -> ASTERISK name .)
+    ASTERISK        reduce using rule 27 (starname -> ASTERISK name .)
+    PERCENTAGE      reduce using rule 27 (starname -> ASTERISK name .)
+    EXCLAIM         reduce using rule 27 (starname -> ASTERISK name .)
+    LTHAN           reduce using rule 27 (starname -> ASTERISK name .)
+    GTHAN           reduce using rule 27 (starname -> ASTERISK name .)
+    AMPERSAND       reduce using rule 27 (starname -> ASTERISK name .)
+    RPAREN          reduce using rule 27 (starname -> ASTERISK name .)
+    COMMA           reduce using rule 27 (starname -> ASTERISK name .)
+    SEMICOLON       reduce using rule 27 (starname -> ASTERISK name .)
+
+
+state 37
+
+    (6) stmt_list -> stmt stmt_list .
+
+    RBRACE          reduce using rule 6 (stmt_list -> stmt stmt_list .)
+
+
+state 38
+
+    (12) assignlist -> assignstmt COMMA . assignlist
+    (12) assignlist -> . assignstmt COMMA assignlist
+    (13) assignlist -> . assignstmt
+    (14) assignstmt -> . starname EQUALS expression
+    (15) assignstmt -> . name EQUALS expression
+    (27) starname -> . ASTERISK name
+    (30) name -> . NAME
+
+    ASTERISK        shift and go to state 18
+    NAME            shift and go to state 11
+
+    starname                       shift and go to state 14
+    assignlist                     shift and go to state 71
+    name                           shift and go to state 15
+    assignstmt                     shift and go to state 20
+
+state 39
+
+    (42) selection_stmt -> IF LPAREN . condition_expression RPAREN brace_stmt
+    (43) selection_stmt -> IF LPAREN . condition_expression RPAREN brace_stmt ELSE brace_stmt
+    (44) condition_expression -> . assign_expr
+    (45) assign_expr -> . cond_expr
+    (46) cond_expr -> . log_or_expr
+    (47) log_or_expr -> . log_and_expr
+    (48) log_and_expr -> . incl_or_expr
+    (49) log_and_expr -> . log_and_expr AMPERSAND AMPERSAND incl_or_expr
+    (50) log_and_expr -> . log_and_expr EQUALS EQUALS incl_or_expr
+    (51) incl_or_expr -> . excl_or_expr
+    (52) excl_or_expr -> . and_expr
+    (53) and_expr -> . eq_expr
+    (54) eq_expr -> . rel_expr
+    (55) rel_expr -> . shift_expr
+    (56) rel_expr -> . rel_expr EXCLAIM EQUALS shift_expr
+    (57) rel_expr -> . rel_expr LTHAN shift_expr
+    (58) rel_expr -> . rel_expr GTHAN shift_expr
+    (59) rel_expr -> . rel_expr lthanequal shift_expr
+    (60) rel_expr -> . rel_expr gthanequal shift_expr
+    (63) shift_expr -> . additive_expr
+    (64) additive_expr -> . multiplicative_expr
+    (65) additive_expr -> . additive_expr PLUS multiplicative_expr
+    (66) additive_expr -> . additive_expr MINUS multiplicative_expr
+    (67) multiplicative_expr -> . cast_expr
+    (68) cast_expr -> . expression
+    (16) expression -> . expression PLUS expression
+    (17) expression -> . expression MINUS expression
+    (18) expression -> . expression DIVIDE expression
+    (19) expression -> . expression ASTERISK expression
+    (20) expression -> . expression PERCENTAGE expression
+    (21) expression -> . starname
+    (22) expression -> . andname
+    (23) expression -> . name
+    (24) expression -> . number
+    (25) expression -> . LPAREN expression RPAREN
+    (38) expression -> . MINUS expression
+    (27) starname -> . ASTERISK name
+    (28) andname -> . AMPERSAND name
+    (30) name -> . NAME
+    (29) number -> . NUMBER
+
+    LPAREN          shift and go to state 59
+    MINUS           shift and go to state 49
+    ASTERISK        shift and go to state 18
+    AMPERSAND       shift and go to state 58
+    NAME            shift and go to state 11
+    NUMBER          shift and go to state 56
+
+    cond_expr                      shift and go to state 45
+    number                         shift and go to state 46
+    condition_expression           shift and go to state 72
+    andname                        shift and go to state 48
+    cast_expr                      shift and go to state 60
+    starname                       shift and go to state 50
+    shift_expr                     shift and go to state 51
+    multiplicative_expr            shift and go to state 52
+    assign_expr                    shift and go to state 53
+    and_expr                       shift and go to state 54
+    log_and_expr                   shift and go to state 55
+    eq_expr                        shift and go to state 57
+    name                           shift and go to state 61
+    rel_expr                       shift and go to state 62
+    excl_or_expr                   shift and go to state 67
+    incl_or_expr                   shift and go to state 65
+    additive_expr                  shift and go to state 63
+    log_or_expr                    shift and go to state 66
+    expression                     shift and go to state 64
+
+state 40
+
+    (5) main_body -> LBRACE stmt_list RBRACE .
+
+    $end            reduce using rule 5 (main_body -> LBRACE stmt_list RBRACE .)
+
+
+state 41
+
+    (9) stmt -> assignlist SEMICOLON .
+
+    INT             reduce using rule 9 (stmt -> assignlist SEMICOLON .)
+    IF              reduce using rule 9 (stmt -> assignlist SEMICOLON .)
+    WHILE           reduce using rule 9 (stmt -> assignlist SEMICOLON .)
+    ASTERISK        reduce using rule 9 (stmt -> assignlist SEMICOLON .)
+    NAME            reduce using rule 9 (stmt -> assignlist SEMICOLON .)
+    RBRACE          reduce using rule 9 (stmt -> assignlist SEMICOLON .)
+    ELSE            reduce using rule 9 (stmt -> assignlist SEMICOLON .)
+
+
+state 42
+
+    (35) varlist -> var1 COMMA . varlist
+    (34) varlist -> . var COMMA varlist
+    (35) varlist -> . var1 COMMA varlist
+    (36) varlist -> . var
+    (37) varlist -> . var1
+    (31) var -> . NAME
+    (32) var1 -> . starname
+    (33) var1 -> . ASTERISK var1
+    (27) starname -> . ASTERISK name
+
+    NAME            shift and go to state 27
+    ASTERISK        shift and go to state 30
+
+    varlist                        shift and go to state 73
+    var                            shift and go to state 31
+    var1                           shift and go to state 26
+    starname                       shift and go to state 29
+
+state 43
+
+    (33) var1 -> ASTERISK var1 .
+
+    COMMA           reduce using rule 33 (var1 -> ASTERISK var1 .)
+    SEMICOLON       reduce using rule 33 (var1 -> ASTERISK var1 .)
+    RPAREN          reduce using rule 33 (var1 -> ASTERISK var1 .)
+
+
+state 44
+
+    (34) varlist -> var COMMA . varlist
+    (34) varlist -> . var COMMA varlist
+    (35) varlist -> . var1 COMMA varlist
+    (36) varlist -> . var
+    (37) varlist -> . var1
+    (31) var -> . NAME
+    (32) var1 -> . starname
+    (33) var1 -> . ASTERISK var1
+    (27) starname -> . ASTERISK name
+
+    NAME            shift and go to state 27
+    ASTERISK        shift and go to state 30
+
+    var                            shift and go to state 31
+    varlist                        shift and go to state 74
+    var1                           shift and go to state 26
+    starname                       shift and go to state 29
+
+state 45
+
+    (45) assign_expr -> cond_expr .
+
+    RPAREN          reduce using rule 45 (assign_expr -> cond_expr .)
+
+
+state 46
+
+    (24) expression -> number .
+
+    PLUS            reduce using rule 24 (expression -> number .)
+    MINUS           reduce using rule 24 (expression -> number .)
+    DIVIDE          reduce using rule 24 (expression -> number .)
+    ASTERISK        reduce using rule 24 (expression -> number .)
+    PERCENTAGE      reduce using rule 24 (expression -> number .)
+    EXCLAIM         reduce using rule 24 (expression -> number .)
+    LTHAN           reduce using rule 24 (expression -> number .)
+    GTHAN           reduce using rule 24 (expression -> number .)
+    AMPERSAND       reduce using rule 24 (expression -> number .)
+    EQUALS          reduce using rule 24 (expression -> number .)
+    RPAREN          reduce using rule 24 (expression -> number .)
+    COMMA           reduce using rule 24 (expression -> number .)
+    SEMICOLON       reduce using rule 24 (expression -> number .)
+
+
+state 47
+
+    (39) iteration_stmt -> WHILE LPAREN condition_expression . RPAREN brace_stmt
+
+    RPAREN          shift and go to state 75
+
+
+state 48
+
+    (22) expression -> andname .
+
+    PLUS            reduce using rule 22 (expression -> andname .)
+    MINUS           reduce using rule 22 (expression -> andname .)
+    DIVIDE          reduce using rule 22 (expression -> andname .)
+    ASTERISK        reduce using rule 22 (expression -> andname .)
+    PERCENTAGE      reduce using rule 22 (expression -> andname .)
+    EXCLAIM         reduce using rule 22 (expression -> andname .)
+    LTHAN           reduce using rule 22 (expression -> andname .)
+    GTHAN           reduce using rule 22 (expression -> andname .)
+    AMPERSAND       reduce using rule 22 (expression -> andname .)
+    EQUALS          reduce using rule 22 (expression -> andname .)
+    RPAREN          reduce using rule 22 (expression -> andname .)
+    COMMA           reduce using rule 22 (expression -> andname .)
+    SEMICOLON       reduce using rule 22 (expression -> andname .)
+
+
+state 49
+
+    (38) expression -> MINUS . expression
+    (16) expression -> . expression PLUS expression
+    (17) expression -> . expression MINUS expression
+    (18) expression -> . expression DIVIDE expression
+    (19) expression -> . expression ASTERISK expression
+    (20) expression -> . expression PERCENTAGE expression
+    (21) expression -> . starname
+    (22) expression -> . andname
+    (23) expression -> . name
+    (24) expression -> . number
+    (25) expression -> . LPAREN expression RPAREN
+    (38) expression -> . MINUS expression
+    (27) starname -> . ASTERISK name
+    (28) andname -> . AMPERSAND name
+    (30) name -> . NAME
+    (29) number -> . NUMBER
+
+    LPAREN          shift and go to state 59
+    MINUS           shift and go to state 49
+    ASTERISK        shift and go to state 18
+    AMPERSAND       shift and go to state 58
+    NAME            shift and go to state 11
+    NUMBER          shift and go to state 56
+
+    starname                       shift and go to state 50
+    number                         shift and go to state 46
+    expression                     shift and go to state 76
+    name                           shift and go to state 61
+    andname                        shift and go to state 48
+
+state 50
+
+    (21) expression -> starname .
+
+    PLUS            reduce using rule 21 (expression -> starname .)
+    MINUS           reduce using rule 21 (expression -> starname .)
+    DIVIDE          reduce using rule 21 (expression -> starname .)
+    ASTERISK        reduce using rule 21 (expression -> starname .)
+    PERCENTAGE      reduce using rule 21 (expression -> starname .)
+    EXCLAIM         reduce using rule 21 (expression -> starname .)
+    LTHAN           reduce using rule 21 (expression -> starname .)
+    GTHAN           reduce using rule 21 (expression -> starname .)
+    AMPERSAND       reduce using rule 21 (expression -> starname .)
+    EQUALS          reduce using rule 21 (expression -> starname .)
+    RPAREN          reduce using rule 21 (expression -> starname .)
+    COMMA           reduce using rule 21 (expression -> starname .)
+    SEMICOLON       reduce using rule 21 (expression -> starname .)
+
+
+state 51
+
+    (55) rel_expr -> shift_expr .
+
+    EXCLAIM         reduce using rule 55 (rel_expr -> shift_expr .)
+    LTHAN           reduce using rule 55 (rel_expr -> shift_expr .)
+    GTHAN           reduce using rule 55 (rel_expr -> shift_expr .)
+    AMPERSAND       reduce using rule 55 (rel_expr -> shift_expr .)
+    EQUALS          reduce using rule 55 (rel_expr -> shift_expr .)
+    RPAREN          reduce using rule 55 (rel_expr -> shift_expr .)
+
+
+state 52
+
+    (64) additive_expr -> multiplicative_expr .
+
+    PLUS            reduce using rule 64 (additive_expr -> multiplicative_expr .)
+    MINUS           reduce using rule 64 (additive_expr -> multiplicative_expr .)
+    EXCLAIM         reduce using rule 64 (additive_expr -> multiplicative_expr .)
+    LTHAN           reduce using rule 64 (additive_expr -> multiplicative_expr .)
+    GTHAN           reduce using rule 64 (additive_expr -> multiplicative_expr .)
+    AMPERSAND       reduce using rule 64 (additive_expr -> multiplicative_expr .)
+    EQUALS          reduce using rule 64 (additive_expr -> multiplicative_expr .)
+    RPAREN          reduce using rule 64 (additive_expr -> multiplicative_expr .)
+
+
+state 53
+
+    (44) condition_expression -> assign_expr .
+
+    RPAREN          reduce using rule 44 (condition_expression -> assign_expr .)
+
+
+state 54
+
+    (52) excl_or_expr -> and_expr .
+
+    AMPERSAND       reduce using rule 52 (excl_or_expr -> and_expr .)
+    EQUALS          reduce using rule 52 (excl_or_expr -> and_expr .)
+    RPAREN          reduce using rule 52 (excl_or_expr -> and_expr .)
+
+
+state 55
+
+    (47) log_or_expr -> log_and_expr .
+    (49) log_and_expr -> log_and_expr . AMPERSAND AMPERSAND incl_or_expr
+    (50) log_and_expr -> log_and_expr . EQUALS EQUALS incl_or_expr
+
+    RPAREN          reduce using rule 47 (log_or_expr -> log_and_expr .)
+    AMPERSAND       shift and go to state 77
+    EQUALS          shift and go to state 78
+
+
+state 56
+
+    (29) number -> NUMBER .
+
+    PLUS            reduce using rule 29 (number -> NUMBER .)
+    MINUS           reduce using rule 29 (number -> NUMBER .)
+    DIVIDE          reduce using rule 29 (number -> NUMBER .)
+    ASTERISK        reduce using rule 29 (number -> NUMBER .)
+    PERCENTAGE      reduce using rule 29 (number -> NUMBER .)
+    EXCLAIM         reduce using rule 29 (number -> NUMBER .)
+    LTHAN           reduce using rule 29 (number -> NUMBER .)
+    GTHAN           reduce using rule 29 (number -> NUMBER .)
+    AMPERSAND       reduce using rule 29 (number -> NUMBER .)
+    EQUALS          reduce using rule 29 (number -> NUMBER .)
+    RPAREN          reduce using rule 29 (number -> NUMBER .)
+    COMMA           reduce using rule 29 (number -> NUMBER .)
+    SEMICOLON       reduce using rule 29 (number -> NUMBER .)
+
+
+state 57
+
+    (53) and_expr -> eq_expr .
+
+    AMPERSAND       reduce using rule 53 (and_expr -> eq_expr .)
+    EQUALS          reduce using rule 53 (and_expr -> eq_expr .)
+    RPAREN          reduce using rule 53 (and_expr -> eq_expr .)
+
+
+state 58
+
+    (28) andname -> AMPERSAND . name
+    (30) name -> . NAME
+
+    NAME            shift and go to state 11
+
+    name                           shift and go to state 79
+
+state 59
+
+    (25) expression -> LPAREN . expression RPAREN
+    (16) expression -> . expression PLUS expression
+    (17) expression -> . expression MINUS expression
+    (18) expression -> . expression DIVIDE expression
+    (19) expression -> . expression ASTERISK expression
+    (20) expression -> . expression PERCENTAGE expression
+    (21) expression -> . starname
+    (22) expression -> . andname
+    (23) expression -> . name
+    (24) expression -> . number
+    (25) expression -> . LPAREN expression RPAREN
+    (38) expression -> . MINUS expression
+    (27) starname -> . ASTERISK name
+    (28) andname -> . AMPERSAND name
+    (30) name -> . NAME
+    (29) number -> . NUMBER
+
+    LPAREN          shift and go to state 59
+    MINUS           shift and go to state 49
+    ASTERISK        shift and go to state 18
+    AMPERSAND       shift and go to state 58
+    NAME            shift and go to state 11
+    NUMBER          shift and go to state 56
+
+    starname                       shift and go to state 50
+    number                         shift and go to state 46
+    expression                     shift and go to state 80
+    name                           shift and go to state 61
+    andname                        shift and go to state 48
+
+state 60
+
+    (67) multiplicative_expr -> cast_expr .
+
+    PLUS            reduce using rule 67 (multiplicative_expr -> cast_expr .)
+    MINUS           reduce using rule 67 (multiplicative_expr -> cast_expr .)
+    EXCLAIM         reduce using rule 67 (multiplicative_expr -> cast_expr .)
+    LTHAN           reduce using rule 67 (multiplicative_expr -> cast_expr .)
+    GTHAN           reduce using rule 67 (multiplicative_expr -> cast_expr .)
+    AMPERSAND       reduce using rule 67 (multiplicative_expr -> cast_expr .)
+    EQUALS          reduce using rule 67 (multiplicative_expr -> cast_expr .)
+    RPAREN          reduce using rule 67 (multiplicative_expr -> cast_expr .)
+
+
+state 61
+
+    (23) expression -> name .
+
+    PLUS            reduce using rule 23 (expression -> name .)
+    MINUS           reduce using rule 23 (expression -> name .)
+    DIVIDE          reduce using rule 23 (expression -> name .)
+    ASTERISK        reduce using rule 23 (expression -> name .)
+    PERCENTAGE      reduce using rule 23 (expression -> name .)
+    EXCLAIM         reduce using rule 23 (expression -> name .)
+    LTHAN           reduce using rule 23 (expression -> name .)
+    GTHAN           reduce using rule 23 (expression -> name .)
+    AMPERSAND       reduce using rule 23 (expression -> name .)
+    EQUALS          reduce using rule 23 (expression -> name .)
+    RPAREN          reduce using rule 23 (expression -> name .)
+    COMMA           reduce using rule 23 (expression -> name .)
+    SEMICOLON       reduce using rule 23 (expression -> name .)
+
+
+state 62
+
+    (54) eq_expr -> rel_expr .
+    (56) rel_expr -> rel_expr . EXCLAIM EQUALS shift_expr
+    (57) rel_expr -> rel_expr . LTHAN shift_expr
+    (58) rel_expr -> rel_expr . GTHAN shift_expr
+    (59) rel_expr -> rel_expr . lthanequal shift_expr
+    (60) rel_expr -> rel_expr . gthanequal shift_expr
+    (61) lthanequal -> . LTHAN EQUALS
+    (62) gthanequal -> . GTHAN EQUALS
+
+    AMPERSAND       reduce using rule 54 (eq_expr -> rel_expr .)
+    EQUALS          reduce using rule 54 (eq_expr -> rel_expr .)
+    RPAREN          reduce using rule 54 (eq_expr -> rel_expr .)
+    EXCLAIM         shift and go to state 82
+    LTHAN           shift and go to state 85
+    GTHAN           shift and go to state 83
+
+    gthanequal                     shift and go to state 81
+    lthanequal                     shift and go to state 84
+
+state 63
+
+    (63) shift_expr -> additive_expr .
+    (65) additive_expr -> additive_expr . PLUS multiplicative_expr
+    (66) additive_expr -> additive_expr . MINUS multiplicative_expr
+
+    EXCLAIM         reduce using rule 63 (shift_expr -> additive_expr .)
+    LTHAN           reduce using rule 63 (shift_expr -> additive_expr .)
+    GTHAN           reduce using rule 63 (shift_expr -> additive_expr .)
+    AMPERSAND       reduce using rule 63 (shift_expr -> additive_expr .)
+    EQUALS          reduce using rule 63 (shift_expr -> additive_expr .)
+    RPAREN          reduce using rule 63 (shift_expr -> additive_expr .)
+    PLUS            shift and go to state 86
+    MINUS           shift and go to state 87
+
+
+state 64
+
+    (68) cast_expr -> expression .
+    (16) expression -> expression . PLUS expression
+    (17) expression -> expression . MINUS expression
+    (18) expression -> expression . DIVIDE expression
+    (19) expression -> expression . ASTERISK expression
+    (20) expression -> expression . PERCENTAGE expression
+
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+    EXCLAIM         reduce using rule 68 (cast_expr -> expression .)
+    LTHAN           reduce using rule 68 (cast_expr -> expression .)
+    GTHAN           reduce using rule 68 (cast_expr -> expression .)
+    AMPERSAND       reduce using rule 68 (cast_expr -> expression .)
+    EQUALS          reduce using rule 68 (cast_expr -> expression .)
+    RPAREN          reduce using rule 68 (cast_expr -> expression .)
+    PLUS            shift and go to state 90
+    MINUS           shift and go to state 92
+    DIVIDE          shift and go to state 88
+    ASTERISK        shift and go to state 89
+    PERCENTAGE      shift and go to state 91
+
+  ! PLUS            [ reduce using rule 68 (cast_expr -> expression .) ]
+  ! MINUS           [ reduce using rule 68 (cast_expr -> expression .) ]
+
+
+state 65
+
+    (48) log_and_expr -> incl_or_expr .
+
+    AMPERSAND       reduce using rule 48 (log_and_expr -> incl_or_expr .)
+    EQUALS          reduce using rule 48 (log_and_expr -> incl_or_expr .)
+    RPAREN          reduce using rule 48 (log_and_expr -> incl_or_expr .)
+
+
+state 66
+
+    (46) cond_expr -> log_or_expr .
+
+    RPAREN          reduce using rule 46 (cond_expr -> log_or_expr .)
+
+
+state 67
+
+    (51) incl_or_expr -> excl_or_expr .
+
+    AMPERSAND       reduce using rule 51 (incl_or_expr -> excl_or_expr .)
+    EQUALS          reduce using rule 51 (incl_or_expr -> excl_or_expr .)
+    RPAREN          reduce using rule 51 (incl_or_expr -> excl_or_expr .)
+
+
+state 68
+
+    (14) assignstmt -> starname EQUALS expression .
+    (16) expression -> expression . PLUS expression
+    (17) expression -> expression . MINUS expression
+    (18) expression -> expression . DIVIDE expression
+    (19) expression -> expression . ASTERISK expression
+    (20) expression -> expression . PERCENTAGE expression
+
+    COMMA           reduce using rule 14 (assignstmt -> starname EQUALS expression .)
+    SEMICOLON       reduce using rule 14 (assignstmt -> starname EQUALS expression .)
+    PLUS            shift and go to state 90
+    MINUS           shift and go to state 92
+    DIVIDE          shift and go to state 88
+    ASTERISK        shift and go to state 89
+    PERCENTAGE      shift and go to state 91
+
+
+state 69
+
+    (15) assignstmt -> name EQUALS expression .
+    (16) expression -> expression . PLUS expression
+    (17) expression -> expression . MINUS expression
+    (18) expression -> expression . DIVIDE expression
+    (19) expression -> expression . ASTERISK expression
+    (20) expression -> expression . PERCENTAGE expression
+
+    COMMA           reduce using rule 15 (assignstmt -> name EQUALS expression .)
+    SEMICOLON       reduce using rule 15 (assignstmt -> name EQUALS expression .)
+    PLUS            shift and go to state 90
+    MINUS           shift and go to state 92
+    DIVIDE          shift and go to state 88
+    ASTERISK        shift and go to state 89
+    PERCENTAGE      shift and go to state 91
+
+
+state 70
+
+    (8) stmt -> type varlist SEMICOLON .
+
+    INT             reduce using rule 8 (stmt -> type varlist SEMICOLON .)
+    IF              reduce using rule 8 (stmt -> type varlist SEMICOLON .)
+    WHILE           reduce using rule 8 (stmt -> type varlist SEMICOLON .)
+    ASTERISK        reduce using rule 8 (stmt -> type varlist SEMICOLON .)
+    NAME            reduce using rule 8 (stmt -> type varlist SEMICOLON .)
+    RBRACE          reduce using rule 8 (stmt -> type varlist SEMICOLON .)
+    ELSE            reduce using rule 8 (stmt -> type varlist SEMICOLON .)
+
+
+state 71
+
+    (12) assignlist -> assignstmt COMMA assignlist .
+
+    SEMICOLON       reduce using rule 12 (assignlist -> assignstmt COMMA assignlist .)
+
+
+state 72
+
+    (42) selection_stmt -> IF LPAREN condition_expression . RPAREN brace_stmt
+    (43) selection_stmt -> IF LPAREN condition_expression . RPAREN brace_stmt ELSE brace_stmt
+
+    RPAREN          shift and go to state 93
+
+
+state 73
+
+    (35) varlist -> var1 COMMA varlist .
+
+    RPAREN          reduce using rule 35 (varlist -> var1 COMMA varlist .)
+    SEMICOLON       reduce using rule 35 (varlist -> var1 COMMA varlist .)
+
+
+state 74
+
+    (34) varlist -> var COMMA varlist .
+
+    RPAREN          reduce using rule 34 (varlist -> var COMMA varlist .)
+    SEMICOLON       reduce using rule 34 (varlist -> var COMMA varlist .)
+
+
+state 75
+
+    (39) iteration_stmt -> WHILE LPAREN condition_expression RPAREN . brace_stmt
+    (40) brace_stmt -> . stmt
+    (41) brace_stmt -> . LBRACE stmt_list RBRACE
+    (8) stmt -> . type varlist SEMICOLON
+    (9) stmt -> . assignlist SEMICOLON
+    (10) stmt -> . selection_stmt
+    (11) stmt -> . iteration_stmt
+    (26) type -> . INT
+    (12) assignlist -> . assignstmt COMMA assignlist
+    (13) assignlist -> . assignstmt
+    (42) selection_stmt -> . IF LPAREN condition_expression RPAREN brace_stmt
+    (43) selection_stmt -> . IF LPAREN condition_expression RPAREN brace_stmt ELSE brace_stmt
+    (39) iteration_stmt -> . WHILE LPAREN condition_expression RPAREN brace_stmt
+    (14) assignstmt -> . starname EQUALS expression
+    (15) assignstmt -> . name EQUALS expression
+    (27) starname -> . ASTERISK name
+    (30) name -> . NAME
+
+    LBRACE          shift and go to state 96
+    INT             shift and go to state 24
+    IF              shift and go to state 21
+    WHILE           shift and go to state 12
+    ASTERISK        shift and go to state 18
+    NAME            shift and go to state 11
+
+    assignlist                     shift and go to state 23
+    starname                       shift and go to state 14
+    brace_stmt                     shift and go to state 94
+    stmt                           shift and go to state 95
+    assignstmt                     shift and go to state 20
+    iteration_stmt                 shift and go to state 13
+    selection_stmt                 shift and go to state 16
+    type                           shift and go to state 17
+    name                           shift and go to state 15
+
+state 76
+
+    (38) expression -> MINUS expression .
+    (16) expression -> expression . PLUS expression
+    (17) expression -> expression . MINUS expression
+    (18) expression -> expression . DIVIDE expression
+    (19) expression -> expression . ASTERISK expression
+    (20) expression -> expression . PERCENTAGE expression
+
+    PLUS            reduce using rule 38 (expression -> MINUS expression .)
+    MINUS           reduce using rule 38 (expression -> MINUS expression .)
+    DIVIDE          reduce using rule 38 (expression -> MINUS expression .)
+    ASTERISK        reduce using rule 38 (expression -> MINUS expression .)
+    PERCENTAGE      reduce using rule 38 (expression -> MINUS expression .)
+    EXCLAIM         reduce using rule 38 (expression -> MINUS expression .)
+    LTHAN           reduce using rule 38 (expression -> MINUS expression .)
+    GTHAN           reduce using rule 38 (expression -> MINUS expression .)
+    AMPERSAND       reduce using rule 38 (expression -> MINUS expression .)
+    EQUALS          reduce using rule 38 (expression -> MINUS expression .)
+    RPAREN          reduce using rule 38 (expression -> MINUS expression .)
+    COMMA           reduce using rule 38 (expression -> MINUS expression .)
+    SEMICOLON       reduce using rule 38 (expression -> MINUS expression .)
+
+  ! PLUS            [ shift and go to state 90 ]
+  ! MINUS           [ shift and go to state 92 ]
+  ! DIVIDE          [ shift and go to state 88 ]
+  ! ASTERISK        [ shift and go to state 89 ]
+  ! PERCENTAGE      [ shift and go to state 91 ]
+
+
+state 77
+
+    (49) log_and_expr -> log_and_expr AMPERSAND . AMPERSAND incl_or_expr
+
+    AMPERSAND       shift and go to state 97
+
+
+state 78
+
+    (50) log_and_expr -> log_and_expr EQUALS . EQUALS incl_or_expr
+
+    EQUALS          shift and go to state 98
+
+
+state 79
+
+    (28) andname -> AMPERSAND name .
+
+    PLUS            reduce using rule 28 (andname -> AMPERSAND name .)
+    MINUS           reduce using rule 28 (andname -> AMPERSAND name .)
+    DIVIDE          reduce using rule 28 (andname -> AMPERSAND name .)
+    ASTERISK        reduce using rule 28 (andname -> AMPERSAND name .)
+    PERCENTAGE      reduce using rule 28 (andname -> AMPERSAND name .)
+    EXCLAIM         reduce using rule 28 (andname -> AMPERSAND name .)
+    LTHAN           reduce using rule 28 (andname -> AMPERSAND name .)
+    GTHAN           reduce using rule 28 (andname -> AMPERSAND name .)
+    AMPERSAND       reduce using rule 28 (andname -> AMPERSAND name .)
+    EQUALS          reduce using rule 28 (andname -> AMPERSAND name .)
+    RPAREN          reduce using rule 28 (andname -> AMPERSAND name .)
+    COMMA           reduce using rule 28 (andname -> AMPERSAND name .)
+    SEMICOLON       reduce using rule 28 (andname -> AMPERSAND name .)
+
+
+state 80
+
+    (25) expression -> LPAREN expression . RPAREN
+    (16) expression -> expression . PLUS expression
+    (17) expression -> expression . MINUS expression
+    (18) expression -> expression . DIVIDE expression
+    (19) expression -> expression . ASTERISK expression
+    (20) expression -> expression . PERCENTAGE expression
+
+    RPAREN          shift and go to state 99
+    PLUS            shift and go to state 90
+    MINUS           shift and go to state 92
+    DIVIDE          shift and go to state 88
+    ASTERISK        shift and go to state 89
+    PERCENTAGE      shift and go to state 91
+
+
+state 81
+
+    (60) rel_expr -> rel_expr gthanequal . shift_expr
+    (63) shift_expr -> . additive_expr
+    (64) additive_expr -> . multiplicative_expr
+    (65) additive_expr -> . additive_expr PLUS multiplicative_expr
+    (66) additive_expr -> . additive_expr MINUS multiplicative_expr
+    (67) multiplicative_expr -> . cast_expr
+    (68) cast_expr -> . expression
+    (16) expression -> . expression PLUS expression
+    (17) expression -> . expression MINUS expression
+    (18) expression -> . expression DIVIDE expression
+    (19) expression -> . expression ASTERISK expression
+    (20) expression -> . expression PERCENTAGE expression
+    (21) expression -> . starname
+    (22) expression -> . andname
+    (23) expression -> . name
+    (24) expression -> . number
+    (25) expression -> . LPAREN expression RPAREN
+    (38) expression -> . MINUS expression
+    (27) starname -> . ASTERISK name
+    (28) andname -> . AMPERSAND name
+    (30) name -> . NAME
+    (29) number -> . NUMBER
+
+    LPAREN          shift and go to state 59
+    MINUS           shift and go to state 49
+    ASTERISK        shift and go to state 18
+    AMPERSAND       shift and go to state 58
+    NAME            shift and go to state 11
+    NUMBER          shift and go to state 56
+
+    cast_expr                      shift and go to state 60
+    starname                       shift and go to state 50
+    additive_expr                  shift and go to state 63
+    shift_expr                     shift and go to state 100
+    number                         shift and go to state 46
+    multiplicative_expr            shift and go to state 52
+    andname                        shift and go to state 48
+    expression                     shift and go to state 64
+    name                           shift and go to state 61
+
+state 82
+
+    (56) rel_expr -> rel_expr EXCLAIM . EQUALS shift_expr
+
+    EQUALS          shift and go to state 101
+
+
+state 83
+
+    (58) rel_expr -> rel_expr GTHAN . shift_expr
+    (62) gthanequal -> GTHAN . EQUALS
+    (63) shift_expr -> . additive_expr
+    (64) additive_expr -> . multiplicative_expr
+    (65) additive_expr -> . additive_expr PLUS multiplicative_expr
+    (66) additive_expr -> . additive_expr MINUS multiplicative_expr
+    (67) multiplicative_expr -> . cast_expr
+    (68) cast_expr -> . expression
+    (16) expression -> . expression PLUS expression
+    (17) expression -> . expression MINUS expression
+    (18) expression -> . expression DIVIDE expression
+    (19) expression -> . expression ASTERISK expression
+    (20) expression -> . expression PERCENTAGE expression
+    (21) expression -> . starname
+    (22) expression -> . andname
+    (23) expression -> . name
+    (24) expression -> . number
+    (25) expression -> . LPAREN expression RPAREN
+    (38) expression -> . MINUS expression
+    (27) starname -> . ASTERISK name
+    (28) andname -> . AMPERSAND name
+    (30) name -> . NAME
+    (29) number -> . NUMBER
+
+    EQUALS          shift and go to state 103
+    LPAREN          shift and go to state 59
+    MINUS           shift and go to state 49
+    ASTERISK        shift and go to state 18
+    AMPERSAND       shift and go to state 58
+    NAME            shift and go to state 11
+    NUMBER          shift and go to state 56
+
+    cast_expr                      shift and go to state 60
+    starname                       shift and go to state 50
+    additive_expr                  shift and go to state 63
+    shift_expr                     shift and go to state 102
+    number                         shift and go to state 46
+    multiplicative_expr            shift and go to state 52
+    andname                        shift and go to state 48
+    expression                     shift and go to state 64
+    name                           shift and go to state 61
+
+state 84
+
+    (59) rel_expr -> rel_expr lthanequal . shift_expr
+    (63) shift_expr -> . additive_expr
+    (64) additive_expr -> . multiplicative_expr
+    (65) additive_expr -> . additive_expr PLUS multiplicative_expr
+    (66) additive_expr -> . additive_expr MINUS multiplicative_expr
+    (67) multiplicative_expr -> . cast_expr
+    (68) cast_expr -> . expression
+    (16) expression -> . expression PLUS expression
+    (17) expression -> . expression MINUS expression
+    (18) expression -> . expression DIVIDE expression
+    (19) expression -> . expression ASTERISK expression
+    (20) expression -> . expression PERCENTAGE expression
+    (21) expression -> . starname
+    (22) expression -> . andname
+    (23) expression -> . name
+    (24) expression -> . number
+    (25) expression -> . LPAREN expression RPAREN
+    (38) expression -> . MINUS expression
+    (27) starname -> . ASTERISK name
+    (28) andname -> . AMPERSAND name
+    (30) name -> . NAME
+    (29) number -> . NUMBER
+
+    LPAREN          shift and go to state 59
+    MINUS           shift and go to state 49
+    ASTERISK        shift and go to state 18
+    AMPERSAND       shift and go to state 58
+    NAME            shift and go to state 11
+    NUMBER          shift and go to state 56
+
+    cast_expr                      shift and go to state 60
+    starname                       shift and go to state 50
+    additive_expr                  shift and go to state 63
+    shift_expr                     shift and go to state 104
+    multiplicative_expr            shift and go to state 52
+    andname                        shift and go to state 48
+    number                         shift and go to state 46
+    expression                     shift and go to state 64
+    name                           shift and go to state 61
+
+state 85
+
+    (57) rel_expr -> rel_expr LTHAN . shift_expr
+    (61) lthanequal -> LTHAN . EQUALS
+    (63) shift_expr -> . additive_expr
+    (64) additive_expr -> . multiplicative_expr
+    (65) additive_expr -> . additive_expr PLUS multiplicative_expr
+    (66) additive_expr -> . additive_expr MINUS multiplicative_expr
+    (67) multiplicative_expr -> . cast_expr
+    (68) cast_expr -> . expression
+    (16) expression -> . expression PLUS expression
+    (17) expression -> . expression MINUS expression
+    (18) expression -> . expression DIVIDE expression
+    (19) expression -> . expression ASTERISK expression
+    (20) expression -> . expression PERCENTAGE expression
+    (21) expression -> . starname
+    (22) expression -> . andname
+    (23) expression -> . name
+    (24) expression -> . number
+    (25) expression -> . LPAREN expression RPAREN
+    (38) expression -> . MINUS expression
+    (27) starname -> . ASTERISK name
+    (28) andname -> . AMPERSAND name
+    (30) name -> . NAME
+    (29) number -> . NUMBER
+
+    EQUALS          shift and go to state 106
+    LPAREN          shift and go to state 59
+    MINUS           shift and go to state 49
+    ASTERISK        shift and go to state 18
+    AMPERSAND       shift and go to state 58
+    NAME            shift and go to state 11
+    NUMBER          shift and go to state 56
+
+    cast_expr                      shift and go to state 60
+    starname                       shift and go to state 50
+    additive_expr                  shift and go to state 63
+    shift_expr                     shift and go to state 105
+    number                         shift and go to state 46
+    multiplicative_expr            shift and go to state 52
+    andname                        shift and go to state 48
+    expression                     shift and go to state 64
+    name                           shift and go to state 61
+
+state 86
+
+    (65) additive_expr -> additive_expr PLUS . multiplicative_expr
+    (67) multiplicative_expr -> . cast_expr
+    (68) cast_expr -> . expression
+    (16) expression -> . expression PLUS expression
+    (17) expression -> . expression MINUS expression
+    (18) expression -> . expression DIVIDE expression
+    (19) expression -> . expression ASTERISK expression
+    (20) expression -> . expression PERCENTAGE expression
+    (21) expression -> . starname
+    (22) expression -> . andname
+    (23) expression -> . name
+    (24) expression -> . number
+    (25) expression -> . LPAREN expression RPAREN
+    (38) expression -> . MINUS expression
+    (27) starname -> . ASTERISK name
+    (28) andname -> . AMPERSAND name
+    (30) name -> . NAME
+    (29) number -> . NUMBER
+
+    LPAREN          shift and go to state 59
+    MINUS           shift and go to state 49
+    ASTERISK        shift and go to state 18
+    AMPERSAND       shift and go to state 58
+    NAME            shift and go to state 11
+    NUMBER          shift and go to state 56
+
+    cast_expr                      shift and go to state 60
+    name                           shift and go to state 61
+    starname                       shift and go to state 50
+    number                         shift and go to state 46
+    multiplicative_expr            shift and go to state 107
+    andname                        shift and go to state 48
+    expression                     shift and go to state 64
+
+state 87
+
+    (66) additive_expr -> additive_expr MINUS . multiplicative_expr
+    (67) multiplicative_expr -> . cast_expr
+    (68) cast_expr -> . expression
+    (16) expression -> . expression PLUS expression
+    (17) expression -> . expression MINUS expression
+    (18) expression -> . expression DIVIDE expression
+    (19) expression -> . expression ASTERISK expression
+    (20) expression -> . expression PERCENTAGE expression
+    (21) expression -> . starname
+    (22) expression -> . andname
+    (23) expression -> . name
+    (24) expression -> . number
+    (25) expression -> . LPAREN expression RPAREN
+    (38) expression -> . MINUS expression
+    (27) starname -> . ASTERISK name
+    (28) andname -> . AMPERSAND name
+    (30) name -> . NAME
+    (29) number -> . NUMBER
+
+    LPAREN          shift and go to state 59
+    MINUS           shift and go to state 49
+    ASTERISK        shift and go to state 18
+    AMPERSAND       shift and go to state 58
+    NAME            shift and go to state 11
+    NUMBER          shift and go to state 56
+
+    cast_expr                      shift and go to state 60
+    name                           shift and go to state 61
+    starname                       shift and go to state 50
+    number                         shift and go to state 46
+    multiplicative_expr            shift and go to state 108
+    andname                        shift and go to state 48
+    expression                     shift and go to state 64
+
+state 88
+
+    (18) expression -> expression DIVIDE . expression
+    (16) expression -> . expression PLUS expression
+    (17) expression -> . expression MINUS expression
+    (18) expression -> . expression DIVIDE expression
+    (19) expression -> . expression ASTERISK expression
+    (20) expression -> . expression PERCENTAGE expression
+    (21) expression -> . starname
+    (22) expression -> . andname
+    (23) expression -> . name
+    (24) expression -> . number
+    (25) expression -> . LPAREN expression RPAREN
+    (38) expression -> . MINUS expression
+    (27) starname -> . ASTERISK name
+    (28) andname -> . AMPERSAND name
+    (30) name -> . NAME
+    (29) number -> . NUMBER
+
+    LPAREN          shift and go to state 59
+    MINUS           shift and go to state 49
+    ASTERISK        shift and go to state 18
+    AMPERSAND       shift and go to state 58
+    NAME            shift and go to state 11
+    NUMBER          shift and go to state 56
+
+    starname                       shift and go to state 50
+    number                         shift and go to state 46
+    expression                     shift and go to state 109
+    name                           shift and go to state 61
+    andname                        shift and go to state 48
+
+state 89
+
+    (19) expression -> expression ASTERISK . expression
+    (16) expression -> . expression PLUS expression
+    (17) expression -> . expression MINUS expression
+    (18) expression -> . expression DIVIDE expression
+    (19) expression -> . expression ASTERISK expression
+    (20) expression -> . expression PERCENTAGE expression
+    (21) expression -> . starname
+    (22) expression -> . andname
+    (23) expression -> . name
+    (24) expression -> . number
+    (25) expression -> . LPAREN expression RPAREN
+    (38) expression -> . MINUS expression
+    (27) starname -> . ASTERISK name
+    (28) andname -> . AMPERSAND name
+    (30) name -> . NAME
+    (29) number -> . NUMBER
+
+    LPAREN          shift and go to state 59
+    MINUS           shift and go to state 49
+    ASTERISK        shift and go to state 18
+    AMPERSAND       shift and go to state 58
+    NAME            shift and go to state 11
+    NUMBER          shift and go to state 56
+
+    starname                       shift and go to state 50
+    number                         shift and go to state 46
+    expression                     shift and go to state 110
+    name                           shift and go to state 61
+    andname                        shift and go to state 48
+
+state 90
+
+    (16) expression -> expression PLUS . expression
+    (16) expression -> . expression PLUS expression
+    (17) expression -> . expression MINUS expression
+    (18) expression -> . expression DIVIDE expression
+    (19) expression -> . expression ASTERISK expression
+    (20) expression -> . expression PERCENTAGE expression
+    (21) expression -> . starname
+    (22) expression -> . andname
+    (23) expression -> . name
+    (24) expression -> . number
+    (25) expression -> . LPAREN expression RPAREN
+    (38) expression -> . MINUS expression
+    (27) starname -> . ASTERISK name
+    (28) andname -> . AMPERSAND name
+    (30) name -> . NAME
+    (29) number -> . NUMBER
+
+    LPAREN          shift and go to state 59
+    MINUS           shift and go to state 49
+    ASTERISK        shift and go to state 18
+    AMPERSAND       shift and go to state 58
+    NAME            shift and go to state 11
+    NUMBER          shift and go to state 56
+
+    starname                       shift and go to state 50
+    number                         shift and go to state 46
+    expression                     shift and go to state 111
+    name                           shift and go to state 61
+    andname                        shift and go to state 48
+
+state 91
+
+    (20) expression -> expression PERCENTAGE . expression
+    (16) expression -> . expression PLUS expression
+    (17) expression -> . expression MINUS expression
+    (18) expression -> . expression DIVIDE expression
+    (19) expression -> . expression ASTERISK expression
+    (20) expression -> . expression PERCENTAGE expression
+    (21) expression -> . starname
+    (22) expression -> . andname
+    (23) expression -> . name
+    (24) expression -> . number
+    (25) expression -> . LPAREN expression RPAREN
+    (38) expression -> . MINUS expression
+    (27) starname -> . ASTERISK name
+    (28) andname -> . AMPERSAND name
+    (30) name -> . NAME
+    (29) number -> . NUMBER
+
+    LPAREN          shift and go to state 59
+    MINUS           shift and go to state 49
+    ASTERISK        shift and go to state 18
+    AMPERSAND       shift and go to state 58
+    NAME            shift and go to state 11
+    NUMBER          shift and go to state 56
+
+    starname                       shift and go to state 50
+    number                         shift and go to state 46
+    expression                     shift and go to state 112
+    name                           shift and go to state 61
+    andname                        shift and go to state 48
+
+state 92
+
+    (17) expression -> expression MINUS . expression
+    (16) expression -> . expression PLUS expression
+    (17) expression -> . expression MINUS expression
+    (18) expression -> . expression DIVIDE expression
+    (19) expression -> . expression ASTERISK expression
+    (20) expression -> . expression PERCENTAGE expression
+    (21) expression -> . starname
+    (22) expression -> . andname
+    (23) expression -> . name
+    (24) expression -> . number
+    (25) expression -> . LPAREN expression RPAREN
+    (38) expression -> . MINUS expression
+    (27) starname -> . ASTERISK name
+    (28) andname -> . AMPERSAND name
+    (30) name -> . NAME
+    (29) number -> . NUMBER
+
+    LPAREN          shift and go to state 59
+    MINUS           shift and go to state 49
+    ASTERISK        shift and go to state 18
+    AMPERSAND       shift and go to state 58
+    NAME            shift and go to state 11
+    NUMBER          shift and go to state 56
+
+    starname                       shift and go to state 50
+    number                         shift and go to state 46
+    expression                     shift and go to state 113
+    name                           shift and go to state 61
+    andname                        shift and go to state 48
+
+state 93
+
+    (42) selection_stmt -> IF LPAREN condition_expression RPAREN . brace_stmt
+    (43) selection_stmt -> IF LPAREN condition_expression RPAREN . brace_stmt ELSE brace_stmt
+    (40) brace_stmt -> . stmt
+    (41) brace_stmt -> . LBRACE stmt_list RBRACE
+    (8) stmt -> . type varlist SEMICOLON
+    (9) stmt -> . assignlist SEMICOLON
+    (10) stmt -> . selection_stmt
+    (11) stmt -> . iteration_stmt
+    (26) type -> . INT
+    (12) assignlist -> . assignstmt COMMA assignlist
+    (13) assignlist -> . assignstmt
+    (42) selection_stmt -> . IF LPAREN condition_expression RPAREN brace_stmt
+    (43) selection_stmt -> . IF LPAREN condition_expression RPAREN brace_stmt ELSE brace_stmt
+    (39) iteration_stmt -> . WHILE LPAREN condition_expression RPAREN brace_stmt
+    (14) assignstmt -> . starname EQUALS expression
+    (15) assignstmt -> . name EQUALS expression
+    (27) starname -> . ASTERISK name
+    (30) name -> . NAME
+
+    LBRACE          shift and go to state 96
+    INT             shift and go to state 24
+    IF              shift and go to state 21
+    WHILE           shift and go to state 12
+    ASTERISK        shift and go to state 18
+    NAME            shift and go to state 11
+
+    assignlist                     shift and go to state 23
+    starname                       shift and go to state 14
+    brace_stmt                     shift and go to state 114
+    stmt                           shift and go to state 95
+    assignstmt                     shift and go to state 20
+    iteration_stmt                 shift and go to state 13
+    selection_stmt                 shift and go to state 16
+    type                           shift and go to state 17
+    name                           shift and go to state 15
+
+state 94
+
+    (39) iteration_stmt -> WHILE LPAREN condition_expression RPAREN brace_stmt .
+
+    INT             reduce using rule 39 (iteration_stmt -> WHILE LPAREN condition_expression RPAREN brace_stmt .)
+    IF              reduce using rule 39 (iteration_stmt -> WHILE LPAREN condition_expression RPAREN brace_stmt .)
+    WHILE           reduce using rule 39 (iteration_stmt -> WHILE LPAREN condition_expression RPAREN brace_stmt .)
+    ASTERISK        reduce using rule 39 (iteration_stmt -> WHILE LPAREN condition_expression RPAREN brace_stmt .)
+    NAME            reduce using rule 39 (iteration_stmt -> WHILE LPAREN condition_expression RPAREN brace_stmt .)
+    RBRACE          reduce using rule 39 (iteration_stmt -> WHILE LPAREN condition_expression RPAREN brace_stmt .)
+    ELSE            reduce using rule 39 (iteration_stmt -> WHILE LPAREN condition_expression RPAREN brace_stmt .)
+
+
+state 95
+
+    (40) brace_stmt -> stmt .
+
+    INT             reduce using rule 40 (brace_stmt -> stmt .)
+    IF              reduce using rule 40 (brace_stmt -> stmt .)
+    WHILE           reduce using rule 40 (brace_stmt -> stmt .)
+    ASTERISK        reduce using rule 40 (brace_stmt -> stmt .)
+    NAME            reduce using rule 40 (brace_stmt -> stmt .)
+    RBRACE          reduce using rule 40 (brace_stmt -> stmt .)
+    ELSE            reduce using rule 40 (brace_stmt -> stmt .)
+
+
+state 96
+
+    (41) brace_stmt -> LBRACE . stmt_list RBRACE
+    (6) stmt_list -> . stmt stmt_list
+    (7) stmt_list -> . stmt
+    (8) stmt -> . type varlist SEMICOLON
+    (9) stmt -> . assignlist SEMICOLON
+    (10) stmt -> . selection_stmt
+    (11) stmt -> . iteration_stmt
+    (26) type -> . INT
+    (12) assignlist -> . assignstmt COMMA assignlist
+    (13) assignlist -> . assignstmt
+    (42) selection_stmt -> . IF LPAREN condition_expression RPAREN brace_stmt
+    (43) selection_stmt -> . IF LPAREN condition_expression RPAREN brace_stmt ELSE brace_stmt
+    (39) iteration_stmt -> . WHILE LPAREN condition_expression RPAREN brace_stmt
+    (14) assignstmt -> . starname EQUALS expression
+    (15) assignstmt -> . name EQUALS expression
+    (27) starname -> . ASTERISK name
+    (30) name -> . NAME
+
+    INT             shift and go to state 24
+    IF              shift and go to state 21
+    WHILE           shift and go to state 12
+    ASTERISK        shift and go to state 18
+    NAME            shift and go to state 11
+
+    stmt_list                      shift and go to state 115
+    assignlist                     shift and go to state 23
+    starname                       shift and go to state 14
+    stmt                           shift and go to state 19
+    assignstmt                     shift and go to state 20
+    iteration_stmt                 shift and go to state 13
+    selection_stmt                 shift and go to state 16
+    type                           shift and go to state 17
+    name                           shift and go to state 15
+
+state 97
+
+    (49) log_and_expr -> log_and_expr AMPERSAND AMPERSAND . incl_or_expr
+    (51) incl_or_expr -> . excl_or_expr
+    (52) excl_or_expr -> . and_expr
+    (53) and_expr -> . eq_expr
+    (54) eq_expr -> . rel_expr
+    (55) rel_expr -> . shift_expr
+    (56) rel_expr -> . rel_expr EXCLAIM EQUALS shift_expr
+    (57) rel_expr -> . rel_expr LTHAN shift_expr
+    (58) rel_expr -> . rel_expr GTHAN shift_expr
+    (59) rel_expr -> . rel_expr lthanequal shift_expr
+    (60) rel_expr -> . rel_expr gthanequal shift_expr
+    (63) shift_expr -> . additive_expr
+    (64) additive_expr -> . multiplicative_expr
+    (65) additive_expr -> . additive_expr PLUS multiplicative_expr
+    (66) additive_expr -> . additive_expr MINUS multiplicative_expr
+    (67) multiplicative_expr -> . cast_expr
+    (68) cast_expr -> . expression
+    (16) expression -> . expression PLUS expression
+    (17) expression -> . expression MINUS expression
+    (18) expression -> . expression DIVIDE expression
+    (19) expression -> . expression ASTERISK expression
+    (20) expression -> . expression PERCENTAGE expression
+    (21) expression -> . starname
+    (22) expression -> . andname
+    (23) expression -> . name
+    (24) expression -> . number
+    (25) expression -> . LPAREN expression RPAREN
+    (38) expression -> . MINUS expression
+    (27) starname -> . ASTERISK name
+    (28) andname -> . AMPERSAND name
+    (30) name -> . NAME
+    (29) number -> . NUMBER
+
+    LPAREN          shift and go to state 59
+    MINUS           shift and go to state 49
+    ASTERISK        shift and go to state 18
+    AMPERSAND       shift and go to state 58
+    NAME            shift and go to state 11
+    NUMBER          shift and go to state 56
+
+    cast_expr                      shift and go to state 60
+    rel_expr                       shift and go to state 62
+    name                           shift and go to state 61
+    expression                     shift and go to state 64
+    incl_or_expr                   shift and go to state 116
+    additive_expr                  shift and go to state 63
+    shift_expr                     shift and go to state 51
+    multiplicative_expr            shift and go to state 52
+    andname                        shift and go to state 48
+    eq_expr                        shift and go to state 57
+    starname                       shift and go to state 50
+    number                         shift and go to state 46
+    excl_or_expr                   shift and go to state 67
+    and_expr                       shift and go to state 54
+
+state 98
+
+    (50) log_and_expr -> log_and_expr EQUALS EQUALS . incl_or_expr
+    (51) incl_or_expr -> . excl_or_expr
+    (52) excl_or_expr -> . and_expr
+    (53) and_expr -> . eq_expr
+    (54) eq_expr -> . rel_expr
+    (55) rel_expr -> . shift_expr
+    (56) rel_expr -> . rel_expr EXCLAIM EQUALS shift_expr
+    (57) rel_expr -> . rel_expr LTHAN shift_expr
+    (58) rel_expr -> . rel_expr GTHAN shift_expr
+    (59) rel_expr -> . rel_expr lthanequal shift_expr
+    (60) rel_expr -> . rel_expr gthanequal shift_expr
+    (63) shift_expr -> . additive_expr
+    (64) additive_expr -> . multiplicative_expr
+    (65) additive_expr -> . additive_expr PLUS multiplicative_expr
+    (66) additive_expr -> . additive_expr MINUS multiplicative_expr
+    (67) multiplicative_expr -> . cast_expr
+    (68) cast_expr -> . expression
+    (16) expression -> . expression PLUS expression
+    (17) expression -> . expression MINUS expression
+    (18) expression -> . expression DIVIDE expression
+    (19) expression -> . expression ASTERISK expression
+    (20) expression -> . expression PERCENTAGE expression
+    (21) expression -> . starname
+    (22) expression -> . andname
+    (23) expression -> . name
+    (24) expression -> . number
+    (25) expression -> . LPAREN expression RPAREN
+    (38) expression -> . MINUS expression
+    (27) starname -> . ASTERISK name
+    (28) andname -> . AMPERSAND name
+    (30) name -> . NAME
+    (29) number -> . NUMBER
+
+    LPAREN          shift and go to state 59
+    MINUS           shift and go to state 49
+    ASTERISK        shift and go to state 18
+    AMPERSAND       shift and go to state 58
+    NAME            shift and go to state 11
+    NUMBER          shift and go to state 56
+
+    cast_expr                      shift and go to state 60
+    rel_expr                       shift and go to state 62
+    name                           shift and go to state 61
+    expression                     shift and go to state 64
+    incl_or_expr                   shift and go to state 117
+    additive_expr                  shift and go to state 63
+    shift_expr                     shift and go to state 51
+    multiplicative_expr            shift and go to state 52
+    andname                        shift and go to state 48
+    eq_expr                        shift and go to state 57
+    starname                       shift and go to state 50
+    number                         shift and go to state 46
+    excl_or_expr                   shift and go to state 67
+    and_expr                       shift and go to state 54
+
+state 99
+
+    (25) expression -> LPAREN expression RPAREN .
+
+    PLUS            reduce using rule 25 (expression -> LPAREN expression RPAREN .)
+    MINUS           reduce using rule 25 (expression -> LPAREN expression RPAREN .)
+    DIVIDE          reduce using rule 25 (expression -> LPAREN expression RPAREN .)
+    ASTERISK        reduce using rule 25 (expression -> LPAREN expression RPAREN .)
+    PERCENTAGE      reduce using rule 25 (expression -> LPAREN expression RPAREN .)
+    EXCLAIM         reduce using rule 25 (expression -> LPAREN expression RPAREN .)
+    LTHAN           reduce using rule 25 (expression -> LPAREN expression RPAREN .)
+    GTHAN           reduce using rule 25 (expression -> LPAREN expression RPAREN .)
+    AMPERSAND       reduce using rule 25 (expression -> LPAREN expression RPAREN .)
+    EQUALS          reduce using rule 25 (expression -> LPAREN expression RPAREN .)
+    RPAREN          reduce using rule 25 (expression -> LPAREN expression RPAREN .)
+    COMMA           reduce using rule 25 (expression -> LPAREN expression RPAREN .)
+    SEMICOLON       reduce using rule 25 (expression -> LPAREN expression RPAREN .)
+
+
+state 100
+
+    (60) rel_expr -> rel_expr gthanequal shift_expr .
+
+    EXCLAIM         reduce using rule 60 (rel_expr -> rel_expr gthanequal shift_expr .)
+    LTHAN           reduce using rule 60 (rel_expr -> rel_expr gthanequal shift_expr .)
+    GTHAN           reduce using rule 60 (rel_expr -> rel_expr gthanequal shift_expr .)
+    AMPERSAND       reduce using rule 60 (rel_expr -> rel_expr gthanequal shift_expr .)
+    EQUALS          reduce using rule 60 (rel_expr -> rel_expr gthanequal shift_expr .)
+    RPAREN          reduce using rule 60 (rel_expr -> rel_expr gthanequal shift_expr .)
+
+
+state 101
+
+    (56) rel_expr -> rel_expr EXCLAIM EQUALS . shift_expr
+    (63) shift_expr -> . additive_expr
+    (64) additive_expr -> . multiplicative_expr
+    (65) additive_expr -> . additive_expr PLUS multiplicative_expr
+    (66) additive_expr -> . additive_expr MINUS multiplicative_expr
+    (67) multiplicative_expr -> . cast_expr
+    (68) cast_expr -> . expression
+    (16) expression -> . expression PLUS expression
+    (17) expression -> . expression MINUS expression
+    (18) expression -> . expression DIVIDE expression
+    (19) expression -> . expression ASTERISK expression
+    (20) expression -> . expression PERCENTAGE expression
+    (21) expression -> . starname
+    (22) expression -> . andname
+    (23) expression -> . name
+    (24) expression -> . number
+    (25) expression -> . LPAREN expression RPAREN
+    (38) expression -> . MINUS expression
+    (27) starname -> . ASTERISK name
+    (28) andname -> . AMPERSAND name
+    (30) name -> . NAME
+    (29) number -> . NUMBER
+
+    LPAREN          shift and go to state 59
+    MINUS           shift and go to state 49
+    ASTERISK        shift and go to state 18
+    AMPERSAND       shift and go to state 58
+    NAME            shift and go to state 11
+    NUMBER          shift and go to state 56
+
+    cast_expr                      shift and go to state 60
+    starname                       shift and go to state 50
+    additive_expr                  shift and go to state 63
+    shift_expr                     shift and go to state 118
+    number                         shift and go to state 46
+    multiplicative_expr            shift and go to state 52
+    andname                        shift and go to state 48
+    expression                     shift and go to state 64
+    name                           shift and go to state 61
+
+state 102
+
+    (58) rel_expr -> rel_expr GTHAN shift_expr .
+
+    EXCLAIM         reduce using rule 58 (rel_expr -> rel_expr GTHAN shift_expr .)
+    LTHAN           reduce using rule 58 (rel_expr -> rel_expr GTHAN shift_expr .)
+    GTHAN           reduce using rule 58 (rel_expr -> rel_expr GTHAN shift_expr .)
+    AMPERSAND       reduce using rule 58 (rel_expr -> rel_expr GTHAN shift_expr .)
+    EQUALS          reduce using rule 58 (rel_expr -> rel_expr GTHAN shift_expr .)
+    RPAREN          reduce using rule 58 (rel_expr -> rel_expr GTHAN shift_expr .)
+
+
+state 103
+
+    (62) gthanequal -> GTHAN EQUALS .
+
+    LPAREN          reduce using rule 62 (gthanequal -> GTHAN EQUALS .)
+    MINUS           reduce using rule 62 (gthanequal -> GTHAN EQUALS .)
+    ASTERISK        reduce using rule 62 (gthanequal -> GTHAN EQUALS .)
+    AMPERSAND       reduce using rule 62 (gthanequal -> GTHAN EQUALS .)
+    NAME            reduce using rule 62 (gthanequal -> GTHAN EQUALS .)
+    NUMBER          reduce using rule 62 (gthanequal -> GTHAN EQUALS .)
+
+
+state 104
+
+    (59) rel_expr -> rel_expr lthanequal shift_expr .
+
+    EXCLAIM         reduce using rule 59 (rel_expr -> rel_expr lthanequal shift_expr .)
+    LTHAN           reduce using rule 59 (rel_expr -> rel_expr lthanequal shift_expr .)
+    GTHAN           reduce using rule 59 (rel_expr -> rel_expr lthanequal shift_expr .)
+    AMPERSAND       reduce using rule 59 (rel_expr -> rel_expr lthanequal shift_expr .)
+    EQUALS          reduce using rule 59 (rel_expr -> rel_expr lthanequal shift_expr .)
+    RPAREN          reduce using rule 59 (rel_expr -> rel_expr lthanequal shift_expr .)
+
+
+state 105
+
+    (57) rel_expr -> rel_expr LTHAN shift_expr .
+
+    EXCLAIM         reduce using rule 57 (rel_expr -> rel_expr LTHAN shift_expr .)
+    LTHAN           reduce using rule 57 (rel_expr -> rel_expr LTHAN shift_expr .)
+    GTHAN           reduce using rule 57 (rel_expr -> rel_expr LTHAN shift_expr .)
+    AMPERSAND       reduce using rule 57 (rel_expr -> rel_expr LTHAN shift_expr .)
+    EQUALS          reduce using rule 57 (rel_expr -> rel_expr LTHAN shift_expr .)
+    RPAREN          reduce using rule 57 (rel_expr -> rel_expr LTHAN shift_expr .)
+
+
+state 106
+
+    (61) lthanequal -> LTHAN EQUALS .
+
+    LPAREN          reduce using rule 61 (lthanequal -> LTHAN EQUALS .)
+    MINUS           reduce using rule 61 (lthanequal -> LTHAN EQUALS .)
+    ASTERISK        reduce using rule 61 (lthanequal -> LTHAN EQUALS .)
+    AMPERSAND       reduce using rule 61 (lthanequal -> LTHAN EQUALS .)
+    NAME            reduce using rule 61 (lthanequal -> LTHAN EQUALS .)
+    NUMBER          reduce using rule 61 (lthanequal -> LTHAN EQUALS .)
+
+
+state 107
+
+    (65) additive_expr -> additive_expr PLUS multiplicative_expr .
+
+    PLUS            reduce using rule 65 (additive_expr -> additive_expr PLUS multiplicative_expr .)
+    MINUS           reduce using rule 65 (additive_expr -> additive_expr PLUS multiplicative_expr .)
+    EXCLAIM         reduce using rule 65 (additive_expr -> additive_expr PLUS multiplicative_expr .)
+    LTHAN           reduce using rule 65 (additive_expr -> additive_expr PLUS multiplicative_expr .)
+    GTHAN           reduce using rule 65 (additive_expr -> additive_expr PLUS multiplicative_expr .)
+    AMPERSAND       reduce using rule 65 (additive_expr -> additive_expr PLUS multiplicative_expr .)
+    EQUALS          reduce using rule 65 (additive_expr -> additive_expr PLUS multiplicative_expr .)
+    RPAREN          reduce using rule 65 (additive_expr -> additive_expr PLUS multiplicative_expr .)
+
+
+state 108
+
+    (66) additive_expr -> additive_expr MINUS multiplicative_expr .
+
+    PLUS            reduce using rule 66 (additive_expr -> additive_expr MINUS multiplicative_expr .)
+    MINUS           reduce using rule 66 (additive_expr -> additive_expr MINUS multiplicative_expr .)
+    EXCLAIM         reduce using rule 66 (additive_expr -> additive_expr MINUS multiplicative_expr .)
+    LTHAN           reduce using rule 66 (additive_expr -> additive_expr MINUS multiplicative_expr .)
+    GTHAN           reduce using rule 66 (additive_expr -> additive_expr MINUS multiplicative_expr .)
+    AMPERSAND       reduce using rule 66 (additive_expr -> additive_expr MINUS multiplicative_expr .)
+    EQUALS          reduce using rule 66 (additive_expr -> additive_expr MINUS multiplicative_expr .)
+    RPAREN          reduce using rule 66 (additive_expr -> additive_expr MINUS multiplicative_expr .)
+
+
+state 109
+
+    (18) expression -> expression DIVIDE expression .
+    (16) expression -> expression . PLUS expression
+    (17) expression -> expression . MINUS expression
+    (18) expression -> expression . DIVIDE expression
+    (19) expression -> expression . ASTERISK expression
+    (20) expression -> expression . PERCENTAGE expression
+
+    PLUS            reduce using rule 18 (expression -> expression DIVIDE expression .)
+    MINUS           reduce using rule 18 (expression -> expression DIVIDE expression .)
+    DIVIDE          reduce using rule 18 (expression -> expression DIVIDE expression .)
+    ASTERISK        reduce using rule 18 (expression -> expression DIVIDE expression .)
+    PERCENTAGE      reduce using rule 18 (expression -> expression DIVIDE expression .)
+    EXCLAIM         reduce using rule 18 (expression -> expression DIVIDE expression .)
+    LTHAN           reduce using rule 18 (expression -> expression DIVIDE expression .)
+    GTHAN           reduce using rule 18 (expression -> expression DIVIDE expression .)
+    AMPERSAND       reduce using rule 18 (expression -> expression DIVIDE expression .)
+    EQUALS          reduce using rule 18 (expression -> expression DIVIDE expression .)
+    RPAREN          reduce using rule 18 (expression -> expression DIVIDE expression .)
+    COMMA           reduce using rule 18 (expression -> expression DIVIDE expression .)
+    SEMICOLON       reduce using rule 18 (expression -> expression DIVIDE expression .)
+
+  ! PLUS            [ shift and go to state 90 ]
+  ! MINUS           [ shift and go to state 92 ]
+  ! DIVIDE          [ shift and go to state 88 ]
+  ! ASTERISK        [ shift and go to state 89 ]
+  ! PERCENTAGE      [ shift and go to state 91 ]
+
+
+state 110
+
+    (19) expression -> expression ASTERISK expression .
+    (16) expression -> expression . PLUS expression
+    (17) expression -> expression . MINUS expression
+    (18) expression -> expression . DIVIDE expression
+    (19) expression -> expression . ASTERISK expression
+    (20) expression -> expression . PERCENTAGE expression
+
+    PLUS            reduce using rule 19 (expression -> expression ASTERISK expression .)
+    MINUS           reduce using rule 19 (expression -> expression ASTERISK expression .)
+    DIVIDE          reduce using rule 19 (expression -> expression ASTERISK expression .)
+    ASTERISK        reduce using rule 19 (expression -> expression ASTERISK expression .)
+    PERCENTAGE      reduce using rule 19 (expression -> expression ASTERISK expression .)
+    EXCLAIM         reduce using rule 19 (expression -> expression ASTERISK expression .)
+    LTHAN           reduce using rule 19 (expression -> expression ASTERISK expression .)
+    GTHAN           reduce using rule 19 (expression -> expression ASTERISK expression .)
+    AMPERSAND       reduce using rule 19 (expression -> expression ASTERISK expression .)
+    EQUALS          reduce using rule 19 (expression -> expression ASTERISK expression .)
+    RPAREN          reduce using rule 19 (expression -> expression ASTERISK expression .)
+    COMMA           reduce using rule 19 (expression -> expression ASTERISK expression .)
+    SEMICOLON       reduce using rule 19 (expression -> expression ASTERISK expression .)
+
+  ! PLUS            [ shift and go to state 90 ]
+  ! MINUS           [ shift and go to state 92 ]
+  ! DIVIDE          [ shift and go to state 88 ]
+  ! ASTERISK        [ shift and go to state 89 ]
+  ! PERCENTAGE      [ shift and go to state 91 ]
+
+
+state 111
+
+    (16) expression -> expression PLUS expression .
+    (16) expression -> expression . PLUS expression
+    (17) expression -> expression . MINUS expression
+    (18) expression -> expression . DIVIDE expression
+    (19) expression -> expression . ASTERISK expression
+    (20) expression -> expression . PERCENTAGE expression
+
+    PLUS            reduce using rule 16 (expression -> expression PLUS expression .)
+    MINUS           reduce using rule 16 (expression -> expression PLUS expression .)
+    PERCENTAGE      reduce using rule 16 (expression -> expression PLUS expression .)
+    EXCLAIM         reduce using rule 16 (expression -> expression PLUS expression .)
+    LTHAN           reduce using rule 16 (expression -> expression PLUS expression .)
+    GTHAN           reduce using rule 16 (expression -> expression PLUS expression .)
+    AMPERSAND       reduce using rule 16 (expression -> expression PLUS expression .)
+    EQUALS          reduce using rule 16 (expression -> expression PLUS expression .)
+    RPAREN          reduce using rule 16 (expression -> expression PLUS expression .)
+    COMMA           reduce using rule 16 (expression -> expression PLUS expression .)
+    SEMICOLON       reduce using rule 16 (expression -> expression PLUS expression .)
+    DIVIDE          shift and go to state 88
+    ASTERISK        shift and go to state 89
+
+  ! DIVIDE          [ reduce using rule 16 (expression -> expression PLUS expression .) ]
+  ! ASTERISK        [ reduce using rule 16 (expression -> expression PLUS expression .) ]
+  ! PLUS            [ shift and go to state 90 ]
+  ! MINUS           [ shift and go to state 92 ]
+  ! PERCENTAGE      [ shift and go to state 91 ]
+
+
+state 112
+
+    (20) expression -> expression PERCENTAGE expression .
+    (16) expression -> expression . PLUS expression
+    (17) expression -> expression . MINUS expression
+    (18) expression -> expression . DIVIDE expression
+    (19) expression -> expression . ASTERISK expression
+    (20) expression -> expression . PERCENTAGE expression
+
+  ! shift/reduce conflict for PLUS resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for DIVIDE resolved as shift
+  ! shift/reduce conflict for ASTERISK resolved as shift
+  ! shift/reduce conflict for PERCENTAGE resolved as shift
+    EXCLAIM         reduce using rule 20 (expression -> expression PERCENTAGE expression .)
+    LTHAN           reduce using rule 20 (expression -> expression PERCENTAGE expression .)
+    GTHAN           reduce using rule 20 (expression -> expression PERCENTAGE expression .)
+    AMPERSAND       reduce using rule 20 (expression -> expression PERCENTAGE expression .)
+    EQUALS          reduce using rule 20 (expression -> expression PERCENTAGE expression .)
+    RPAREN          reduce using rule 20 (expression -> expression PERCENTAGE expression .)
+    COMMA           reduce using rule 20 (expression -> expression PERCENTAGE expression .)
+    SEMICOLON       reduce using rule 20 (expression -> expression PERCENTAGE expression .)
+    PLUS            shift and go to state 90
+    MINUS           shift and go to state 92
+    DIVIDE          shift and go to state 88
+    ASTERISK        shift and go to state 89
+    PERCENTAGE      shift and go to state 91
+
+  ! PLUS            [ reduce using rule 20 (expression -> expression PERCENTAGE expression .) ]
+  ! MINUS           [ reduce using rule 20 (expression -> expression PERCENTAGE expression .) ]
+  ! DIVIDE          [ reduce using rule 20 (expression -> expression PERCENTAGE expression .) ]
+  ! ASTERISK        [ reduce using rule 20 (expression -> expression PERCENTAGE expression .) ]
+  ! PERCENTAGE      [ reduce using rule 20 (expression -> expression PERCENTAGE expression .) ]
+
+
+state 113
+
+    (17) expression -> expression MINUS expression .
+    (16) expression -> expression . PLUS expression
+    (17) expression -> expression . MINUS expression
+    (18) expression -> expression . DIVIDE expression
+    (19) expression -> expression . ASTERISK expression
+    (20) expression -> expression . PERCENTAGE expression
+
+    PLUS            reduce using rule 17 (expression -> expression MINUS expression .)
+    MINUS           reduce using rule 17 (expression -> expression MINUS expression .)
+    PERCENTAGE      reduce using rule 17 (expression -> expression MINUS expression .)
+    EXCLAIM         reduce using rule 17 (expression -> expression MINUS expression .)
+    LTHAN           reduce using rule 17 (expression -> expression MINUS expression .)
+    GTHAN           reduce using rule 17 (expression -> expression MINUS expression .)
+    AMPERSAND       reduce using rule 17 (expression -> expression MINUS expression .)
+    EQUALS          reduce using rule 17 (expression -> expression MINUS expression .)
+    RPAREN          reduce using rule 17 (expression -> expression MINUS expression .)
+    COMMA           reduce using rule 17 (expression -> expression MINUS expression .)
+    SEMICOLON       reduce using rule 17 (expression -> expression MINUS expression .)
+    DIVIDE          shift and go to state 88
+    ASTERISK        shift and go to state 89
+
+  ! DIVIDE          [ reduce using rule 17 (expression -> expression MINUS expression .) ]
+  ! ASTERISK        [ reduce using rule 17 (expression -> expression MINUS expression .) ]
+  ! PLUS            [ shift and go to state 90 ]
+  ! MINUS           [ shift and go to state 92 ]
+  ! PERCENTAGE      [ shift and go to state 91 ]
+
+
+state 114
+
+    (42) selection_stmt -> IF LPAREN condition_expression RPAREN brace_stmt .
+    (43) selection_stmt -> IF LPAREN condition_expression RPAREN brace_stmt . ELSE brace_stmt
+
+    INT             reduce using rule 42 (selection_stmt -> IF LPAREN condition_expression RPAREN brace_stmt .)
+    IF              reduce using rule 42 (selection_stmt -> IF LPAREN condition_expression RPAREN brace_stmt .)
+    WHILE           reduce using rule 42 (selection_stmt -> IF LPAREN condition_expression RPAREN brace_stmt .)
+    ASTERISK        reduce using rule 42 (selection_stmt -> IF LPAREN condition_expression RPAREN brace_stmt .)
+    NAME            reduce using rule 42 (selection_stmt -> IF LPAREN condition_expression RPAREN brace_stmt .)
+    RBRACE          reduce using rule 42 (selection_stmt -> IF LPAREN condition_expression RPAREN brace_stmt .)
+    ELSE            shift and go to state 119
+
+  ! ELSE            [ reduce using rule 42 (selection_stmt -> IF LPAREN condition_expression RPAREN brace_stmt .) ]
+
+
+state 115
+
+    (41) brace_stmt -> LBRACE stmt_list . RBRACE
+
+    RBRACE          shift and go to state 120
+
+
+state 116
+
+    (49) log_and_expr -> log_and_expr AMPERSAND AMPERSAND incl_or_expr .
+
+    AMPERSAND       reduce using rule 49 (log_and_expr -> log_and_expr AMPERSAND AMPERSAND incl_or_expr .)
+    EQUALS          reduce using rule 49 (log_and_expr -> log_and_expr AMPERSAND AMPERSAND incl_or_expr .)
+    RPAREN          reduce using rule 49 (log_and_expr -> log_and_expr AMPERSAND AMPERSAND incl_or_expr .)
+
+
+state 117
+
+    (50) log_and_expr -> log_and_expr EQUALS EQUALS incl_or_expr .
+
+    AMPERSAND       reduce using rule 50 (log_and_expr -> log_and_expr EQUALS EQUALS incl_or_expr .)
+    EQUALS          reduce using rule 50 (log_and_expr -> log_and_expr EQUALS EQUALS incl_or_expr .)
+    RPAREN          reduce using rule 50 (log_and_expr -> log_and_expr EQUALS EQUALS incl_or_expr .)
+
+
+state 118
+
+    (56) rel_expr -> rel_expr EXCLAIM EQUALS shift_expr .
+
+    EXCLAIM         reduce using rule 56 (rel_expr -> rel_expr EXCLAIM EQUALS shift_expr .)
+    LTHAN           reduce using rule 56 (rel_expr -> rel_expr EXCLAIM EQUALS shift_expr .)
+    GTHAN           reduce using rule 56 (rel_expr -> rel_expr EXCLAIM EQUALS shift_expr .)
+    AMPERSAND       reduce using rule 56 (rel_expr -> rel_expr EXCLAIM EQUALS shift_expr .)
+    EQUALS          reduce using rule 56 (rel_expr -> rel_expr EXCLAIM EQUALS shift_expr .)
+    RPAREN          reduce using rule 56 (rel_expr -> rel_expr EXCLAIM EQUALS shift_expr .)
+
+
+state 119
+
+    (43) selection_stmt -> IF LPAREN condition_expression RPAREN brace_stmt ELSE . brace_stmt
+    (40) brace_stmt -> . stmt
+    (41) brace_stmt -> . LBRACE stmt_list RBRACE
+    (8) stmt -> . type varlist SEMICOLON
+    (9) stmt -> . assignlist SEMICOLON
+    (10) stmt -> . selection_stmt
+    (11) stmt -> . iteration_stmt
+    (26) type -> . INT
+    (12) assignlist -> . assignstmt COMMA assignlist
+    (13) assignlist -> . assignstmt
+    (42) selection_stmt -> . IF LPAREN condition_expression RPAREN brace_stmt
+    (43) selection_stmt -> . IF LPAREN condition_expression RPAREN brace_stmt ELSE brace_stmt
+    (39) iteration_stmt -> . WHILE LPAREN condition_expression RPAREN brace_stmt
+    (14) assignstmt -> . starname EQUALS expression
+    (15) assignstmt -> . name EQUALS expression
+    (27) starname -> . ASTERISK name
+    (30) name -> . NAME
+
+    LBRACE          shift and go to state 96
+    INT             shift and go to state 24
+    IF              shift and go to state 21
+    WHILE           shift and go to state 12
+    ASTERISK        shift and go to state 18
+    NAME            shift and go to state 11
+
+    assignlist                     shift and go to state 23
+    starname                       shift and go to state 14
+    brace_stmt                     shift and go to state 121
+    stmt                           shift and go to state 95
+    assignstmt                     shift and go to state 20
+    iteration_stmt                 shift and go to state 13
+    selection_stmt                 shift and go to state 16
+    type                           shift and go to state 17
+    name                           shift and go to state 15
+
+state 120
+
+    (41) brace_stmt -> LBRACE stmt_list RBRACE .
+
+    INT             reduce using rule 41 (brace_stmt -> LBRACE stmt_list RBRACE .)
+    IF              reduce using rule 41 (brace_stmt -> LBRACE stmt_list RBRACE .)
+    WHILE           reduce using rule 41 (brace_stmt -> LBRACE stmt_list RBRACE .)
+    ASTERISK        reduce using rule 41 (brace_stmt -> LBRACE stmt_list RBRACE .)
+    NAME            reduce using rule 41 (brace_stmt -> LBRACE stmt_list RBRACE .)
+    RBRACE          reduce using rule 41 (brace_stmt -> LBRACE stmt_list RBRACE .)
+    ELSE            reduce using rule 41 (brace_stmt -> LBRACE stmt_list RBRACE .)
+
+
+state 121
+
+    (43) selection_stmt -> IF LPAREN condition_expression RPAREN brace_stmt ELSE brace_stmt .
+
+    INT             reduce using rule 43 (selection_stmt -> IF LPAREN condition_expression RPAREN brace_stmt ELSE brace_stmt .)
+    IF              reduce using rule 43 (selection_stmt -> IF LPAREN condition_expression RPAREN brace_stmt ELSE brace_stmt .)
+    WHILE           reduce using rule 43 (selection_stmt -> IF LPAREN condition_expression RPAREN brace_stmt ELSE brace_stmt .)
+    ASTERISK        reduce using rule 43 (selection_stmt -> IF LPAREN condition_expression RPAREN brace_stmt ELSE brace_stmt .)
+    NAME            reduce using rule 43 (selection_stmt -> IF LPAREN condition_expression RPAREN brace_stmt ELSE brace_stmt .)
+    RBRACE          reduce using rule 43 (selection_stmt -> IF LPAREN condition_expression RPAREN brace_stmt ELSE brace_stmt .)
+    ELSE            reduce using rule 43 (selection_stmt -> IF LPAREN condition_expression RPAREN brace_stmt ELSE brace_stmt .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for PLUS in state 64 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 64 resolved as shift
+WARNING: shift/reduce conflict for PLUS in state 112 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 112 resolved as shift
+WARNING: shift/reduce conflict for DIVIDE in state 112 resolved as shift
+WARNING: shift/reduce conflict for ASTERISK in state 112 resolved as shift
+WARNING: shift/reduce conflict for PERCENTAGE in state 112 resolved as shift

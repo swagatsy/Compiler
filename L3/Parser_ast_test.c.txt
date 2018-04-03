@@ -1,0 +1,37 @@
+IF
+(
+	<
+	(
+		CONST(5)
+		,
+		CONST(66)
+	
+	)
+	,
+	ASGN
+	(
+		DEREF
+		(
+			VAR(a)
+		
+		)
+		,
+		CONST(5)
+	
+	)
+	,
+	ASGN
+	(
+		DEREF
+		(
+			VAR(a)
+		
+		)
+		,
+		CONST(4)
+	
+	)
+
+)
+
+

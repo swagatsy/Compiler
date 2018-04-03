@@ -1,0 +1,52 @@
+ASGN
+(
+	VAR(pa)
+	,
+	MINUS
+	(
+		PLUS
+		(
+			DIV
+			(
+				CONST(2)
+				,
+				VAR(a)
+			)
+			,
+			VAR(b)
+		)
+		,
+		MUL
+		(
+			UMINUS
+			(
+				VAR(c)
+			)
+			,
+			VAR(d0)
+		)
+	)
+)
+
+ASGN
+(
+	VAR(pa)
+	,
+	PLUS
+	(
+		CONST(3)
+		,
+		DIV
+		(
+			DIV
+			(
+				CONST(5333)
+				,
+				CONST(555)
+			)
+			,
+			VAR(a)
+		)
+	)
+)
+
