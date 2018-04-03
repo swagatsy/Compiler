@@ -1,0 +1,203 @@
+FUNCTION func3
+PARAMS ()
+RETURNS void
+RETURN 
+(
+)
+
+FUNCTION func1
+PARAMS (int *b1, int *b1int *b2)
+RETURNS *int
+	IF
+	(
+		EQ
+		(
+			DEREF
+			(
+				VAR(b1)
+			)
+			,
+			CONST(32)
+		)
+		,
+		ASGN
+		(
+			DEREF
+			(
+				VAR(var1)
+			)
+			,
+			CONST(3.0)
+		)
+
+	)
+RETURN 
+(
+	VAR(b1)
+)
+
+
+FUNCTION func2
+PARAMS (int *b1, int *b1float *b2)
+RETURNS *int
+	IF
+	(
+		EQ
+		(
+			DEREF
+			(
+				VAR(b1)
+			)
+			,
+			CONST(32)
+		)
+		,
+		ASGN
+		(
+			DEREF
+			(
+				VAR(var1)
+			)
+			,
+			CONST(3.0)
+		)
+		,
+		WHILE
+		(
+			NE
+			(
+				DEREF
+				(
+					VAR(b2)
+				)
+				,
+				DEREF
+				(
+					VAR(var1)
+				)
+			)
+			,
+			ASGN
+			(
+				DEREF
+				(
+					VAR(b2)
+				)
+				,
+				MINUS
+				(
+					DEREF
+					(
+						VAR(b2)
+					)
+					,
+					CONST(1.0)
+				)
+			)
+
+		)
+
+	)
+RETURN 
+(
+	VAR(h1)
+)
+
+
+
+
+
+Function Main
+PARAMS() 
+RETURNS void
+	ASGN
+	(
+		DEREF
+		(
+			VAR(g)
+		)
+		,
+		CONST(4)
+	)
+	IF
+	(
+		EQ
+		(
+			DEREF
+			(
+				VAR(g)
+			)
+			,
+			CONST(4)
+		)
+		,
+		WHILE
+		(
+			NE
+			(
+				DEREF
+				(
+					VAR(g)
+				)
+				,
+				CONST(0)
+			)
+			,
+			ASGN
+			(
+				DEREF
+				(
+					VAR(g)
+				)
+				,
+				MINUS
+				(
+					DEREF
+					(
+						VAR(g)
+					)
+					,
+					CONST(1)
+				)
+			)
+
+		)
+		ASGN
+		(
+			DEREF
+			(
+				DEREF
+				(
+					VAR(f)
+				)
+			)
+			,
+			CONST(3.0)
+		)
+		,
+		ASGN
+		(
+			DEREF
+			(
+				DEREF
+				(
+					VAR(f)
+				)
+			)
+			,
+			CONST(2.0)
+		)
+
+	)
+	ASGN
+	(
+		VAR(g)
+		,
+		CALL func1( 
+			VAR(g)
+			,
+			VAR(a2)
+		 )
+	)
+	CALL func3( 
+	 )

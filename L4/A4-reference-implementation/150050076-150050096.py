@@ -245,7 +245,12 @@ def cfgprint(root):
 		result += cfgprint(child)
 	return result
 
+def symbolprint(var_dec):
+	stri = ""
+	for a in var_dec:
+		stri += ( a.name + " " + a.scope + " " + a.type + " " + a.dertype + "\n" )
 
+	return stri
 
 listtrees = []
 
@@ -254,7 +259,8 @@ point = 0
 assign = 0
 err=0
 
-
+var_dec = []
+func_dec = []
 
 point_var = {}
 stat_var = {}
@@ -380,8 +386,7 @@ precedence = (
 
 def p_program_content(p):
 	'''
-	program_content : declaration program_content
-					| function_dec program_content
+	program_content :  function_dec program_content
 					| function_body program_content 
 					| program program_content
 	'''
@@ -389,12 +394,26 @@ def p_program_content(p):
 
 def p_program_content2(p):
 	'''
-	program_content : declaration 
-					| function_dec 
+	program_content : function_dec 
 					| function_body  
 					| program 
 	'''
+
 	# needs some editing yet
+
+def p_program_content3(p):
+	'''
+	program_content : declaration
+	'''
+	global var_dec
+	var_dec += p[1]
+
+def p_program_content4(p):
+	'''
+	program_content : declaration program_content
+	'''
+	global var_dec
+	var_dec += p[1]
 
 def p_function_dec(p):
 	'''
@@ -466,6 +485,9 @@ def p_function_content3(p):
 	function_content : declaration
 	'''
 	p[0] = []
+	global var_dec
+	var_dec += p[1]
+
 
 def p_function_content4(p):
 	'''
@@ -473,18 +495,21 @@ def p_function_content4(p):
 	'''
 	p[0] = []
 	p[0] += p[2]
+	global var_dec
+	var_dec += p[1]
 
 def p_declaration(p):
 	'''
 	declaration : datatype varlist SEMICOLON'
 	'''
-	# global stat
-	# stat += 1
+	emptylist = []
+	for a in p[2]:
+		a.type = p[1]
+		emptylist.append(a)
 
-# def p_declaration1(p):
-# 	'declaration : datatype pointerlist SEMICOLON'
-# 	global point
-# 	point += 1
+	p[2] = emptylist
+	p[0] = p[2] 
+	
 
 def p_datatype(p):
 	'''
@@ -496,11 +521,31 @@ def p_varlist1(p):
 	'''varlist : NAME COMMA varlist
 				| pointer COMMA varlist
 	'''
+	p[0]=[]
+	if p[1].type == 'NAME':
+		er = TreeVdec()
+		er.name = p[1]
+		er.dertype = ""
+		p[0].append(er)
+		p[0] += p[2]
+	else:
+		p[0].append(p[1])
+		p[0]+=p[2]
 	
 def p_varlist2(p):
 	'''varlist : NAME
 				| pointer
 	'''
+	p[0] = []
+	if p[1].type == 'NAME':
+		pp = TreeVdec()
+		pp.name = p[1]
+		pp.dertype = ""
+		p[0].append(pp)
+
+	else:
+		p[0].append(p[1])
+
 
 def p_pointer(p):
 	'''
@@ -814,6 +859,10 @@ if __name__ == "__main__":
 
 		with open(file_name+".cfg",'w') as f:
 			print >> f , cfgstr
+
+		symstr = symbolprint(var_dec)
+		with open(file_name+".sym",'w') as f:
+			print >> f , symstr
 
 	# print(stat)
 	# print(point)
