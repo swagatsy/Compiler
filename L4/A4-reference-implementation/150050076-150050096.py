@@ -492,22 +492,16 @@ def p_datatype(p):
 			 | FLOAT
 	'''
 
-def p_statlist(p):
+def p_varlist1(p):
 	'''varlist : NAME COMMA varlist
-				| NAME
+				| pointer COMMA varlist
 	'''
-	global stat
-	stat += 1
-
-
-def p_pointerlist(p):
-	'''varlist : pointer COMMA varlist
+	
+def p_varlist2(p):
+	'''varlist : NAME
 				| pointer
 	'''
-	global point
-	point += 1
 
-	# p[0]
 def p_pointer(p):
 	'''
 	pointer : ASTERISK pointer
