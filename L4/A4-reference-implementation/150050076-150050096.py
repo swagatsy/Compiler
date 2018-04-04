@@ -34,7 +34,7 @@ class cfgTree:
 		self.strValue = ""
 		self.isTerminal = True
 
-root = Tree()
+root = []
 final = ""
 loop = 0
 cfgstr = ""
@@ -404,6 +404,10 @@ precedence = (
 		# ('left','LESSER','LESSEREQ','GREATER','GREATEREQ'),
 )
 
+def p_final_prog(p):
+	'''
+	final_program : program_content
+	'''
 
 
 def p_program_content(p):
@@ -490,7 +494,7 @@ def p_arguments2(p):
 def p_function_body(p):
 	'''
 	function_body : datatype pointer LPAREN arguments RPAREN LBRACE function_content return_stat RBRACE 
-				|  datatype namevar LPAREN arguments RPAREN LBRACE function_content return_stat RBRACE
+				|  VOID namevar LPAREN arguments RPAREN LBRACE function_content return_stat RBRACE
 	'''
 	global root
 	temp = Tree()
@@ -508,15 +512,13 @@ def p_function_body(p):
 	temp.childlist = p[7]
 	temp.data = p[2].name
 	p[0] = temp
-	if root.childlist==None:
-		root.childlist = [p[0]]
-	else:
-		root.childlist.append(p[0])
+	
+	root.append(p[0])
 
 def p_function_body2(p):
 	'''
 	function_body : datatype pointer LPAREN  RPAREN LBRACE function_content return_stat RBRACE
-				| datatype namevar LPAREN  RPAREN LBRACE function_content return_stat RBRACE 
+				| VOID namevar LPAREN  RPAREN LBRACE function_content return_stat RBRACE 
 	'''
 	global root
 	temp = Tree()
@@ -536,10 +538,8 @@ def p_function_body2(p):
 	temp.childlist = p[6]
 	temp.data = p[2].name
 	p[0] = temp
-	if root.childlist==None:
-		root.childlist = [p[0]]
-	else:
-		root.childlist.append(p[0])
+	
+	root.append(p[0])
 
 def p_return(p):
 	'''
@@ -582,10 +582,8 @@ def p_program(p):
 
 	temp.childlist = p[6]
 	p[0] = temp
-	if root.childlist==None:
-		root.childlist = [p[0]]
-	else:
-		root.childlist.append(p[0])
+	
+	root.append(p[0])
 
 	# ast(root)
 	# cfgroot = cfgmain(root)
