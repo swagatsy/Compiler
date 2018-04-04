@@ -1,10 +1,19 @@
-g Main int *
-a1 Main int **
-a2 Main int *
-a Main int 
-f Main float **
-var1 Global float *
-var2 Global float 
-g3 Global int *
-l3 Global int 
+Procedure Table :-
+----------------------------------------------------------------
+Name 	 | Return Type 	 | Parameter list 
+func3	 | void	 	 | 
+
+Variable Table :- 
+----------------------------------------------------------------
+Name 	 | Scope 	 | Base Type | Derived Type 
+a 	 | func3	 |  int	 | *
+g 	 | Main	 |  int	 | *
+a1 	 | Main	 |  int	 | **
+a2 	 | Main	 |  int	 | *
+a 	 | Main	 |  int	 | 
+f 	 | Main	 |  float	 | **
+var1 	 | Global	 |  float	 | *
+var2 	 | Global	 |  float	 | 
+g3 	 | Global	 |  int	 | *
+l3 	 | Global	 |  int	 | 
 

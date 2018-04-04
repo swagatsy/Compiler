@@ -245,13 +245,26 @@ def cfgprint(root):
 		result += cfgprint(child)
 	return result
 
-def symbolprint(var_dec):
-	stri = ""
+def symbolprintv(var_dec):
+	stri = "Variable Table :- \n"
+	stri += "----------------------------------------------------------------\n"
+	stri += "Name \t | Scope \t | Base Type | Derived Type \n"
 	for a in var_dec:
-		stri +=  a.name + " "+a.scope+ " "  + a.type + " " + a.dertype + "\n" 
+		stri +=  a.name + " \t | "+a.scope+ "\t |  "  + a.type + "\t | " + a.dertype + "\n" 
 		# print a.type
 
 	return stri
+
+def symbolprintf(func_dec):
+	stri = "Procedure Table :-\n"
+	stri += "----------------------------------------------------------------\n"
+	stri += "Name \t | Return Type \t | Parameter list \n"
+	for a in func_dec:
+		stri +=  a.name + "\t | "+a.returntype+ "\t \t | "  + a.param + "\n" 
+		# print a.type
+
+	return stri
+
 
 listtrees = []
 
@@ -440,21 +453,39 @@ def p_function_dec(p):
 	function_dec : datatype pointer LPAREN arguments RPAREN SEMICOLON
 				| datatype namevar LPAREN arguments RPAREN SEMICOLON
 	'''
+	global func_dec
+	p[0] = TreeFdec()
+	p[0].name = p[2].name
+	p[0].returntype = p[1]
+	p[0].param = p[4]
+	func_dec.append(p[0])
 
 def p_function_dec2(p):
 	'''
 	function_dec : datatype pointer LPAREN  RPAREN SEMICOLON
 			| datatype namevar LPAREN  RPAREN SEMICOLON
 	'''
+	global func_dec
+	p[0] = TreeFdec()
+	p[0].name = p[2].name
+	p[0].returntype = p[1]
+	p[0].param = ""
+	func_dec.append(p[0])
 
 
 def p_arguments(p):
 	'''
 	arguments : datatype pointer
 				| datatype namevar
-				| datatype pointer COMMA arguments 
+	'''
+	p[0] = p[1] + " " + p[2].dertype + p[2].name
+
+def p_arguments2(p):
+	'''
+	arguments : datatype pointer COMMA arguments 
 				| datatype namevar COMMA arguments
 	'''
+	p[0] = p[1] + " " + p[2].dertype + p[2].name + " , " + p[4]
 
 def p_function_body(p):
 	'''
@@ -480,7 +511,7 @@ def p_function_body(p):
 	if root.childlist==None:
 		root.childlist = [p[0]]
 	else:
-		root.childlist+=p[0]
+		root.childlist.append(p[0])
 
 def p_function_body2(p):
 	'''
@@ -508,7 +539,7 @@ def p_function_body2(p):
 	if root.childlist==None:
 		root.childlist = [p[0]]
 	else:
-		root.childlist+=p[0]
+		root.childlist.append(p[0])
 
 def p_return(p):
 	'''
@@ -554,7 +585,7 @@ def p_program(p):
 	if root.childlist==None:
 		root.childlist = [p[0]]
 	else:
-		root.childlist+=p[0]
+		root.childlist.append(p[0])
 
 	# ast(root)
 	# cfgroot = cfgmain(root)
@@ -979,9 +1010,11 @@ if __name__ == "__main__":
 		with open(file_name+".cfg",'w') as f:
 			print >> f , cfgstr
 
-		symstr = symbolprint(var_dec)
+		symstr = symbolprintv(var_dec)
+		symstr2 = symbolprintf(func_dec)
 		with open(file_name+".sym",'w') as f:
-			print >> f , symstr
+			print >> f , symstr2 + "\n" + symstr
+
 
 	# print(stat)
 	# print(point)
