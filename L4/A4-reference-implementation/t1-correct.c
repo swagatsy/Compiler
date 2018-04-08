@@ -1,4 +1,3 @@
-int *g3, l3;
 
 void func3();
 float *var1, var2;

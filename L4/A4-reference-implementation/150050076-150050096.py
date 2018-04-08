@@ -260,7 +260,10 @@ def symbolprintf(func_dec):
 	stri += "----------------------------------------------------------------\n"
 	stri += "Name \t | Return Type \t | Parameter list \n"
 	for a in func_dec:
-		stri +=  a.name + "\t | "+a.returntype+ "\t \t | "  + a.param + "\n" 
+		stri +=  a.name + "\t | "+a.returntype+ "\t \t | "
+		for b in a.param:
+			stri += b.type + " " + b.dertype + b.name + " ,"
+		stri += "\n"
 		# print a.type
 
 	return stri
@@ -404,9 +407,9 @@ precedence = (
 		# ('left','LESSER','LESSEREQ','GREATER','GREATEREQ'),
 )
 
-def p_epsilon(p):
-	'''epsilon : '''
-	pass
+# def p_epsilon(p):
+# 	'''epsilon : '''
+# 	pass
 
 
 def p_final_prog(p):
@@ -478,23 +481,27 @@ def p_function_dec2(p):
 	p[0] = TreeFdec()
 	p[0].name = p[2].name
 	p[0].returntype = p[1]
-	p[0].param = ""
+	p[0].param = []
 	func_dec.append(p[0])
 
-
+	# print 'without arg'
+	
 def p_arguments(p):
 	'''
 	arguments : datatype pointer
 				| datatype namevar
 	'''
-	p[0] = p[1] + " " + p[2].dertype + p[2].name
+	p[2].type = p[1]
+	p[0] = [p[2]]
 
 def p_arguments2(p):
 	'''
 	arguments : datatype pointer COMMA arguments 
 				| datatype namevar COMMA arguments
 	'''
-	p[0] = p[1] + " " + p[2].dertype + p[2].name + " , " + p[4]
+	p[2].type = p[1]
+	p[0] = p[4] 
+	p[0].append(p[2])
 
 def p_function_body(p):
 	'''
