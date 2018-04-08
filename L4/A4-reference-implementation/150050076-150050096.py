@@ -463,7 +463,7 @@ def p_program_content4(p):
 def p_function_dec(p):
 	'''
 	function_dec : datatype pointer LPAREN arguments RPAREN SEMICOLON
-				| datatype namevar LPAREN arguments RPAREN SEMICOLON
+				| VOID namevar LPAREN arguments RPAREN SEMICOLON
 	'''
 	global func_dec
 	p[0] = TreeFdec()
@@ -475,7 +475,7 @@ def p_function_dec(p):
 def p_function_dec2(p):
 	'''
 	function_dec : datatype pointer LPAREN  RPAREN SEMICOLON
-			| datatype namevar LPAREN  RPAREN SEMICOLON
+			| VOID namevar LPAREN  RPAREN SEMICOLON
 	'''
 	global func_dec
 	p[0] = TreeFdec()
@@ -485,7 +485,7 @@ def p_function_dec2(p):
 	func_dec.append(p[0])
 
 	# print 'without arg'
-	
+
 def p_arguments(p):
 	'''
 	arguments : datatype pointer
