@@ -260,7 +260,7 @@ def symbolprintf(func_dec):
 	stri += "----------------------------------------------------------------\n"
 	stri += "Name \t | Return Type \t | Parameter list \n"
 	for a in func_dec:
-		stri +=  a.name + "\t | "+a.returntype+ "\t \t | "
+		stri +=  a.name + "\t | "+a.returntype[0] + a.returntype[1] + "\t \t | "
 		for b in a.param:
 			stri += b.type + " " + b.dertype + b.name + " ,"
 		stri += "\n"
@@ -468,7 +468,7 @@ def p_function_dec(p):
 	global func_dec
 	p[0] = TreeFdec()
 	p[0].name = p[2].name
-	p[0].returntype = p[1]
+	p[0].returntype = [p[1] , p[2].dertype]
 	p[0].param = p[4]
 	func_dec.append(p[0])
 
@@ -480,7 +480,7 @@ def p_function_dec2(p):
 	global func_dec
 	p[0] = TreeFdec()
 	p[0].name = p[2].name
-	p[0].returntype = p[1]
+	p[0].returntype = [p[1] , p[2].dertype]
 	p[0].param = []
 	func_dec.append(p[0])
 

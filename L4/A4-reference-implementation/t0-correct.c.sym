@@ -1,13 +1,14 @@
 Procedure Table :-
 ----------------------------------------------------------------
 Name 	 | Return Type 	 | Parameter list 
-func1	 | int	 	 | int *y ,int *x ,
-func2	 | int	 	 | float *b ,int *a ,
+func1	 | int*	 	 | int *y ,int *x ,
+func2	 | int*	 	 | float *b ,int *a ,
 
 Variable Table :- 
 ----------------------------------------------------------------
 Name 	 | Scope 	 | Base Type | Derived Type 
 h1 	 | func1	 |  int	 | *
+h1 	 | func2	 |  int	 | *
 g 	 | Main	 |  int	 | *
 a1 	 | Main	 |  int	 | **
 a2 	 | Main	 |  int	 | *

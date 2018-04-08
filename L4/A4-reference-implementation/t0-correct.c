@@ -16,6 +16,7 @@ int *func1(int *a, int *b)
 
 int *func2(int *b1, float *b2)
 {
+    int *h1;
     if(*b1 == 32)
     {
         *var1 = 3.0;
