@@ -1,5 +1,6 @@
+
 FUNCTION func1
-PARAMS (int *b, int *a)
+PARAMS (int *a, int *aint *b)
 RETURNS *int
 	IF
 	(
@@ -22,21 +23,25 @@ RETURNS *int
 			,
 			CONST(3.0)
 		)
+
 	)
-RETURN
+RETURN 
 (
 	VAR(a)
 )
-
 FUNCTION func3
 PARAMS ()
 RETURNS void
-	RETURN
+RETURN 
 (
 )
 
+
+
+
+
 Function Main
-PARAMS()
+PARAMS() 
 RETURNS void
 	ASGN
 	(
@@ -88,6 +93,7 @@ RETURNS void
 					CONST(1)
 				)
 			)
+
 		)
 		ASGN
 		(
@@ -114,23 +120,25 @@ RETURNS void
 			,
 			CONST(2.0)
 		)
+
 	)
 	ASGN
 	(
 		VAR(g)
 		,
-		CALL func1(
+		CALL func1( 
 			DEREF
 			(
 				VAR(pp)
 			)
 			,
-		 	VAR(a2)
-		)
+			VAR(a2)
+		 )
 	)
 
+
 FUNCTION func2
-PARAMS (float *b2, int *b1)
+PARAMS (int *b1, int *b1float *b2)
 RETURNS *int
 	IF
 	(
@@ -186,9 +194,11 @@ RETURNS *int
 					CONST(1.0)
 				)
 			)
+
 		)
+
 	)
-RETURN
+RETURN 
 (
 	DEREF
 	(
@@ -201,5 +211,3 @@ RETURN
 		)
 	)
 )
-
-

@@ -58,27 +58,72 @@ def ast(roottree):
 
 	global final
 	# print roottree.childlist
-	for child in roottree.childlist :
+	for child in roottree:
 		final += print_ast(child)
+		# print(final)
 		final += "\n"
 
 
 
 def print_ast(tree):
+	
 	strret = ""
 	if tree.data == "function_content_list" :
 		for child in tree.childlist:
-			strret += print_ast(child)
+			temp = print_ast(child)
+			strret += temp
 		return strret
+
+
+	if tree.data == "Main":
+		strret +="Function Main\nPARAMS()\nRETURNS void\n"
+		childstr = print_ast(tree.childlist[0])
+		strret += "\t"+"\t".join(childstr.splitlines(True))
+		return strret
+
+	if tree.data == "function_body" :
+		child1 = tree.childlist[0]
+		strret += "FUNCTION " + child1.name +"\n"
+		strret += "PARAMS ("
+		l = len(tree.childlist[1])
+		for child in tree.childlist[1] :
+			strret += child.type + " " + child.dertype + child.name
+			l -= 1
+			if l>0:
+				strret += ", "
+
+		strret +=")\n"
+		strret += "RETURNS " + child1.dertype + child1.type +"\n"
+		
+		bodystr = print_ast(tree.childlist[2])
+		strret += "\t"+"\t".join(bodystr.splitlines(True))
+		strret += tree.childlist[3].data +"\n(\n"
+
+		l = len(tree.childlist[3].childlist)
+		for child in tree.childlist[3].childlist :
+			strret += "\t"+"\t".join(print_ast(child).splitlines(True))
+			l -= 1
+			if l>0:
+				strret += "\t,\n "
+
+		strret +=")\n"
+
+		return strret
+
+	if tree.data == "CALL":
+		strret += "CALL " + tree.code +"(\n"
+		l = len(tree.childlist)
+		for child in tree.childlist :
+			strret += "\t"+"\t".join(print_ast(child).splitlines(True))
+			l -= 1
+			if l>0:
+				strret += "\t,\n "
+
+		strret +=")\n"
+		return strret
+
 	strret += tree.data 
 
-	# if tree.data == "IF" or tree.data == "WHILE":
-
-	# 	strret += "\n(\n"
-	# 	for child in tree.childlist:
-	# 		strret += "\t"+"\t".join(print_ast(child).splitlines(True))
-	# 	strret += ")\n"
-	# 	return strret
 	if len(tree.childlist)>0:
 		l = len(tree.childlist)
 		strret += "\n(\n"
@@ -316,7 +361,7 @@ tokens = (
 	'NUMBER2'
 )
 
-t_ignore = " \t\n"
+t_ignore = " \t"
 
 t_RPAREN = r'\)'
 t_LPAREN = r'\('
@@ -342,6 +387,10 @@ t_LESSEREQ = r'<='
 t_GREATEREQ = r'>='
 
 
+
+def t_newline(t):
+    r'\n'
+    t.lexer.lineno += len(t.value)
 
 
 def t_NAME(p):
@@ -407,10 +456,6 @@ precedence = (
 		# ('left','LESSER','LESSEREQ','GREATER','GREATEREQ'),
 )
 
-# def p_epsilon(p):
-# 	'''epsilon : '''
-# 	pass
-
 
 def p_final_prog(p):
 	'''
@@ -470,21 +515,7 @@ def p_function_dec(p):
 	p[0].name = p[2].name
 	p[0].returntype = [p[1] , p[2].dertype]
 	p[0].param = p[4]
-	func_dec.append(p[0])
-
-def p_function_dec2(p):
-	'''
-	function_dec : datatype pointer LPAREN  RPAREN SEMICOLON
-			| VOID namevar LPAREN  RPAREN SEMICOLON
-	'''
-	global func_dec
-	p[0] = TreeFdec()
-	p[0].name = p[2].name
-	p[0].returntype = [p[1] , p[2].dertype]
-	p[0].param = []
-	func_dec.append(p[0])
-
-	# print 'without arg'
+	func_dec.append(p[0])	
 
 def p_arguments(p):
 	'''
@@ -503,14 +534,19 @@ def p_arguments2(p):
 	p[0] = p[4] 
 	p[0].append(p[2])
 
+def p_arguments3(p):
+	'''
+	arguments : epsilon
+	'''
+	p[0] = []
+
 def p_function_body(p):
 	'''
 	function_body : datatype pointer LPAREN arguments RPAREN LBRACE function_content return_stat RBRACE 
-				|  VOID namevar LPAREN arguments RPAREN LBRACE function_content return_stat RBRACE
+				|  VOID namevar LPAREN arguments RPAREN LBRACE function_content return_stat2 RBRACE
 	'''
 	global root
-	temp = Tree()
-	temp.childlist = []
+	
 	
 	empty = []
 	for a in p[7][1]:
@@ -521,52 +557,79 @@ def p_function_body(p):
 	global var_dec
 	var_dec += p[7][1]
 
-	temp.childlist = p[7]
-	temp.data = p[2].name
-	p[0] = temp
-	
-	root.append(p[0])
 
-def p_function_body2(p):
-	'''
-	function_body : datatype pointer LPAREN  RPAREN LBRACE function_content return_stat RBRACE
-				| VOID namevar LPAREN  RPAREN LBRACE function_content return_stat RBRACE 
-	'''
-	global root
-	temp = Tree()
-	temp.childlist = []
+	x = Tree()
+	x.data = "function_body"
+	x.childlist = []
 	
-	empty = []
-	for a in p[6][1]:
-		a.scope = p[2].name
-		empty.append(a)
-	p[6][1] = empty	
+	p[2].type = p[1]
+
+	x.childlist.append(p[2])
+	x.childlist.append(p[4])
+
+	y = Tree()
+	y.data = "function_content_list"
+	y.childlist = p[7][0]
+
+	x.childlist.append(y)
+	x.childlist.append(p[8])
+	p[0] = x
+	root.append(x)
 
 
-	global var_dec
-	var_dec += p[6][1]
-	
 
-	temp.childlist = p[6]
-	temp.data = p[2].name
-	p[0] = temp
-	
-	root.append(p[0])
 
 def p_return(p):
 	'''
-	return_stat : RETURN pointer SEMICOLON
-				| RETURN NAME SEMICOLON
-				| RETURN SEMICOLON
+	return_stat : RETURN LEFT SEMICOLON
+				| RETURN ID SEMICOLON
 	'''
+	p[0] = Tree()
+	p[0].data = "RETURN"
+	p[0].childlist = []
+	p[0].childlist.append(p[2])
+def p_return2(p):
+	'''
+	return_stat2 : RETURN SEMICOLON
+				| epsilon
+	'''
+	p[0] = Tree()
+	p[0].data = "RETURN"
+	p[0].childlist = []
 
 def p_func_call(p):
 	'''
-	function_call : NAME LPAREN varlist RPAREN SEMICOLON
-					| NAME LPAREN RPAREN SEMICOLON
-
+	function_call : NAME LPAREN arglist RPAREN SEMICOLON
 	'''
+	p[0] = Tree()
+	p[0].data = "CALL"
+	p[0].code = p[1]
+	p[0].childlist = p[3]
 
+def p_func_call2(p):
+	'''
+	function_call : NAME LPAREN RPAREN SEMICOLON
+	'''
+	p[0] = Tree()
+	p[0].data = "CALL"
+	p[0].code = p[1]
+	p[0].childlist = []
+
+
+def p_arglist(p):
+	'''
+	arglist : LEFT
+			| ID
+	'''
+	p[0] = [p[1]]
+def p_arglist2(p):
+	'''
+	arglist : LEFT COMMA arglist
+			| ID COMMA arglist
+	'''
+	p[0] = []
+	p[0].append(p[1])
+	p[0] += p[3]
 
 def p_program(p):
 	'''
@@ -592,7 +655,11 @@ def p_program(p):
 	global var_dec
 	var_dec += p[6][1]
 
-	temp.childlist = p[6]
+	y = Tree()
+	y.data = "function_content_list"
+	y.childlist = p[6][0]
+	# print(print_ast(y))
+	temp.childlist.append(y)
 	p[0] = temp
 	
 	root.append(p[0])
@@ -653,6 +720,11 @@ def p_function_content4(p):
 	p[0][1] += p[2][1]
 	# global var_dec
 	# var_dec += p[1]
+def p_function_content5(p):
+	'''
+	function_content : epsilon
+	'''
+	p[0] = [[],[]]
 
 def p_declaration(p):
 	'''
@@ -674,7 +746,6 @@ def p_datatype(p):
 	'''
 	datatype : INT
 			 | FLOAT
-			 | VOID
 	'''
 	p[0] = p[1]
 
@@ -887,7 +958,7 @@ def p_code_block2(p):
 	'code_block : LBRACE function_content RBRACE'
 	p[0] = Tree()
 	p[0].data = "function_content_list"
-	p[0].childlist = p[2]
+	p[0].childlist = p[2][0]
 
 def p_while(p):
 	'while_stat : WHILE LPAREN b_expression RPAREN code_block'
@@ -983,11 +1054,14 @@ def p_sign1(p):
 	'''
 	p[0] = p[1]
 
+def p_epsilon(p):
+	'''epsilon : '''
+	pass
 
 
 def p_error(p):
 	if p:
-		print("syntax error at {0}".format(p.value))
+		print("Syntax error at '%s' line no  '%d' " % (p.value, p.lineno))
 	else:
 		print("syntax error at EOF")	
 	global err
@@ -1013,7 +1087,7 @@ if __name__ == "__main__":
 	if err==0:
 	
 		print 'Successfully Parsed'
-
+		ast(root)
 		with open(file_name+".ast",'w') as f:
 			print >> f , final
 

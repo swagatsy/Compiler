@@ -2,3 +2,5 @@
 2. function to generate symbol table
 3. function for semantic analysis - type checking
 4. update cfg and ast functions for function_body
+
+5. ast and cfg for function call

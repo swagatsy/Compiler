@@ -1,4 +1,24 @@
-Procedure table :-
------------------------------------------------------------------
-Name		|	Return Type  |  Parameter List
-func1		|	int*		|	int *x, int *xint *y
+Procedure Table :-
+----------------------------------------------------------------
+Name 	 | Return Type 	 | Parameter list 
+func1	 | int*	 	 | int *y ,int *x ,
+func2	 | int*	 	 | float *b ,int *a ,
+func3	 | void	 	 | 
+
+Variable Table :- 
+----------------------------------------------------------------
+Name 	 | Scope 	 | Base Type | Derived Type 
+h1 	 | func1	 |  int	 | *
+a 	 | func3	 |  int	 | **
+g 	 | Main	 |  int	 | *
+a1 	 | Main	 |  int	 | **
+a2 	 | Main	 |  int	 | *
+a 	 | Main	 |  int	 | 
+pp 	 | Main	 |  int	 | **
+f 	 | Main	 |  float	 | **
+h1 	 | func2	 |  int	 | **
+var1 	 | Global	 |  float	 | *
+var2 	 | Global	 |  float	 | 
+g3 	 | Global	 |  int	 | *
+l3 	 | Global	 |  int	 | 
+
