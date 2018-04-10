@@ -914,14 +914,26 @@ def p_expression(p):
 	#need to add scope later
 
 	if p[1].scope != "procedure global" and p[1].scope != None:
-		print 'Scope not defined'
+		print "Scope not defined at line '%d' " %(p.lineno)
+		os.remove(file_name+".ast")
+		os.remove(file_name+".cfg")
+		os.remove(file_name+".sym")
+		sys.exit(1)
 
 	if p[3].scope != "procedure global" and p[3].scope != None:
-		print 'Scope not defined'
-	
+		print "Scope not defined at line '%d' " %(p.lineno)
+		os.remove(file_name+".ast")
+		os.remove(file_name+".cfg")
+		os.remove(file_name+".sym")
+		sys.exit(1)
+
 	if p[1].type != p[3].type or p[1].dertype != p[3].dertype :
-		print 'Cannot operate!!!!'
+		print "Cannot operate at line '%d' " %(p.lineno)
 		# need to check if we can break at this point!
+		os.remove(file_name+".ast")
+		os.remove(file_name+".cfg")
+		os.remove(file_name+".sym")
+		sys.exit(1)
 
 	
 
@@ -1157,14 +1169,27 @@ def p_bool(p):
 	# print p[3].data
 	# print p[2]
 	if p[1].scope != "procedure global" and p[1].scope != None:
-		print 'Scope not defined'
+		print "Scope not defined at line '%d' " %(p.lineno)
+		os.remove(file_name+".ast")
+		os.remove(file_name+".cfg")
+		os.remove(file_name+".sym")
+		sys.exit(1)
+
 
 	if p[3].scope != "procedure global" and p[3].scope != None:
-		print 'Scope not defined'
+		print "Scope not defined at line '%d' " %(p.lineno)
+		os.remove(file_name+".ast")
+		os.remove(file_name+".cfg")
+		os.remove(file_name+".sym")
+		sys.exit(1)
 
 	if p[1].dertype != p[3].dertype :
-		print 'Cannot operate ERROR'
-
+		print "Cannot operate at line '%d' " %(p.lineno)
+		os.remove(file_name+".ast")
+		os.remove(file_name+".cfg")
+		os.remove(file_name+".sym")
+		sys.exit(1)
+		
 
 def p_bool2(p):
 	'''
