@@ -314,7 +314,7 @@ def symbolprintf(func_dec):
 	for a in func_dec:
 		stri +=  a.name + "\t\t|"+"\t"+a.returntype[0] + a.returntype[1] + "\t \t|\t"
 		i = 0
-		for b in a.param:
+		for b in list(reversed(a.param)):
 			stri += b.type + " " + b.dertype + b.name 
 			i += 1
 			if i < len(a.param):
@@ -561,6 +561,8 @@ def p_function_dec(p):
 	global args
 	del args[:]
 
+	p[4] = list(reversed(p[4]))
+
 def p_arguments(p):
 	'''
 	arguments : datatype pointer
@@ -645,6 +647,7 @@ def p_function_body(p):
 	global args
 	del args[:]
 
+	p[4] = list(reversed(p[4]))
 
 
 
