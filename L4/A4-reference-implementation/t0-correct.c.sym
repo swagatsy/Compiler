@@ -1,6 +1,7 @@
 Procedure Table :-
 ----------------------------------------------------------------
 Name 	 | Return Type 	 | Parameter list 
+----------------------------------------------------------------
 func1	 | int*	 	 | int *y , int *x
 func2	 | int*	 	 | float *b , int *a
 func3	 | void	 	 | 
@@ -8,21 +9,22 @@ func3	 | void	 	 |
 Variable Table :- 
 ----------------------------------------------------------------
 Name 	 | Scope 	 | Base Type | Derived Type 
-g3 	 | Global	 |  int	 | *
-l3 	 | Global	 |  int	 | 
-var1 	 | Global	 |  float	 | *
-var2 	 | Global	 |  float	 | 
+----------------------------------------------------------------
+g3 	 | procedure global	 |  int	 | *
+l3 	 | procedure global	 |  int	 | 
+var1 	 | procedure global	 |  float	 | *
+var2 	 | procedure global	 |  float	 | 
 h1 	 | func1	 |  int	 | *
 a 	 | func3	 |  int	 | **
-g 	 | Main	 |  int	 | *
-a1 	 | Main	 |  int	 | **
-a2 	 | Main	 |  int	 | *
-a 	 | Main	 |  int	 | 
-pp 	 | Main	 |  int	 | **
-f 	 | Main	 |  float	 | **
+g 	 | procedure main	 |  int	 | *
+a1 	 | procedure main	 |  int	 | **
+a2 	 | procedure main	 |  int	 | *
+a 	 | procedure main	 |  int	 | 
+pp 	 | procedure main	 |  int	 | **
+f 	 | procedure main	 |  float	 | **
 h1 	 | func2	 |  int	 | **
-var1 	 | Global	 |  float	 | *
-var2 	 | Global	 |  float	 | 
-g3 	 | Global	 |  int	 | *
-l3 	 | Global	 |  int	 | 
+var1 	 | procedure global	 |  float	 | *
+var2 	 | procedure global	 |  float	 | 
+g3 	 | procedure global	 |  int	 | *
+l3 	 | procedure global	 |  int	 | 
 

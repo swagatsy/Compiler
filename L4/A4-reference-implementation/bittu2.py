@@ -294,21 +294,25 @@ def cfgprint(root):
 	return result
 
 def symbolprintv(var_dec):
-	stri = "Variable Table :- \n"
-	stri += "----------------------------------------------------------------\n"
-	stri += "Name \t | Scope \t | Base Type | Derived Type \n"
+	stri = "Variable table :- \n"
+	stri += "-----------------------------------------------------------------\n"
+	stri += "Name\t|\tScope\t\t|\tBase Type  |  Derived Type \n"
+	stri += "-----------------------------------------------------------------\n"
 	for a in var_dec:
-		stri +=  a.name + " \t | "+a.scope+ "\t |  "  + a.type + "\t | " + a.dertype + "\n" 
+		stri +=  a.name + "\t\t|\t"+a.scope+ "\t\t|\t"  + a.type + "\t   |\t" + a.dertype + "\n" 
 		# print a.type
 
+	stri += "-----------------------------------------------------------------\n"
+	stri += "-----------------------------------------------------------------"
 	return stri
 
 def symbolprintf(func_dec):
-	stri = "Procedure Table :-\n"
-	stri += "----------------------------------------------------------------\n"
-	stri += "Name \t | Return Type \t | Parameter list \n"
+	stri = "Procedure table :-\n"
+	stri += "-----------------------------------------------------------------\n"
+	stri += "Name\t\t|\tReturn Type  |  Parameter list\n"
+	
 	for a in func_dec:
-		stri +=  a.name + "\t | "+a.returntype[0] + a.returntype[1] + "\t \t | "
+		stri +=  a.name + "\t\t|"+"\t"+a.returntype[0] + a.returntype[1] + "\t \t|\t"
 		i = 0
 		for b in a.param:
 			stri += b.type + " " + b.dertype + b.name 
@@ -317,7 +321,7 @@ def symbolprintf(func_dec):
 				stri += " , "
 		stri += "\n"
 		# print a.type
-
+	stri += "-----------------------------------------------------------------"
 	return stri
 
 
@@ -492,26 +496,55 @@ def p_program_content3(p):
 	'''
 	program_content : declaration
 	'''
-	empty = []
-	for a in p[1]:
-		a.scope = "procedure global"
-		empty.append(a)
-	p[1] = empty
+	# empty = []
+	# for a in p[1]:
+	# 	a.scope = "procedure global"
+	# 	empty.append(a)
+	# p[1] = empty
+	# global var_dec
+	# var_dec += p[1]
+
 	global var_dec
-	var_dec += p[1]
+	empty = []
+	
+	for idx,item in enumerate(var_dec):
+		for a in p[1]:
+			if a == item:
+				item.scope = "procedure global"
+				var_dec[idx] = item
+				empty.append(item)
+			# a.scope = "Main"
+			# empty.append(a)
+	
+	p[1] = empty	
 
 def p_program_content4(p):
 	'''
 	program_content : declaration program_content
 	'''
 
-	empty = []
-	for a in p[1]:
-		a.scope = "procedure global"
-		empty.append(a)
-	p[1] = empty
+	# empty = []
+	# for a in p[1]:
+	# 	a.scope = "procedure global"
+	# 	empty.append(a)
+	# p[1] = empty
+	# global var_dec
+	# var_dec += p[1]
+
+
 	global var_dec
-	var_dec += p[1]
+	empty = []
+	
+	for idx,item in enumerate(var_dec):
+		for a in p[1]:
+			if a == item:
+				item.scope = "procedure global"
+				var_dec[idx] = item
+				empty.append(item)
+			# a.scope = "Main"
+			# empty.append(a)
+	
+	p[1] = empty	
 
 def p_function_dec(p):
 	'''
@@ -1189,7 +1222,7 @@ def p_bool(p):
 		os.remove(file_name+".cfg")
 		os.remove(file_name+".sym")
 		sys.exit(1)
-		
+
 
 def p_bool2(p):
 	'''
