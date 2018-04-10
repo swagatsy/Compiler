@@ -1,29 +1,27 @@
-Procedure table :-
------------------------------------------------------------------
-Name		|	Return Type  |  Parameter List
-func3		|	void		|	
-func1		|	int*		|	int *x, int *xint *y
-func2		|	int*		|	int *a, int *afloat *b
------------------------------------------------------------------
-Variable table :- 
------------------------------------------------------------------
-Name	|	Scope		|	Base Type  |  Derived Type
------------------------------------------------------------------
-h1		|	func1		|	int	   |	*
-b1		|	func1		|	int	   |	*
-b2		|	func1		|	int	   |	*
-a1		|	procedure main	|	int	   |	**
-g		|	procedure main	|	int	   |	*
-a		|	procedure main	|	int	   |	
-f		|	procedure main	|	float	   |	**
-a2		|	procedure main	|	int	   |	*
-h1		|	procedure func2	|	int	   |	*
-b1		|	procedure func2	|	int	   |	*
-b2		|	procedure func2	|	float	   |	*
-var2		|	procedure global	|	float	   |	
-l3		|	procedure global	|	int	   |	
-g3		|	procedure global	|	int	   |	*
-var1		|	procedure global	|	float	   |	*
-a		|	procedure func3	|	int	   |	*
------------------------------------------------------------------
------------------------------------------------------------------
+Procedure Table :-
+----------------------------------------------------------------
+Name 	 | Return Type 	 | Parameter list 
+func1	 | int*	 	 | int *y , int *x
+func2	 | int*	 	 | float *b , int *a
+func3	 | void	 	 | 
+
+Variable Table :- 
+----------------------------------------------------------------
+Name 	 | Scope 	 | Base Type | Derived Type 
+g3 	 | Global	 |  int	 | *
+l3 	 | Global	 |  int	 | 
+var1 	 | Global	 |  float	 | *
+var2 	 | Global	 |  float	 | 
+a 	 | func3	 |  int	 | *
+h1 	 | func1	 |  int	 | *
+h1 	 | func2	 |  int	 | *
+g 	 | Main	 |  int	 | *
+a1 	 | Main	 |  int	 | **
+a2 	 | Main	 |  int	 | *
+a 	 | Main	 |  int	 | 
+f 	 | Main	 |  float	 | **
+var1 	 | Global	 |  float	 | *
+var2 	 | Global	 |  float	 | 
+g3 	 | Global	 |  int	 | *
+l3 	 | Global	 |  int	 | 
+

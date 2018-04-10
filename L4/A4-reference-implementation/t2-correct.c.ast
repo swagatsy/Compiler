@@ -1,12 +1,12 @@
 FUNCTION func3
 PARAMS ()
 RETURNS void
-RETURN 
+	RETURN
 (
 )
 
 FUNCTION func1
-PARAMS (int *b1, int *b1int *b2)
+PARAMS (int *b2, int *b1)
 RETURNS *int
 	IF
 	(
@@ -29,16 +29,14 @@ RETURNS *int
 			,
 			CONST(3.0)
 		)
-
 	)
-RETURN 
+RETURN
 (
 	VAR(b1)
 )
 
-
 FUNCTION func2
-PARAMS (int *b1, int *b1float *b2)
+PARAMS (float *b2, int *b1)
 RETURNS *int
 	IF
 	(
@@ -94,21 +92,15 @@ RETURNS *int
 					CONST(1.0)
 				)
 			)
-
 		)
-
 	)
-RETURN 
+RETURN
 (
 	VAR(h1)
 )
 
-
-
-
-
 Function Main
-PARAMS() 
+PARAMS()
 RETURNS void
 	ASGN
 	(
@@ -160,7 +152,6 @@ RETURNS void
 					CONST(1)
 				)
 			)
-
 		)
 		ASGN
 		(
@@ -187,17 +178,18 @@ RETURNS void
 			,
 			CONST(2.0)
 		)
-
 	)
 	ASGN
 	(
 		VAR(g)
 		,
-		CALL func1( 
+		CALL func1(
 			VAR(g)
 			,
-			VAR(a2)
-		 )
+		 	VAR(a2)
+		)
 	)
-	CALL func3( 
-	 )
+	CALL func3(
+	)
+
+

@@ -6,12 +6,14 @@ func3	 | void	 	 |
 Variable Table :- 
 ----------------------------------------------------------------
 Name 	 | Scope 	 | Base Type | Derived Type 
+var1 	 | procedure global	 |  float	 | *
+var2 	 | procedure global	 |  float	 | 
 a 	 | func3	 |  int	 | *
-g 	 | Main	 |  int	 | *
-a1 	 | Main	 |  int	 | **
-a2 	 | Main	 |  int	 | *
-a 	 | Main	 |  int	 | 
-f 	 | Main	 |  float	 | **
-var1 	 | Global	 |  float	 | *
-var2 	 | Global	 |  float	 | 
+g 	 | procedure main	 |  int	 | *
+a1 	 | procedure main	 |  int	 | **
+a2 	 | procedure main	 |  int	 | *
+a 	 | procedure main	 |  int	 | 
+f 	 | procedure main	 |  float	 | **
+var1 	 | procedure global	 |  float	 | *
+var2 	 | procedure global	 |  float	 | 
 

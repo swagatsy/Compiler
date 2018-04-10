@@ -15,6 +15,7 @@ class Tree:
 		self.code = None
 		self.type = None
 		self.dertype = None
+		self.scope = None
 
 class TreeVdec:
 	def __init__(self):
@@ -60,27 +61,72 @@ def ast(roottree):
 
 	global final
 	# print roottree.childlist
-	for child in roottree.childlist :
+	for child in roottree:
 		final += print_ast(child)
+		# print(final)
 		final += "\n"
 
 
 
 def print_ast(tree):
+	
 	strret = ""
 	if tree.data == "function_content_list" :
 		for child in tree.childlist:
-			strret += print_ast(child)
+			temp = print_ast(child)
+			strret += temp
 		return strret
+
+
+	if tree.data == "Main":
+		strret +="Function Main\nPARAMS()\nRETURNS void\n"
+		childstr = print_ast(tree.childlist[0])
+		strret += "\t"+"\t".join(childstr.splitlines(True))
+		return strret
+
+	if tree.data == "function_body" :
+		child1 = tree.childlist[0]
+		strret += "FUNCTION " + child1.name +"\n"
+		strret += "PARAMS ("
+		l = len(tree.childlist[1])
+		for child in tree.childlist[1] :
+			strret += child.type + " " + child.dertype + child.name
+			l -= 1
+			if l>0:
+				strret += ", "
+
+		strret +=")\n"
+		strret += "RETURNS " + child1.dertype + child1.type +"\n"
+		
+		bodystr = print_ast(tree.childlist[2])
+		strret += "\t"+"\t".join(bodystr.splitlines(True))
+		strret += tree.childlist[3].data +"\n(\n"
+
+		l = len(tree.childlist[3].childlist)
+		for child in tree.childlist[3].childlist :
+			strret += "\t"+"\t".join(print_ast(child).splitlines(True))
+			l -= 1
+			if l>0:
+				strret += "\t,\n "
+
+		strret +=")\n"
+
+		return strret
+
+	if tree.data == "CALL":
+		strret += "CALL " + tree.code +"(\n"
+		l = len(tree.childlist)
+		for child in tree.childlist :
+			strret += "\t"+"\t".join(print_ast(child).splitlines(True))
+			l -= 1
+			if l>0:
+				strret += "\t,\n "
+
+		strret +=")\n"
+		return strret
+
 	strret += tree.data 
 
-	# if tree.data == "IF" or tree.data == "WHILE":
-
-	# 	strret += "\n(\n"
-	# 	for child in tree.childlist:
-	# 		strret += "\t"+"\t".join(print_ast(child).splitlines(True))
-	# 	strret += ")\n"
-	# 	return strret
 	if len(tree.childlist)>0:
 		l = len(tree.childlist)
 		strret += "\n(\n"
@@ -263,8 +309,12 @@ def symbolprintf(func_dec):
 	stri += "Name \t | Return Type \t | Parameter list \n"
 	for a in func_dec:
 		stri +=  a.name + "\t | "+a.returntype[0] + a.returntype[1] + "\t \t | "
+		i = 0
 		for b in a.param:
-			stri += b.type + " " + b.dertype + b.name + " ,"
+			stri += b.type + " " + b.dertype + b.name 
+			i += 1
+			if i < len(a.param):
+				stri += " , "
 		stri += "\n"
 		# print a.type
 
@@ -280,6 +330,7 @@ err=0
 
 var_dec = []
 func_dec = []
+args = []
 
 point_var = {}
 stat_var = {}
@@ -318,7 +369,7 @@ tokens = (
 	'NUMBER2'
 )
 
-t_ignore = " \t\n"
+t_ignore = " \t"
 
 t_RPAREN = r'\)'
 t_LPAREN = r'\('
@@ -344,6 +395,10 @@ t_LESSEREQ = r'<='
 t_GREATEREQ = r'>='
 
 
+
+def t_newline(t):
+    r'\n'
+    t.lexer.lineno += len(t.value)
 
 
 def t_NAME(p):
@@ -409,10 +464,6 @@ precedence = (
 		# ('left','LESSER','LESSEREQ','GREATER','GREATEREQ'),
 )
 
-# def p_epsilon(p):
-# 	'''epsilon : '''
-# 	pass
-
 
 def p_final_prog(p):
 	'''
@@ -441,18 +492,13 @@ def p_program_content3(p):
 	'''
 	program_content : declaration
 	'''
-	global var_dec
 	empty = []
-	for idx,item in enumerate(var_dec):
-		for a in p[1]:
-			if a == item:
-				item.scope = "Global"
-				var_dec[idx] = item
-				empty.append(item)
-	
+	for a in p[1]:
+		a.scope = "procedure global"
+		empty.append(a)
 	p[1] = empty
-	
-	
+	global var_dec
+	var_dec += p[1]
 
 def p_program_content4(p):
 	'''
@@ -461,7 +507,7 @@ def p_program_content4(p):
 
 	empty = []
 	for a in p[1]:
-		a.scope = "Global"
+		a.scope = "procedure global"
 		empty.append(a)
 	p[1] = empty
 	global var_dec
@@ -477,21 +523,10 @@ def p_function_dec(p):
 	p[0].name = p[2].name
 	p[0].returntype = [p[1] , p[2].dertype]
 	p[0].param = p[4]
-	func_dec.append(p[0])
+	func_dec.append(p[0])	
 
-def p_function_dec2(p):
-	'''
-	function_dec : datatype pointer LPAREN  RPAREN SEMICOLON
-			| VOID namevar LPAREN  RPAREN SEMICOLON
-	'''
-	global func_dec
-	p[0] = TreeFdec()
-	p[0].name = p[2].name
-	p[0].returntype = [p[1] , p[2].dertype]
-	p[0].param = []
-	func_dec.append(p[0])
-
-	# print 'without arg'
+	global args
+	del args[:]
 
 def p_arguments(p):
 	'''
@@ -500,6 +535,9 @@ def p_arguments(p):
 	'''
 	p[2].type = p[1]
 	p[0] = [p[2]]
+
+	global args
+	args.append(p[2])
 
 def p_arguments2(p):
 	'''
@@ -510,70 +548,138 @@ def p_arguments2(p):
 	p[0] = p[4] 
 	p[0].append(p[2])
 
+	global args
+	args.append(p[2])
+
+def p_arguments3(p):
+	'''
+	arguments : epsilon
+	'''
+	p[0] = []
+
 def p_function_body(p):
 	'''
 	function_body : datatype pointer LPAREN arguments RPAREN LBRACE function_content return_stat RBRACE 
-				|  VOID namevar LPAREN arguments RPAREN LBRACE function_content return_stat RBRACE
+				|  VOID namevar LPAREN arguments RPAREN LBRACE function_content return_stat2 RBRACE
 	'''
 	global root
-	temp = Tree()
-	temp.childlist = []
 	
+	
+	# empty = []
+	# for a in p[7][1]:
+	# 	a.scope = p[2].name
+	# 	empty.append(a)
+	# p[7][1] = empty	
+
+	# global var_dec
+	# var_dec += p[7][1]
+
+
+
+	global var_dec
 	empty = []
-	for a in p[7][1]:
-		a.scope = p[2].name
-		empty.append(a)
+	
+	for idx,item in enumerate(var_dec):
+		for a in p[7][1]:
+			if a == item:
+				item.scope = p[2].name
+				var_dec[idx] = item
+				empty.append(item)
+			# a.scope = "Main"
+			# empty.append(a)
+	
 	p[7][1] = empty	
 
-	global var_dec
-	var_dec += p[7][1]
 
-	temp.childlist = p[7]
-	temp.data = p[2].name
-	p[0] = temp
+	x = Tree()
+	x.data = "function_body"
+	x.childlist = []
 	
-	root.append(p[0])
+	p[2].type = p[1]
 
-def p_function_body2(p):
-	'''
-	function_body : datatype pointer LPAREN  RPAREN LBRACE function_content return_stat RBRACE
-				| VOID namevar LPAREN  RPAREN LBRACE function_content return_stat RBRACE 
-	'''
-	global root
-	temp = Tree()
-	temp.childlist = []
-	
-	empty = []
-	for a in p[6][1]:
-		a.scope = p[2].name
-		empty.append(a)
-	p[6][1] = empty	
+	x.childlist.append(p[2])
+	x.childlist.append(p[4])
+
+	y = Tree()
+	y.data = "function_content_list"
+	y.childlist = p[7][0]
+
+	x.childlist.append(y)
+	x.childlist.append(p[8])
+	p[0] = x
+	root.append(x)
+
+	global args
+	del args[:]
 
 
-	global var_dec
-	var_dec += p[6][1]
-	
 
-	temp.childlist = p[6]
-	temp.data = p[2].name
-	p[0] = temp
-	
-	root.append(p[0])
 
 def p_return(p):
 	'''
-	return_stat : RETURN pointer SEMICOLON
-				| RETURN NAME SEMICOLON
-				| RETURN SEMICOLON
+	return_stat : RETURN LEFT SEMICOLON
+				| RETURN ID SEMICOLON
 	'''
+	p[0] = Tree()
+	p[0].data = "RETURN"
+	p[0].childlist = []
+	p[0].childlist.append(p[2])
+def p_return2(p):
+	'''
+	return_stat2 : RETURN SEMICOLON
+				| epsilon
+	'''
+	p[0] = Tree()
+	p[0].data = "RETURN"
+	p[0].childlist = []
 
 def p_func_call(p):
 	'''
-	function_call : NAME LPAREN varlist RPAREN SEMICOLON
-					| NAME LPAREN RPAREN SEMICOLON
-
+	function_call : NAME LPAREN arglist RPAREN SEMICOLON
 	'''
+	p[0] = Tree()
+	p[0].data = "CALL"
+	p[0].code = p[1]
+	p[0].childlist = p[3]
 
+ 	global func_dec
+ 	for b in func_dec:
+ 		if p[1] == b.name:
+ 			p[0].type = b.returntype[0]
+ 			p[0].dertype = len(b.returntype[1])
+ 			break
+
+def p_func_call2(p):
+	'''
+	function_call : NAME LPAREN RPAREN SEMICOLON
+	'''
+	p[0] = Tree()
+	p[0].data = "CALL"
+	p[0].code = p[1]
+	p[0].childlist = []
+
+ 	global func_dec
+ 	for b in func_dec:
+ 		if p[1] == b.name:
+ 			p[0].type = b.returntype[0]
+ 			p[0].dertype = len(b.returntype[1])
+ 			break
+
+
+def p_arglist(p):
+	'''
+	arglist : LEFT
+			| ID
+	'''
+	p[0] = [p[1]]
+def p_arglist2(p):
+	'''
+	arglist : LEFT COMMA arglist
+			| ID COMMA arglist
+	'''
+	p[0] = []
+	p[0].append(p[1])
+	p[0] += p[3]
 
 def p_program(p):
 	'''
@@ -588,18 +694,30 @@ def p_program(p):
 	temp.data = "Main"
 	# print(root)
 
+	global var_dec
 	empty = []
-	for a in p[6][1]:
-		a.scope = "Main"
-		empty.append(a)
+	
+	for idx,item in enumerate(var_dec):
+		for a in p[6][1]:
+			if a == item:
+				item.scope = "procedure main"
+				var_dec[idx] = item
+				empty.append(item)
+			# a.scope = "Main"
+			# empty.append(a)
+	
 	p[6][1] = empty	
 
 	# print empty
 
-	global var_dec
-	var_dec += p[6][1]
+	
+	# var_dec += p[6][1]
 
-	temp.childlist = p[6]
+	y = Tree()
+	y.data = "function_content_list"
+	y.childlist = p[6][0]
+	# print(print_ast(y))
+	temp.childlist.append(y)
 	p[0] = temp
 	
 	root.append(p[0])
@@ -660,6 +778,11 @@ def p_function_content4(p):
 	p[0][1] += p[2][1]
 	# global var_dec
 	# var_dec += p[1]
+def p_function_content5(p):
+	'''
+	function_content : epsilon
+	'''
+	p[0] = [[],[]]
 
 def p_declaration(p):
 	'''
@@ -676,12 +799,13 @@ def p_declaration(p):
 	p[2] = emptylist
 	p[0] = p[2] 
 	
+	global var_dec
+	var_dec += p[0]
 
 def p_datatype(p):
 	'''
 	datatype : INT
 			 | FLOAT
-			 | VOID
 	'''
 	p[0] = p[1]
 
@@ -731,6 +855,14 @@ def p_assignment_statement(p):
 	p[0].childlist = []
 	p[0].childlist.append(p[1])
 	p[0].childlist.append(p[3])
+
+	# print p[1].type 
+	# print p[1].dertype
+	# print p[3].type
+	# print p[3].dertype
+
+	if p[1].type != p[3].type or p[1].dertype != p[3].dertype :
+		print 'Cannot assign, not matching'
 	
 
 def p_id(p):
@@ -741,6 +873,14 @@ def p_id(p):
 	p[0].data = "VAR("+p[1]+")"
 	# p[0].code = "VAR("+p[1]+")"
 
+	global var_dec
+	for b in var_dec :
+		if p[1] == b.name :
+			p[0].type = b.type
+			p[0].dertype = len(b.dertype)
+			p[0].scope = b.scope
+			break
+
 def p_left(p):
 	'''LEFT : ASTERISK var'''
 	p[0] = Tree()
@@ -748,6 +888,10 @@ def p_left(p):
 	p[0].code = p[1]
 	p[0].childlist = []
 	p[0].childlist.append(p[2])
+	p[0].type = p[2].type
+	# print p[2].dertype
+	# print 'wtf'
+	p[0].dertype = p[2].dertype - 1
 
 def p_right(p):
 	'''RIGHT : AMPERSAND var'''
@@ -756,7 +900,8 @@ def p_right(p):
 	p[0].code = p[1]
 	p[0].childlist = []
 	p[0].childlist.append(p[2])
-
+	p[0].type = p[2].type
+	p[0].dertype = p[2].dertype + 1
 
 def p_expression(p):
 	'''
@@ -765,6 +910,21 @@ def p_expression(p):
 				| expression ASTERISK expression
 				| expression DIVIDE expression
 	'''
+
+	#need to add scope later
+
+	if p[1].scope != "procedure global" and p[1].scope != None:
+		print 'Scope not defined'
+
+	if p[3].scope != "procedure global" and p[3].scope != None:
+		print 'Scope not defined'
+	
+	if p[1].type != p[3].type or p[1].dertype != p[3].dertype :
+		print 'Cannot operate!!!!'
+		# need to check if we can break at this point!
+
+	
+
 	if p[2]=="+":
 		# p[0] = "PLUS\n(\n\t"+"\t".join(p[1].splitlines(True))+"\n\t,\n\t"+"\t".join(p[3].splitlines(True))+"\n)"
 		p[0]=Tree()
@@ -772,7 +932,10 @@ def p_expression(p):
 		p[0].childlist = []
 		p[0].childlist.append(p[1])
 		p[0].childlist.append(p[3])
+		p[0].type = p[1].type
+		p[0].dertype = p[1].dertype
 		# p[0].code = "PLUS\n(\n\t"+"\t".join(p[1].code.splitlines(True))+"\n\t,\n\t"+"\t".join(p[3].code.splitlines(True))+"\n)" 
+
 
 	elif p[2] == "-":
 		# p[0] = "MINUS\n(\n\t"+"\t".join(p[1].splitlines(True))+"\n\t,\n\t"+"\t".join(p[3].splitlines(True))+"\n)"
@@ -781,6 +944,8 @@ def p_expression(p):
 		p[0].childlist = []
 		p[0].childlist.append(p[1])
 		p[0].childlist.append(p[3])
+		p[0].type = p[1].type
+		p[0].dertype = p[1].dertype
 		# p[0].code = "MINUS\n(\n\t"+"\t".join(p[1].code.splitlines(True))+"\n\t,\n\t"+"\t".join(p[3].code.splitlines(True))+"\n)"
 	elif p[2] == "*":
 		# p[0] = "MUL\n(\n\t"+"\t".join(p[1].splitlines(True))+"\n\t,\n\t"+"\t".join(p[3].splitlines(True))+"\n)"
@@ -789,6 +954,8 @@ def p_expression(p):
 		p[0].childlist = []
 		p[0].childlist.append(p[1])
 		p[0].childlist.append(p[3])
+		p[0].type = p[1].type
+		p[0].dertype = p[1].dertype
 		# p[0].code = "MUL\n(\n\t"+"\t".join(p[1].code.splitlines(True))+"\n\t,\n\t"+"\t".join(p[3].code.splitlines(True))+"\n)"
 	else:
 		# p[0] = "DIV\n(\n\t"+"\t".join(p[1].splitlines(True))+"\n\t,\n\t"+"\t".join(p[3].splitlines(True))+"\n)"
@@ -797,6 +964,8 @@ def p_expression(p):
 		p[0].childlist = []
 		p[0].childlist.append(p[1])
 		p[0].childlist.append(p[3])
+		p[0].type = p[1].type
+		p[0].dertype = p[1].dertype
 		# p[0].code = "DIV\n(\n\t"+"\t".join(p[1].code.splitlines(True))+"\n\t,\n\t"+"\t".join(p[3].code.splitlines(True))+"\n)"
 
 	p[0].code = p[2]
@@ -827,6 +996,9 @@ def p_numvar(p):
 	p[0].childlist = []
 	p[0].code = str(p[1])
 	# p[0].code = "CONST("+str(p[1])+")"
+	p[0].type = "int"
+	p[0].dertype = 0
+	p[0].scope = "procedure global"
 
 def p_numvar2(p):
 	'''
@@ -837,6 +1009,9 @@ def p_numvar2(p):
 	p[0].childlist = []
 	p[0].code = str(p[1])
 	# p[0].code = "CONST("+str(p[1])+")"
+	p[0].type = "float"
+	p[0].dertype = 0
+	p[0].scope = "procedure global"
 
 def p_var(p):
 	'''
@@ -851,6 +1026,11 @@ def p_var(p):
 		p[0].code = p[1]
 		p[0].childlist = []
 		p[0].childlist.append(p[2])
+		p[0].type = p[2].type
+		# print p[2].dertype
+		p[0].dertype = p[2].dertype - 1
+		p[0].scope = p[2].scope
+
 	elif p[1] == "&":
 		p[0] = Tree()
 		# p[0].data = "ADDR\n(\n\t"+"\t".join(p[2].data)+"\n)"
@@ -859,12 +1039,30 @@ def p_var(p):
 		p[0].childlist = []
 		p[0].childlist.append(p[2])
 		# p[0].code = "ADDR\n(\n\t"+"\t".join(p[2].code.splitlines(True))+"\n)"
+		p[0].type = p[2].type
+		p[0].dertype = p[2].dertype + 1 # what exactly to fill here???????????????????????????????????????????????????
+		p[0].scope = p[2].scope
+
 	else:
 		p[0] = Tree()
 		p[0].data = "VAR("+p[1]+")"
 		p[0].code = p[1]
 		p[0].childlist = []
 		# p[0].code = "VAR("+p[1]+")"
+		# print p[1]
+		# print 'name'
+		global var_dec
+		global args
+		for b in var_dec + args :
+			if p[1] == b.name and (b.scope == "procedure global" or b.scope==None ):
+
+				p[0].type = b.type
+				p[0].dertype = len(b.dertype)
+				# print len(b.dertype)
+				# print 'really???'
+				p[0].scope = b.scope
+				break
+
 		
 
 
@@ -877,7 +1075,9 @@ def p_expression_uminus(p):
 	p[0].childlist = []
 	p[0].childlist.append(p[2])
 	# p[0].code = "UMINUS\n(\n\t"+"\t".join(p[2].code.splitlines(True))+"\n)"
-	  
+	p[0].type = p[2].type
+	p[0].dertype = p[2].dertype
+	p[0].scope = p[2].scope 
 
 def p_code_block(p):
 	'''
@@ -894,7 +1094,7 @@ def p_code_block2(p):
 	'code_block : LBRACE function_content RBRACE'
 	p[0] = Tree()
 	p[0].data = "function_content_list"
-	p[0].childlist = p[2]
+	p[0].childlist = p[2][0]
 
 def p_while(p):
 	'while_stat : WHILE LPAREN b_expression RPAREN code_block'
@@ -948,6 +1148,23 @@ def p_bool(p):
 	p[0].childlist.append(p[3])
 
 
+	# print p[1].type
+	# print p[1].dertype
+	# print p[1].data
+	# print p[1].childlist[0].data
+	# print p[3].type
+	# print p[3].dertype
+	# print p[3].data
+	# print p[2]
+	if p[1].scope != "procedure global" and p[1].scope != None:
+		print 'Scope not defined'
+
+	if p[3].scope != "procedure global" and p[3].scope != None:
+		print 'Scope not defined'
+
+	if p[1].dertype != p[3].dertype :
+		print 'Cannot operate ERROR'
+
 
 def p_bool2(p):
 	'''
@@ -965,6 +1182,13 @@ def p_bool2(p):
 	p[0].childlist = []
 	p[0].childlist.append(p[1])
 	p[0].childlist.append(p[3])
+
+	# if p[1].type != p[3].type or p[1].dertype != p[3].dertype :
+	# 	print 'Cannot operate on ' + p[1] + ' and ' + p[3] + ' ERROR'
+
+	# else :
+	# 	p[0].type = p[1].type
+	# 	p[0].dertype = p[1].dertype
 
 def p_bool_paren1(p):
 	'b_expression : LPAREN b_expression RPAREN'
@@ -990,11 +1214,14 @@ def p_sign1(p):
 	'''
 	p[0] = p[1]
 
+def p_epsilon(p):
+	'''epsilon : '''
+	pass
 
 
 def p_error(p):
 	if p:
-		print("syntax error at {0}".format(p.value))
+		print("Syntax error at '%s' line no  '%d' " % (p.value, p.lineno))
 	else:
 		print("syntax error at EOF")	
 	global err
@@ -1020,7 +1247,7 @@ if __name__ == "__main__":
 	if err==0:
 	
 		print 'Successfully Parsed'
-
+		ast(root)
 		with open(file_name+".ast",'w') as f:
 			print >> f , final
 
