@@ -14,6 +14,19 @@ class Tree:
 		self.data = None
 		self.code = None
 
+class TreeVdec:
+	def __init__(self):
+		self.name = None
+		self.scope = None
+		self.type = None
+		self.dertype = None
+
+class TreeFdec:
+	def __init__(self):
+		self.name = None
+		self.returntype = None
+		self.param = None
+
 class cfgTree:
 	def __init__(self):
 		self.childlist = []
@@ -256,6 +269,7 @@ tokens = (
 	'COMMA',
 	'EQUAL',
 	'INT',
+	'FLOAT',
 	'VOID',
 	'MAIN',
 	'ASTERISK',
@@ -274,7 +288,8 @@ tokens = (
 	'LOGOR',
 	'LOGAND',
 	'GREATEREQ',
-	'LESSEREQ'
+	'LESSEREQ',
+	'RETURN'
 )
 
 t_ignore = " \t\n"
@@ -325,6 +340,10 @@ def t_NAME(p):
 	elif p.value == "WHILE" or p.value == "while":
 		p.type = 'WHILE'
 
+	elif p.value == "float" or p.value == "FLOAT":
+		p.type = 'FLOAT'
+
+
 	else:
 		p.type = 'NAME'
 	
@@ -359,6 +378,150 @@ precedence = (
 
 
 
+def p_program_content(p):
+	'''
+	program_content : declaration program_content
+					| function_dec program_content
+					| function_body program_content 
+					| program program_content
+	'''
+	# needs some editing yet
+
+def p_program_content2(p):
+	'''
+	program_content : declaration 
+					| function_dec 
+					| function_body  
+					| program 
+	'''
+	# needs some editing yet
+
+def p_function_dec(p):
+	'''
+	function_dec : datatype pointer LPAREN arguments RPAREN SEMICOLON
+	'''
+
+def p_arguments1(p):
+	'''
+	arguments : LPAREN argument_list RPAREN
+	'''
+	p[0] = Tree()
+	p[0].data = "argument_list"
+	p[0].childlist = p[2]
+def p_arguments2(p):
+	'''
+	arguments : LPAREN RPAREN
+	'''
+	p[0] = Tree()
+	p[0].data = "argument_list"
+	p[0].childlist = []
+def p_argument_list1(p):
+	'''
+	argument_list : argument COMMA argument_list 
+	'''
+	p[0] = []
+	p[0].append(p[1])
+	p[0] += p[3]
+
+def p_argument_list2(p):
+	'''
+	argument_list : argument
+	'''
+	p[0] = []
+	p[0].append(p[1])
+
+def p_argument(p):
+	'''
+	argument: datatype pointer
+	'''
+	p[0] = Tree()
+	p[0].data = "argument"
+	p[0].childlist = []
+	p[0].childlist.append(p[1])
+	p[0].childlist.append(p[2])
+
+
+def p_func_content11(p):
+	'''
+	func_content1 : LBRACE function_content return_stat RBRACE
+	'''
+	p[0] = []
+	x = Tree()
+	x.data = "function_content_list"
+	x.childlist = p[2]
+	p[0].append(x)
+	p[0].append(p[3])
+
+
+def p_func_content12(p):
+	'''
+	func_content1 : LBRACE return_stat RBRACE
+	'''
+	p[0] = []
+	x = Tree()
+	x.data = "function_content_list"
+	x.childlist = []
+	p[0].append(x)
+	p[0].append(p[2])
+
+def p_func_content21(p):
+	'''
+	func_content2 : LBRACE function_content RETURN SEMICOLON RBRACE
+					|LBRACE function_content RBRACE
+	'''
+	p[0] = []
+	x = Tree()
+	x.data = "function_content_list"
+	x.childlist = p[2]
+	p[0].append(x)
+	y = Tree()
+	y.data = "RETURN"
+	y.childlist = []
+	p[0].append(y)
+
+def p_function_body1(p):
+	'''
+	function_body : datatype pointer arguments func_content1
+	'''
+	p[0] = Tree()
+	p[0].data = "function_body"
+	p[0].childlist = []
+	p[0].childlist.append(p[1])
+	p[0].childlist.append(p[2])
+	p[0].childlist.append(p[3])
+	p[0].childlist += p[4]
+
+
+def p_function_body2(p):
+	'''
+	function_body : VOID NAME arguments func_content2
+	'''
+	x = Tree()
+	x.data = p[1]
+	y = Tree()
+	y.data = p[2]
+	p[0] = Tree()
+	p[0].data = "function_body"
+	p[0].childlist = []
+	p[0].childlist.append(x)
+	p[0].childlist.append(y)
+	p[0].childlist.append(p[3])
+	p[0].childlist += p[4]
+
+def p_return(p):
+	'''
+	return_stat : RETURN var
+				| RETURN id
+	'''
+	p[0] = Tree()
+	p[0].data = "RETURN"
+	p[0].childlist = []
+	p[0].childlist.append(p[2])
+
+def p_func_call(p):
+	'''
+	function_call : NAME LPAREN varlist RPAREN SEMICOLON
+	'''
 
 def p_program(p):
 	'''
@@ -381,6 +544,7 @@ def p_function_content(p):
 	function_content :  assignment_statement
 				| while_stat
 				| if_stat
+				| function_call
 	'''
 	p[0] = [p[1]]
 
@@ -389,6 +553,7 @@ def p_function_content2(p):
 	function_content : assignment_statement function_content
 					| while_stat function_content
 					| if_stat function_content
+					| function_call function_content
 	'''
 	p[0] = []
 	p[0].append(p[1])
@@ -409,39 +574,50 @@ def p_function_content4(p):
 	p[0] += p[2]
 
 def p_declaration(p):
-	'declaration : INT varlist SEMICOLON'
-	# global stat
-	# stat += 1
-
-# def p_declaration1(p):
-# 	'declaration : INT pointerlist SEMICOLON'
-# 	global point
-# 	point += 1
-
-def p_statlist(p):
-	'''varlist : NAME COMMA varlist
-				| NAME
 	'''
-	global stat
-	stat += 1
+	declaration : datatype varlist SEMICOLON'
+	'''
+	
+def p_datatype(p):
+	'''
+	datatype : INT
+			 | FLOAT
+	'''
+	p[0] = Tree()
+	p[0].data = p[1]
+	p[0].code = p[1]
 
-def p_pointerlist(p):
-	'''varlist : pointer COMMA varlist
+def p_varlist1(p):
+	'''varlist : NAME COMMA varlist
+				| pointer COMMA varlist
+	'''
+	
+def p_varlist2(p):
+	'''varlist : NAME
 				| pointer
 	'''
-	global point
-	point += 1
 
 def p_pointer(p):
 	'''
 	pointer : ASTERISK pointer
 			| ASTERISK NAME
 	'''
+	if p[2].type=='NAME':
+		p[0] = Tree2()
+		p[0].name = p[2]
+		p[0].dertype = "*"
+
+	else :
+		p[0] = p[2]
+		p[0].dertype += "*"
+	
 	
 
 def p_assignment_statement(p):
 	'''assignment_statement : ID EQUAL RIGHT SEMICOLON
 							| LEFT EQUAL expression SEMICOLON
+							| ID EQUAL function_call 
+							| LEFT EQUAL function_call 
 	'''
 	p[0] = Tree()
 	p[0].data = "ASGN"
