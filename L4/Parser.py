@@ -800,7 +800,9 @@ def p_function_body(p):
 
 	
 
-
+	# if p[8].childlist[0].dertype != len(p[2].dertype) or p[8].childlist[0].type != p[2].type:
+	# 	print "Return type doesn't match function return type in '%s'" % p[2].name
+	# 	sys.exit(1)
 	
 
 def p_return(p):

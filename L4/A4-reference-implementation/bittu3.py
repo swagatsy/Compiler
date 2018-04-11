@@ -3,7 +3,6 @@
 
 
 
-import os
 import sys
 import ply.lex as lex
 import ply.yacc as yacc
@@ -43,6 +42,7 @@ class funcCFG:
 		self.name = name
 		self.args = args
 		self.cfgbody = body
+
 
 root = []
 final = ""
@@ -402,7 +402,6 @@ def cfgprint1(root):
 		result += cfgprint1(child)
 	return result
 
-
 def symbolprintv(var_dec):
 	stri = "Variable table :- \n"
 	stri += "-----------------------------------------------------------------\n"
@@ -445,7 +444,6 @@ err=0
 var_dec = []
 func_dec = []
 args = []
-func_defined = []
 
 point_var = {}
 stat_var = {}
@@ -512,8 +510,8 @@ t_GREATEREQ = r'>='
 
 
 def t_newline(t):
-    r'\n'
-    t.lexer.lineno += len(t.value)
+	r'\n'
+	t.lexer.lineno += len(t.value)
 
 
 def t_NAME(p):
@@ -719,46 +717,6 @@ def p_function_body(p):
 
 	# global var_dec
 	# var_dec += p[7][1]
-	yes=0
-	global func_dec
-
-
-	names = [func_dec[a].name for a in range(len(func_dec))]
-	# print names
-
-
-	i = [index for index in range(len(names)) if names[index] == p[2].name]
-	# print i[0]
-	if len(i)!= 0:
-		ind = i[0]
-		acparams = func_dec[ind].param
-
-	if len(i)==0:
-		print "Function '%s' not declared previously " %(p[2].name)
-		sys.exit(1)
-
-	if func_dec[ind].returntype[0] != p[1] or func_dec[ind].returntype[1] != p[2].dertype :
-		print "Function return type of '%s' doesn't match with declaration's " %(p[2].name)
-		sys.exit(1)
-
-	if len([ab for ab in range(len(p[4])) if acparams[ab].type == p[4][ab].type and acparams[ab].dertype == p[4][ab].dertype ]) != len(acparams):
-		print "Arguments don't match with those in declaration in function '%s'" %(p[2].name)
-		sys.exit(1)
-
-	# print p[2].name
-	
-	# for b in func_dec:
-	# 	if b.name == p[2].name and b.returntype == [p[1],p[2].dertype]:
-	# 		if ( p[4].type == b.param[a].type for a in range(len(b.param))):
-	# 			if (p[4].dertype == b.param[c].dertype for c in range(len(b.param))):
-	# 				yes = 1
-
-	# if yes == 0:
-	# 	print "Error in function body of " + p[2].name
-	# 	os.remove(file_name+".ast")
-	# 	os.remove(file_name+".cfg")
-	# 	os.remove(file_name+".sym")
-	# 	sys.exit(1)
 
 
 
@@ -782,7 +740,7 @@ def p_function_body(p):
 	x.childlist = []
 	
 	p[2].type = p[1]
-	p[4] = list(reversed(p[4]))
+
 	x.childlist.append(p[2])
 	x.childlist.append(p[4])
 
@@ -798,10 +756,9 @@ def p_function_body(p):
 	global args
 	del args[:]
 
-	
+	p[4] = list(reversed(p[4]))
 
 
-	
 
 def p_return(p):
 	'''
@@ -825,64 +782,33 @@ def p_func_call(p):
 	'''
 	function_call : NAME LPAREN arglist RPAREN SEMICOLON
 	'''
-
-	# global func_defined
-	# if p[1] not in func_defined:
-	# 	print "Call to function '%s' which is not defined " %(p[1])
-	# 	sys.exit(1)
-	global func_dec
-	i = [ind for ind in range(len(func_dec)) if func_dec[ind].name == p[1]][0]
-
-	# print p[3][0].type
-	# print func_dec[i].param[0].name
-	revparam = list(reversed(func_dec[i].param))
-	if len(p[3]) == len(func_dec[i].param):
-
-		for a in range(len(p[3])):
-			if p[3][a].type != revparam[a].type or p[3][a].dertype != len(revparam[a].dertype):
-				print "Arguments do not match as in defined function '%s'" %(p[1])
-				
-				sys.exit(1)
-
-	else:
-		print "Number of arguments do not match as in defined function '%s'" %(p[1])
-		sys.exit(1)
-
 	p[0] = Tree()
 	p[0].data = "CALL"
 	p[0].code = p[1]
 	p[0].childlist = p[3]
 
- 	
- 	for b in func_dec:
- 		if p[1] == b.name:
- 			p[0].type = b.returntype[0]
- 			p[0].dertype = len(b.returntype[1])
- 			break
+	global func_dec
+	for b in func_dec:
+		if p[1] == b.name:
+			p[0].type = b.returntype[0]
+			p[0].dertype = len(b.returntype[1])
+			break
 
 def p_func_call2(p):
 	'''
 	function_call : NAME LPAREN RPAREN SEMICOLON
 	'''
-
-
-	global func_defined
-	if p[1] not in func_defined:
-		print "Call to function '%s' which is not defined " %(p[1])
-		sys.exit(1)
-
-
 	p[0] = Tree()
 	p[0].data = "CALL"
 	p[0].code = p[1]
 	p[0].childlist = []
 
- 	global func_dec
- 	for b in func_dec:
- 		if p[1] == b.name:
- 			p[0].type = b.returntype[0]
- 			p[0].dertype = len(b.returntype[1])
- 			break
+	global func_dec
+	for b in func_dec:
+		if p[1] == b.name:
+			p[0].type = b.returntype[0]
+			p[0].dertype = len(b.returntype[1])
+			break
 
 
 def p_arglist(p):
@@ -1081,8 +1007,7 @@ def p_assignment_statement(p):
 	# print p[3].dertype
 
 	if p[1].type != p[3].type or p[1].dertype != p[3].dertype :
-		print "Cannot assign, operands do not match"
-		sys.exit(1)
+		print 'Cannot assign, not matching'
 	
 
 def p_id(p):
@@ -1134,16 +1059,25 @@ def p_expression(p):
 	#need to add scope later
 
 	if p[1].scope != "procedure global" and p[1].scope != None:
-		print "Out of scope variables used in line " 
+		print "Scope not defined at line '%d' " %(p.lineno)
+		os.remove(file_name+".ast")
+		os.remove(file_name+".cfg")
+		os.remove(file_name+".sym")
 		sys.exit(1)
 
 	if p[3].scope != "procedure global" and p[3].scope != None:
-		print "Out of scope variables used in line  " 
+		print "Scope not defined at line '%d' " %(p.lineno)
+		os.remove(file_name+".ast")
+		os.remove(file_name+".cfg")
+		os.remove(file_name+".sym")
 		sys.exit(1)
 
 	if p[1].type != p[3].type or p[1].dertype != p[3].dertype :
-		print "Operands not of same type "
+		print "Cannot operate at line '%d' " %(p.lineno)
 		# need to check if we can break at this point!
+		os.remove(file_name+".ast")
+		os.remove(file_name+".cfg")
+		os.remove(file_name+".sym")
 		sys.exit(1)
 
 	
@@ -1274,12 +1208,11 @@ def p_var(p):
 		# p[0].code = "VAR("+p[1]+")"
 		# print p[1]
 		# print 'name'
-		erro = 0
 		global var_dec
 		global args
 		for b in var_dec + args :
 			if p[1] == b.name and (b.scope == "procedure global" or b.scope==None ):
-				erro = 1
+
 				p[0].type = b.type
 				p[0].dertype = len(b.dertype)
 				# print len(b.dertype)
@@ -1287,9 +1220,7 @@ def p_var(p):
 				p[0].scope = b.scope
 				break
 
-		if erro == 0:
-			print "Variable '%s' is out of scope " %(p[1])
-			sys.exit(1)
+		
 
 
 def p_expression_uminus(p):
@@ -1383,16 +1314,25 @@ def p_bool(p):
 	# print p[3].data
 	# print p[2]
 	if p[1].scope != "procedure global" and p[1].scope != None:
-		print "Out of scope variables used " 
+		print "Scope not defined at line '%d' " %(p.lineno)
+		os.remove(file_name+".ast")
+		os.remove(file_name+".cfg")
+		os.remove(file_name+".sym")
 		sys.exit(1)
 
 
 	if p[3].scope != "procedure global" and p[3].scope != None:
-		print "Out of scope variables used "
+		print "Scope not defined at line '%d' " %(p.lineno)
+		os.remove(file_name+".ast")
+		os.remove(file_name+".cfg")
+		os.remove(file_name+".sym")
 		sys.exit(1)
 
-	if p[1].type != p[3].type or p[1].dertype != p[3].dertype :
-		print "Cannot compare operands "
+	if p[1].dertype != p[3].dertype :
+		print "Cannot operate at line '%d' " %(p.lineno)
+		os.remove(file_name+".ast")
+		os.remove(file_name+".cfg")
+		os.remove(file_name+".sym")
 		sys.exit(1)
 
 
