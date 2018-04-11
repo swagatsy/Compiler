@@ -795,21 +795,30 @@ def p_function_body(p):
 	p[0] = x
 	root.append(x)
 
+	
+
+
+
+	# print len(p[8].childlist)
+	
+	if len(p[8].childlist)>0 :
+		
+		if p[8].childlist[0].dertype != len(p[2].dertype) or p[8].childlist[0].type != p[2].type:
+			print "Return type doesn't match function return type in '%s'" % p[2].name
+			sys.exit(1)
+		
 	global args
 	del args[:]
-
-	
-
-	# if p[8].childlist[0].dertype != len(p[2].dertype) or p[8].childlist[0].type != p[2].type:
-	# 	print "Return type doesn't match function return type in '%s'" % p[2].name
-	# 	sys.exit(1)
-	
 
 def p_return(p):
 	'''
 	return_stat : RETURN LEFT SEMICOLON
 				| RETURN ID SEMICOLON
 	'''
+	# print p[2].data
+
+
+
 	p[0] = Tree()
 	p[0].data = "RETURN"
 	p[0].childlist = []
@@ -1096,10 +1105,23 @@ def p_id(p):
 	# p[0].code = "VAR("+p[1]+")"
 
 	global var_dec
-	for b in var_dec :
-		if p[1] == b.name :
+	global args 
+	for b in var_dec + args :
+		if p[1] == b.name and b.scope == None :
+			# print p[1] , "NAME"
 			p[0].type = b.type
 			p[0].dertype = len(b.dertype)
+			# if p[1] == "h1":
+				# print "a  gggg" , len(b.dertype)
+			p[0].scope = b.scope
+			break
+
+		elif p[1] == b.name and b.scope == "procedure global" :
+			# print p[1] , "NAME"
+			p[0].type = b.type
+			p[0].dertype = len(b.dertype)
+			# if p[1] == "h1":
+				# print "a  gggg" , len(b.dertype)
 			p[0].scope = b.scope
 			break
 
